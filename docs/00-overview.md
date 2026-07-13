@@ -44,11 +44,15 @@ flowchart TD
 | KV Cache | **MLA 압축** 저장 | `external/colibri/c/glm.c:1130`(Lc/Rc 저장) |
 | OS Page Cache | 무료 L2 캐시 | `external/colibri/README.md:20` |
 
-## 이 서베이가 다루는 4개 문서
+## 이 서베이가 다루는 문서
 - [`10-colibri-architecture.md`](./10-colibri-architecture.md) — colibri 코드 구조 전반
 - [`20-moe-streaming.md`](./20-moe-streaming.md) — MoE 디스크 스트리밍(핵심)
 - [`21-mla-kv-compression.md`](./21-mla-kv-compression.md) — MLA 기반 KV Cache 압축
 - [`22-speculative-decoding.md`](./22-speculative-decoding.md) — MTP 기반 Speculative Decoding
+- [`30-local-run-notes.md`](./30-local-run-notes.md) — 로컬 빌드/실행 노트
+- [`40-analysis-tradeoffs.md`](./40-analysis-tradeoffs.md) — 장점·단점·trade-off 분석
+- [`50-resource-requirements.md`](./50-resource-requirements.md) — 필요 자원 분석
+- [`60-applying-to-other-models.md`](./60-applying-to-other-models.md) — 타 모델 적용 방안
 
 ## 성능에 대한 정직한 시각
 - 개발 머신(WSL2, 12코어, 25GB RAM, ~1GB/s NVMe) 기준 **cold ~0.05–0.1 tok/s**. 느리다.

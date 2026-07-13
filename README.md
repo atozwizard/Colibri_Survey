@@ -28,6 +28,9 @@
 - `21-mla-kv-compression.md` — MLA KV 압축
 - `22-speculative-decoding.md` — Speculative Decoding
 - `30-local-run-notes.md` — 로컬 빌드/실행(coli doctor) 노트
+- `40-analysis-tradeoffs.md` — 논리적 장점·단점·trade-off 분석
+- `50-resource-requirements.md` — 필요 자원(하드웨어 등급별)
+- `60-applying-to-other-models.md` — 타 모델 적용 방안
 - `99-references.md` — 참고문헌
 
 ## 빌드/실행 (uv)
