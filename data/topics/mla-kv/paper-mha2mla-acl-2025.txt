@@ -1,0 +1,755 @@
+Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 33313–33328 July 27 - August 1, 2025 ©2025 Association for Computational Linguistics
+
+Towards Economical Inference: Enabling DeepSeek’s Multi-Head Latent Attention in Any Transformer-based LLMs
+
+Tao Ji 1,6, Bin Guo 2, Yuanbin Wu 2, Qipeng Guo 8, Lixing Shen 7, Zhan Chen 7, Xipeng Qiu 1, Qi Zhang 1,4,5, Tao Gui 3,4,5 1School of Computer Science, Fudan University 2School of Computer Science and Technology, East China Normal University 3Institute of Modern Languages and Linguistics, Fudan University 4Institute of Trustworthy Embodied Artificial Intelligence, Fudan University 5Shanghai Collaborative Innovation Center of Intelligent Visual Computing 6Pengcheng Laboratory 7Hikvision Inc 8Shanghai Al Lab {taoji, tgui}@fudan.edu.cn {binguo@stu, ybwu@cs}.ecnu.edu.cn
+
+Abstract Multi-head Latent Attention (MLA) is an in novative architecture proposed by DeepSeek, designed to ensure efficient and economical inference by significantly compressing the Key Value (KV) cache into a latent vector. Com pared to MLA, standard LLMs employing Multi-Head Attention (MHA) and its vari ants such as Grouped-Query Attention (GQA) exhibit significant cost disadvantages. En abling well-trained LLMs (e.g., Llama) to rapidly adapt to MLA without pre-training from scratch is both meaningful and challeng ing. This paper proposes the first data-efficient fine-tuning method for transitioning from MHA to MLA (MHA2MLA), which includes two key components: for partial-RoPE, we remove RoPE from dimensions of queries and keys that contribute less to the attention scores, for low rank approximation, we introduce joint SVD approximations based on the pre-trained pa rameters of keys and values. These carefully designed strategies enable MHA2MLA to re cover performance using only a small fraction (0.6% to 1%) of the data, significantly reducing inference costs while seamlessly integrating with compression techniques such as KV cache quantization. For example, the KV cache size of Llama2-7B is reduced by 92.19%, with only a 1% drop in LongBench performance. 1
+
+1 Introduction The rapid advancement of large language mod els (LLMs) has significantly accelerated progress toward artificial general intelligence (AGI), with model capabilities scaling predictably with param eter counts (Kaplan et al., 2020). However, these 1Our source code is publicly available at https://github. com/JT-Ushio/MHA2MLA.
+
+gains come at a steep cost: escalating computa tional demands for training and degraded infer ence throughput, resulting in substantial energy consumption and carbon emissions (Strubell et al., 2019). As downstream tasks grow increasingly com plex, long-context processing and computationally intensive inference have become central to LLM ap plications (An et al., 2024). A key bottleneck lies in the memory footprint of the Key-Value (KV) cache inherent to the Multi-Head Attention (MHA, 2017) mechanism, which scales linearly with sequence length and model size. To mitigate this, variants like Grouped-Query Attention (GQA, 2023) and Multi-Query Attention (MQA, 2019) have been ex plored. However, these methods reduce not only the KV cache size but also the number of parame ters in the attention, leading to performance degra dation. The DeepSeek introduces Multi-Head La tent Attention (MLA, 2024), an attention mecha nism equipped with low-rank key-value joint com pression. Empirically, MLA achieves superior per formance compared with MHA, and meanwhile significantly reduces the KV cache during infer ence, thus boosting the inference efficiency. A critical yet unexplored question arises: Can LLMs originally well-trained for MHA be adapted to enabling MLA for inference? The in herent architectural disparities between MHA and MLA render zero-shot transfer impractical, while the prohibitive cost of pretraining from scratch makes this transition both technically challenging and underexplored in existing research. To address this gap, we propose the first carefully designed MHA2MLA framework that maximizes parame ter reuse from pre-trained MHA networks while aligning the KV cache storage and inference pro 33313
+
+SVD Init.
+
+(a) MHA (b) MHA2MLA x x
+
+(c) MLA
+
+x
+
+RoPE
+
+Wdq Wkr Wdkv
+
+ckv qnope
+
+RoPE krope
+
+RoPE RoPE Partial RoPE
+
+Partial RoPE
+
+Wdkv ckv
+
+Linear Apply RoPE Cached Aligned Split q k qrope knope v
+
+Wuk Wuv
+
+Wqr Wuq
+
+W qrope uv
+
+qrope qnope krope knope v
+
+Wuk
+
+Wq Wk Wv Wq WWk k Wv q k v qq krope
+
+krope
+
+Figure 1: The diagram illustrates the MHA, MLA, and our MHA2MLA. It can be seen that the “cached” part is fully 
+aligned with MLA after MHA2MLA. The input to the attention module is also completely aligned with MLA (the 
+aligned region below ). Meanwhile, the parameters in MHA2MLA maximize the use of pre-trained parameters 
+from MHA (the aligned region above ). 
+cess with MLA’s paradigm (Figure 1). Our frame 
+work features two pivotal technical innovations: 
+partial rotary position embedding (partial RoPE) 
+and low-rank approximation. The primary objec 
+tive of MHA2MLA is to achieve data-efficient per 
+formance recovery - restoring architecture-induced 
+capability degradation using minimal fine-tuning 
+data. 
+The inherent incompatibility between MLA’s 
+inference acceleration mechanism and RoPE ne 
+cessitates architectural compromises. DeepSeek’s 
+solution preserves PEs in limited dimensions while 
+compressing others, requiring strategic removal of 
+RoPE dimensions (converting them to NoPE) in 
+MHA to achieve MLA alignment. While higher 
+removal ratios enhance compression efficiency, 
+they exacerbate performance degradation, creat 
+ing an efficiency-capability trade-off. Through 
+systematically exploring RoPE removal strategies, 
+we identify that contribution-aware dimension se 
+lection (retaining top-k dimensions ranked by at 
+tention score impact) optimally balances these 
+competing objectives. Although previous studies 
+have investigated training partial-RoPE LLMs from 
+scratch (Black et al., 2021; Barbero et al., 2024), 
+our work pioneers data-efficient fine-tuning for full 
+to-partial RoPE conversion in LLMs. 
+MLA reduces memory footprint by projecting 
+keys and values into a low-rank latent representa 
+tion space (stored in the KV cache). MHA2MLA 
+can also apply low-rank approximation to the val 
+ues and keys stripped of RoPE (NoPE dimen 
+sions). By performing Singular Value Decompo 
+
+sition (SVD) on the pre-trained parameter matri ces Wv and Wk corresponding to the NoPE sub spaces, we compress these components into a latent space while maximizing the retention of knowledge learned by the original model. Our main contributions are: • we introduce MHA2MLA, the first parameter efficient fine-tuning framework that adapts pre trained MHA-based LLMs to the MLA archi tecture using only 0.6% to 1% of training data without training from scratch. • we demonstrate that the MHA2MLA architecture can be integrated with KV-cache quantization to achieve more economical inference (up to a 96.87% reduction). • we conduct experiments across five model sizes (from 135M to 13B, covering both MHA and GQA), and detailed ablation studies to provide guidance and insights for MHA2MLA.
+
+2 Preliminary
+
+2.1 Multi-Head Attention (MHA) Given an input sequence { x1, . . . , xl} ∈ R l× d, standard MHA (Vaswani et al., 2017) projects each token xi into queries q (h) i = xiW (h) q , keys k (h) i = xiW (h) k , and values v (h) i = xiW (h) v , where W (h) q ,W (h) k ,W (h) v ∈ R d× dh for each head h ∈ { 1, . . . , nh} . The Rotary positional encod ing (RoPE, 2024) is applied to queries and keys (e.g., k (h) i,rope = RoPE(k (h) i )), followed by scaled
+
+33314
+
+dot-product attention2:
+
+o 
+(h) 
+i = Softmax q (h) i,ropek (h)⊤ 
+≤ i,rope v (h) 
+≤ i , 
+MHA(xi) = h o (1) i , . . . , o (nh) i i Wo, (1) 
+
+where Wo ∈ R (nhdh)× d and [· , · ] means vec tor concatenate. During autoregressive inference, MHA stores the KV cache { k (h) rope, v (h)
+
+}
+
+nh 
+h=1 of size 
+O (2lnhdh), growing linearly with sequence length 
+l, posing memory bottlenecks. 
+Variants: Grouped-Query Attention (GQA, 
+2023) shares keys/values across ng groups 
+(ng ≪ nh) to reduce the KV cache. For each head 
+h, it maps to group g = ⌊ h× ng 
+nh ⌋ : 
+
+o (h) i = Softmax q (h) i,ropek (g)⊤ ≤ i,rope v (g) ≤
+
+i, GQA(xi) = h o (1) i , . . . , o (nh) i i Wo. (2)
+
+Multi-Query Attention (MQA, 2019) is a special case of GQA with ng = 1, i.e., all heads share a sin gle global key/value. While reducing the KV cache to O (2lngdh), these methods degrade performance due to parameter pruning. 2.2 Multi-Head Latent Attention (MLA) MLA (DeepSeek-AI et al., 2024) introduces a hy brid architecture that decouples PE from latent KV compression. For each head h, the input xiis pro jected into two complementary components: Position-Aware Component A subset of dimen sions retains PE to preserve positional sensitivity:
+
+q (h) i,rope, ki,rope = RoPE xiWdqW (h) qr , xiWkr , where Wdq ∈ R d× dq, W (h) qr ∈ R dq× dr, Wkr ∈ R d× dr project queries/keys into a RoPE-preserved component of dimension dr. Position-Agnostic Component The remaining dimensions dc are stripped of PE (i.e., NoPE), k (h) i,nope and v (h) i and compressed into a shared latent
+
+vector c (h) i,kv:
+
+q (h) i,nope = xiWdqW (h) qc , ci,kv = xiWdkv,
+
+k (h) i,nope, v (h) i = ci,kvW (h) uk , ci,kvW (h) uv ,
+
+2We ignore here the √
+
+1 d scaling factor for ease of notation.
+
+where W (h) qc ∈ R dq× dc, Wdkv ∈ R d× dkv , W (h) uk ∈ R dkv× dc, W (h) uv ∈ R dkv× dh . Note that dr + dc = dh. The attention output of MLA combines both components:
+
+o (h) i = Softmax q (h) i,ropek (h)⊤ ≤ i,rope + qi,nopek (h)⊤ ≤ i,nope
+
+· v (h) ≤ i MLA(xi) = h o (1) i , . . . , o (nh) i i · Wo. (3)
+
+Unlike MHA and its variants, MLA stores the latent vector ckv and k (h) i,rope (O (ldr + ldkv))) instead of full-rank ki, vi (O (2lnhdh)), where (dr + dkv) ≪ 2nhdh. Why does MLA need to separate RoPE and NoPE? MLA introduces matrix merging tech niques for the NoPE portion during inference, ef fectively reducing memory usage. For the dot prod uct operation q (h) i,nopek (h)⊤j,nope, the following identity transformation can be applied 3: qi,nopek⊤j,nope = (xiWdqWqc) (cj,kvWuk)⊤ = xi WdqWqcW⊤uk c⊤j,kv
+
+where WdqWqcW⊤uk can be pre-merged into a single matrix, and cj,kv is already stored in the KV cache. As for the RoPE portion, the RoPE(· ) function multiplies the input vector by the rotation matrix (e.g., RoPE(qi) = qiRi, Ri’s specific form will be introduced in Section 3.1). Therefore, the identity transformation becomes as follows: qi,ropek⊤j,rope = (xiWdqWqrRi) (xjWkrRj )⊤ = xi WdqWqcRj− iW⊤kr x⊤j
+
+Since WdqWqcRj− iW⊤kr is related to the rela tive position j − i, it cannot be merged into a fixed matrix. Considering that the relative distances in LLMs can be very long, such as 128K, the RoPE portion is better suited to be computed using the original form. 3 MHA2MLA 3.1 Partial-RoPE To enable migration from standard MHA to MLA, we propose partial-RoPE finetuning, a strategy that 3To simplify the notation, we omit the superscript (h). Matrices Wuv and Wo can also be merged, please refer to Appendix C by DeepSeek-AI et al. (2024). 33315
+
+RoPE (a) (b) (c) (d) Figure 2: Illustration of S high, S low, S uniform, S 2-norm. Where dh = 8 and r = 2.
+
+Layer 3 
+Head 4 
+Layer 8 
+Head 23 
+Layer 16 
+Head 12 
+Layer 23 
+Head 14 
+
+Llama2-7B
+
+L o w
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+15.0
+
+17.5
+
+20.0
+
+M e a n
+
+Figure 3: Visualization of Head-wise 2-norm Contri bution for Llama2-7B. We randomly selected 4 heads, and the red dashed box highlights the top-4 frequency subspaces chosen when r = 4. It can be seen that differ ent heads tend to focus on different frequency subspaces, which validates the rationality of our S 2-norm method.
+
+removes RoPE from a targeted proportion of di mensions and converts them into NoPE. Critically, while prior work has explored training LLMs with partial-RoPE from scratch (achieving marginally better perplexity than full-RoPE (Black et al., 2021; Barbero et al., 2024)), no existing method ad dresses how to efficiently adapt pre-trained full RoPE models (e.g., Llama) to partial-RoPE with out costly retraining. Our work bridges this gap by systematically evaluating partial-RoPE variants to identify the most data-efficient fine-tuning protocol for recovering model performance post-adaptation. MHA’s Full-RoPE encodes positional informa tion into queries and keys through frequency specific rotations. Formally, given a query vector qi ∈ R dh and key vector ki ∈ R dh , we partition them into 2D chunks: qi, ki =h q [2k,2k+1] i i 0≤ k< dh 2 ,h k [2k,2k+1] i i 0≤ k< dh 2 , where q [2k,2k+1] i ∈ R 2 denotes the k-th 2D sub space. Each chunk undergoes a rotation by position dependent angles θk = β− 2k/dh , forming a spec trum of wavelengths. High-frequency components, e.g., k = 0, rotate rapidly at 1 radian per token. Low-frequency components, e.g., k = dh 2 − 1, ro tate slowly at ∼ β 1/dh radians per token. The base wavelength β, typically set to 10 4(Su et al., 2024) or 5× 10 5. Formally, for each 2D chunk q [2k,2k+1] i and
+
+k
+
+[2k,2k+1] i , the rotation matrix at position i is de fined as:
+
+R
+
+[2k,2k+1] i (θk) = cos(iθk) − sin(iθk) sin(iθk) cos(iθk)
+
+.
+
+Thus, applying RoPE to queries and keys becomes:
+
+qi,rope =h R [2k,2k+1] i (θk)q [2k,2k+1] i i 0≤ k< dh 2 , ki,rope =h R [2k,2k+1] i (θk)k [2k,2k+1] i i 0≤ k< dh 2 .
+
+Full-RoPE to Partial-RoPE Strategies Given r retained rotational subspaces(r = dr 2 ≪ total sub
+
+spaces dh 
+2 , we propose four strategies (illustrated 
+in Figure 2) to select which r subspaces preserve 
+RoPE encoding: 
+High-Frequency Preservation retain the r 
+fastest-rotating (high-frequency) subspaces: 
+
+S high = { k | 0 ≤ k < r} .
+
+It is consistent with the p-RoPE method proposed in Barbero et al. (2024), where they explored set tings in which r constituted 25%, 50%, and 75% of the total subspaces, and observed a slight advantage over full-RoPE in LLMs trained from scratch. Low-Frequency Preservation retain the r slowest-rotating (low-frequency) subspaces:
+
+S low = k dh 2 − r ≤ k < dh 2
+
+.
+
+It was chosen as a controlled experiment for the high-frequency strategy. Uniform Sampling select r subspaces with equidistant intervals:
+
+S uniform = k dh 2r
+
+0 ≤ k < r
+
+This balances high- and low-frequency components through geometric spacing. In practice, 2r typically divides dh. It is similar to the partial RoPE used in GPT-Neo (Black et al., 2021). 33316
+
+x
+
+Wdv
+
+Wdk ck cv
+
+knope v
+
+Wv knope v
+
+Wv
+
+Wdkv ckv (a) SVDsplit (b) SVDjoint
+
+Uv⌃ 1 2 v ⌃ 1 2 Uv⌃ v V v
+
+1 2 v ⌃ 1 2 v V v
+
+Uk⌃ 1 2 k ⌃ 1 2 Uk⌃ k V k
+
+1 2 k ⌃ 1 2 k V k
+
+x
+
+Ukv⌃ 1 2 kv ⌃ 1 2 Ukv⌃ kv V kv
+
+1 2 kv ⌃ 1 2 kv V kv
+
+Wuk Wuv
+
+Wuv
+
+Wuk
+
+Wk,nope
+
+Wk,nope
+
+Figure 4: Illustration of SVDsplit and SVDjoint. In the multi-head setting, we adhere to the standard MLA ap proach, performing SVD on the merged multi-heads rather than on each head individually (e.g., Ukv ∈R nhdh× nhdkv . Head-wise 2-norm Contribution Barbero et al. (2024) were the first to propose the 2-norm contribution to investigate whether these fre quencies are utilized and how they are help ful. This approach is based on the observa tion that, according to the Cauchy-Schwarz in equality, the influence of the k-th frequency sub space on the attention logits is upper-bounded by the 2-norm of the corresponding query and
+
+key components, i.e.,D q [2k,2k+1] i , k [2k,2k+1] j E ⩽ q [2k,2k+1] i k [2k,2k+1] j . For each head h, we compute the mean 2-norm score for each subspace in an LLM over long sequences 4. Then, we pro pose to rank all subspaces by their 2-norm score and select the top-r: 
+S 2-norm = top-r 
+0≤ k< dh 2 
+
+q [2k,2k+1] ∗ k [2k,2k+1] ∗ .
+
+This head-specific selection adaptively preserves rotation-critical subspaces. Figure 3 visualizes the 2-norm of Llama2-7B’s four heads. We will analyze the effectiveness of the four strategies in Section 4.3 and conduct an ablation study on the essential hyperparameter r in Ap pendix D. For all strategies, non-selected subspaces (k /∈ S ) become NoPE dimensions, enabling seam less integration with MLA’s latent compression. 3.2 Low-rank Approximation After transitioning from full RoPE to partial RoPE, we obtain the first component of the 4The 2-norm calculation detail is placed in Appendix A.
+
+KV cache in MLA, represented as: ki,rope = h R [2k,2k+1] i (θk)k [2k,2k+1] i i k∈S . Our next goal is to derive the second component, ci,kv ∈ R dkv , which serves as a low-rank representation of ki,nope and vi. Given the keys ki = xiWk and values vi = xiWv in MHA, we first extract the subspace of Wk corresponding to ki,nope, i.e., the dimensions not included in S , yielding: ki,nope = xiWk,nope. We propose two Singular Value Decomposition (SVD)-based strategies (Illustrated in Figure 4) to preserve pre-trained knowledge while achieving rank reduction: Decoupled SVD (SVDsplit) Separately decom pose Wk,nope and Wv into truncated SVDs, allo cating dkv/2 dimensions to each: Wk,nope = UkΣkV⊤k , Wv = UvΣvV⊤v , where Uk, Uv,Vk,Vv ∈ R dh× dkv 2 , Σk, Σv ∈ R
+
+dkv 2 ×
+
+dkv 2 . The down-projection matrices Wd∗ and up-projection matrices Wu∗ become: Wdk = UkΣ 1/2 k , Wuk = Σ 1/2 k V⊤k ,
+
+Wdv = UvΣ 1/2 v , Wuv = Σ 1/2 v V⊤v . The low-rank representation ci,kv can be con structed using ci,kv = [xiWdk, xiWdv]. Joint SVD (SVDjoint) To preserve interactions between Knope and V , we jointly factorize the con catenated matrix: [Wk,nope,Wv] = UkvΣkvV⊤kv , where Ukv,Vkv ∈ R dh× dkv , Σkv ∈ R dkv× dkv . The latent projection is then: Wdkv = UkvΣ 1/2 kv ,
+
+Wuk =Σ 1/2 kv Vkv[:, : − dv],Wuv =Σ 1/2 kv Vkv[:, dv :]. This jointly optimizes the latent space for both keys and values, i.e., ci,kv = xiWdkv, retaining cross parameter dependencies critical for autoregressive generation 5. Section 4.3 shows SVDjoint outper forming SVDsplit, validating that joint factorization better preserves pre-trained knowledge. 4 Experiment We evaluate our method on LLMs of varying scales (SmolLM-135M/360M/1B7, Llama2-7B/13B) pre 5We describe the economical inference process of MHA2MLA in Appendix B. 33317
+
+| | Model | | | | Tokens | | KV Mem. | | | Avg. | | | MMLU | | ARC | | PIQA | | HS | | | OBQA | | WG | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| | 135MSmolLM | | | | 600B | | | | 44.50 | | | | 29.80 | | 42.43 | | 68.06 | | 41.09 | | | 33.60 | | 52.01 | | |
+| | - GQA | = dkv | 128 | | | | | | 44.42 | | | | 29.91 | | 41.71 | | 68.28 | | 41.33 | | | 33.80 | | 51.46 | | |
+| | | = dkv | 32 | | 6B | | -68.75% | | 43.21 | | -1.21 | | 29.50 | | 40.84 | | 67.08 | | 38.34 | | | 33.20 | | 50.28 | | |
+| | - GQA2MLA | = dkv | 16 | | (1%) | | -81.25% | | 42.18 | | -2.24 | | 28.79 | | 40.11 | | 65.94 | | 36.68 | | | 31.20 | | 50.36 | | |
+| | | = dkv | 8 | | | | -87.50% | | 41.04 | | -3.38 | | 28.49 | | 38.17 | | 64.36 | | 33.93 | | | 31.60 | | 49.72 | | |
+| | 360MSmolLM | | | | 600B | | | | 49.60 | | | | 33.70 | | 49.82 | | 71.87 | | 51.65 | | | 37.60 | | 52.96 | | |
+| | - GQA | = dkv | 128 | | | | | | 49.51 | | | | 34.08 | | 49.89 | | 71.60 | | 51.67 | | | 37.20 | | 52.64 | | |
+| | | = dkv | 32 | | 6B | | -68.75% | | 48.14 | | -1.37 | | 32.91 | | 48.34 | | 70.51 | | 48.56 | | | 36.80 | | 51.70 | | |
+| | - GQA2MLA | = dkv | 16 | | (1%) | | -81.25% | | 46.88 | | -2.63 | | 31.85 | | 46.07 | | 70.62 | | 46.48 | | | 35.80 | | 50.43 | | |
+| | | = dkv | 8 | | | | -87.50% | | 45.84 | | -3.67 | | 30.93 | | 44.41 | | 69.48 | | 43.49 | | | 36.00 | | 50.75 | | |
+| | 1B7SmolLM | | | | 1T | | | | 55.90 | | | | 39.27 | | 59.87 | | 75.73 | | 62.93 | | | 42.80 | | 54.85 | | |
+| | - MHA | = dkv | 128 | | | | | | 55.71 | | | | 38.66 | | 59.02 | | 75.79 | | 62.60 | | | 43.20 | | 55.01 | | |
+| | | = dkv | 32 | | 6B | | -68.75% | | 54.66 | | -1.05 | | 37.79 | | 56.54 | | 75.19 | | 61.30 | | | 41.40 | | 55.72 | | |
+| | - MHA2MLA | = dkv | 16 | | (0.6%) | | -81.25% | | 54.28 | | -1.43 | | 37.79 | | 56.33 | | 75.68 | | 60.59 | | | 41.00 | | 54.30 | | |
+| | | = dkv | 8 | | | | -87.50% | | 52.79 | | -2.92 | | 36.69 | | 54.29 | | 74.54 | | 58.49 | | | 39.20 | | 53.51 | | |
+| | 7BLlama2 | | | | 2T | | | | 59.85 | | | | 41.43 | | 59.24 | | 78.40 | | 73.29 | | | 41.80 | | 64.96 | | |
+| | - MHA | = dkv | 256 | | | | | | 59.50 | | | | 40.30 | | 60.05 | | 77.91 | | 70.20 | | | 45.00 | | 63.54 | | |
+| | | = dkv | 64 | | 12B | | -68.75% | | 59.21 | | -0.29 | | 40.90 | | 59.53 | | 77.26 | | 70.05 | | | 45.20 | | 62.51 | | |
+| | - MHA2MLA | = dkv | 32 | | (0.6%) | | -81.25% | | 59.20 | | -0.30 | | 40.96 | | 59.74 | | 77.26 | | 69.81 | | | 44.00 | | 63.46 | | |
+| | | = dkv | 16 | | | | -87.50% | | 58.48 | | -1.02 | | 40.15 | | 58.53 | | 77.20 | | 68.88 | | | 45.00 | | 61.09 | | |
+| | 13BLlama2 | | | | 2T | | | | 62.65 | | | | 43.56 | | 62.68 | | 80.41 | | 76.99 | | | 43.80 | | 68.43 | | |
+| | - MHA | = dkv | 256 | | | | | | 60.72 | | | | 42.89 | | 61.75 | | 77.69 | | 72.22 | | | 44.00 | | 65.75 | | |
+| | | = dkv | 64 | | 12B | | -68.75% | | 60.45 | | -0.27 | | 42.49 | | 62.31 | | 78.78 | | 71.59 | | | 43.20 | | 64.33 | | |
+| | - MHA2MLA | = dkv | 32 | | (0.6%) | | -81.25% | | 60.49 | | -0.23 | | 42.00 | | 61.64 | | 78.73 | | 72.71 | | | 42.80 | | 65.04 | | |
+| | | = dkv | 16 | | | | -87.50% | | 59.68 | | -1.04 | | 41.31 | | 60.39 | | 77.69 | | 71.54 | | | 43.60 | | 63.54 | | |
+| Table | 1: | Commonsense | | reasoning | | | ability | of four | LLMs | | | with | MHA2MLA | | | or | GQA2MLA. | | | The | | six | benchmarks | | | |
+| include | MMLU | (2021), | | ARC | easy | and | challenge | | (ARC, | | 2018), | | PIQA | (2020), | | HellaSwag | | | (HS, | 2019), | | | OpenBookQA | | | |
+
+dkv = 64 12B -68.75% 60.45 -0.27 42.49 62.31 78.78 71.59 43.20 64.33 dkv = 32 (0.6%) -81.25% 60.49 -0.23 42.00 61.64 78.73 72.71 42.80 65.04 dkv = 16 -87.50% 59.68 -1.04 41.31 60.39 77.69 71.54 43.60 63.54 Table 1: Commonsense reasoning ability of four LLMs with MHA2MLA or GQA2MLA. The six benchmarks include MMLU (2021), ARC easy and challenge (ARC, 2018), PIQA (2020), HellaSwag (HS, 2019), OpenBookQA (OBQA, 2018), Winogrande (WG, 2021). trained with MHA or GQA. We chose the SmolLM series6 because its pretraining data and framework are both open-source, which can minimize the gap in fine-tuning data and processes. We chose Llama2-7B7 because it is one of the widely used open-source LLMs (but its pretraining data is not open-source, there is a potential gap in fine-tuning data). We denote the architectural migration using MHA2MLA and GQA2MLA, respectively.8 Both adopt data-efficient full-parameter fine-tuning,
+
+tization for compound gains? 4.1 Commonsense Reasoning Tasks Main Results As shown in Table 1, our method achieves efficient architectural migration across five model scales (135M to 13B) under varying KV cache compression ratios (via latent dimension dkv). First, when comparing the performance of our fine-tuning approach with the original LLM, we observe only minor changes in performance across the five base models: a -0.08% decrease on the 135M, -0.09% on the 360M, -0.19% on the 1B7, -0.35% on the 7B and -1.93% on the 13B. This sug gests that the fine-tuning data does not significantly degrade or improve the performance of the origi nal model, providing an appropriate experimental setting for the MHA2MLA framework. Next, as dkv decreases (e.g., from 32 to 16 to 8), the KV cache reduction increases (i.e., from -68.75% to -81.25% to -87.5%), but the perfor mance loss becomes more challenging to recover through fine-tuning. Figure 5 shows the fine-tuning loss curves of 135M (representing GQA) and 7B (representing MHA) under different compression ratios. As the compression ratio increases, the loss difference from the baseline becomes larger. Addi 33318
+
+with the head-wise 2-norm selection (S 2-norm, r = dh 16 ) for Partial-RoPE and joint SVD factorization 
+(SVDjoint) for low-rank approximation as default 
+configurations. Our experiments address three crit 
+ical questions: 
+1. How does MHA2MLA minimize accuracy 
+degradation induced by architectural shifts? 
+2. What does MHA2MLA achieve in the KV cache 
+reduction ratio? 
+3. Can MHA2MLA integrate with KV cache quan 
+6https://huggingface.co/collections/ 
+HuggingFaceTB/smollm-6695016cad7167254ce15966 
+7https://huggingface.co/meta-llama/Llama-2-7b 
+8The details of the fine-tuning process (including data and 
+hyperparameters) are provided in Appendix C. 
+
+0 2000 4000 6000 8000 10000 12000 #Step
+
+1.5
+
+1.6
+
+1.7
+
+1.8
+
+L o s s
+
+MHA2MLA: Llama2-7B
+
+MHA2MLA dkv = 16 MHA2MLA dkv = 32 MHA2MLA dkv = 64 MHA
+
+0 2000 4000 6000 8000 10000 12000 #Step
+
+2.5
+
+3.0
+
+3.5
+
+L o s s
+
+GQA2MLA: SmolLM-135M
+
+GQA2MLA dkv = 8 GQA2MLA dkv = 16 GQA2MLA dkv = 32 GQA
+
+Figure 5: The fine-tuning loss curves under different KV cache storage ratios (with colors ranging from light to dark representing 12.5%, 18.75%, 31.25%, and 100%).
+
+tionally, we observe that the fluctuation trends of the loss curves are almost identical, indicating that our architecture migration does not significantly harm the model’s internal knowledge. We also find that larger models experience less performance degradation when transitioning to the MLA architecture. For example, with compression down to 18.75%, the performance drops by 2.24% for 135M, 2.63% for 360M, 1.43% for 1B7, 0.30% for 7B and 0.23% for 13B, revealing the poten tial scaling law of MHA2MLA. Finally, from the 135M model to the 13B model, the number of to kens required for fine-tuning is only about 0.6% to 1% of the pretraining tokens, demonstrating the data efficiency of our method. Overall, whether using GQA2MLA or MHA2MLA, the architecture transition is achieved with minimal cost, resulting in efficient and economical inference. 4.2 Long Context Tasks Settings To evaluate the generative capabilities of the model, we adopt LongBench (Bai et al., 2024) as the benchmark for generation perfor mance. All models are tested using a greedy de coding strategy. The context window size is deter mined based on the sequence length used during model fine-tuning. We use HQQ (Badri and Shaji, 2023) and Quanto9to set caches with different lev els of precision to evaluate the performance of the original model as the baseline. Since our method is compatible with KV cache quantization, we also 9https://huggingface.co/blog/ quanto-introduction
+
+Model Precision KV Mem. Avg@LB 7BLlama2 BF16 100.0% 27.4 Int4HQQ -75.00%
+
+27.5 Int4Quanto 27.3 Int2HQQ -87.50%
+
+21.2 
+Int2Quanto 18.5 
+dkv = 64 
+BF16 -68.75% 26.7 
+Int4HQQ -92.19% 26.4 
+Int4Quanto 26.3 
+dkv = 32 
+BF16 -81.25% 26.0 
+Int4HQQ -95.31% 25.8 
+Int4Quanto 25.5 
+dkv = 16 
+
+BF16 -87.50% 25.1 Int4HQQ -96.87% 25.0 Int4Quanto 24.6 Table 2: Evaluation results of Llama2-7B and MHA2MLA on LongBench. Bold indicates compres sion ratios greater than or equal to Int2 quantization while also achieving performance higher than Int2.
+
+conduct additional experiments to assess the com bined effect of both approaches. Main Results As evidenced in Table 2, MHA2MLA achieves competitive or superior efficiency-accuracy profiles compared to post training quantization methods on LongBench. While 4-bit quantization incurs modest degradation (-0.2% to -0.4%) at comparable compression ratios, aggressive 2-bit quantization suffers severe perfor mance collapse (-6.2% to -9%) despite 87.5% KV cache reduction. In contrast, MHA2MLA alone attains 87.5% compression (at dkv = 16) with only 2.3% accuracy loss, and further synergizes with 4-bit quantization to reach 92.19%/96.87% com pression (dkv = 64/16+Int4HQQ) while limiting degradation to -1.0%/-2.4%, outperforming all 2-bit baselines. This highlights that MHA2MLA’s latent space design remains orthogonal to numer ical precision reduction, enabling compound efficiency gains without destructive interference. 4.3 Ablation Study Four Partial-RoPE strategies: S high, S low, S uniform, S 2-norm Table 3 presents the results of four strategies for converting full-RoPE to partial-RoPE. First, when comparing the four strategies with full-RoPE, we observed that the low-frequency retention strategy, S low, incurred the greatest performance loss (a reduction of -5.25%@135M and -1.87%@1B7), whereas the 33319
+
+Model Tokens Avg@CS 135MSmolLM 600B 44.50 - full-rope
+
+6B
+
+44.42 
+- S high 43.60 -0.82 
+- S low 39.17 -5.25 
+- S uniform 44.01 -0.41 
+- S 2-norm 43.73 -0.69 
+- S high + SVDjoint 
+
+6B
+
+40.85 -3.57 
+- S uniform + SVDjoint 41.79 -2.63 
+- S 2-norm + SVDjoint 42.18 -2.24 
+- S 2-norm + SVDsplit 41.27 -3.15 
+1B7SmolLM 1T 55.90 
+- full-rope 
+
+6B
+
+55.71 
+- S high 54.80 -0.91 
+- S low 53.84 -1.87 
+- S uniform 55.30 -0.41 
+- S 2-norm 54.98 -0.73 
+- S high + SVDjoint 
+
+6B
+
+54.17 -1.54 - S uniform + SVDjoint 54.27 -1.44 - S 2-norm + SVDjoint 54.28 -1.43 - S 2-norm + SVDsplit 52.90 -2.81 Table 3: Reasoning ability of ablation studies. The results of other models are provided in Appendix E. high-frequency retention strategy, S high, experi enced significantly less degradation (a reduction of -0.82%@135M and -0.91%@1B7), underscoring the importance of high-frequency subspaces. Both S uniform and S 2-norm yielded better performance, the S uniform preserves subspaces across the frequency spectrum, while the S 2-norm retains subspaces based on their contribution to the attention scores. We choose S 2-norm as the default configuration because the removed subspaces (i.e., NoPE) are more suit able for the (SVD-based) low-rank approximation. Two SVD-based low-rank approximations: SVDsplit, SVDjoint The last two rows of each group in Table 3 compare the effects of the two SVD methods. We observe that, on both LLMs, the SVDjoint method consistently outperforms SVDsplit, yielding an average performance improvement of 0.91% on the 135M model and 1.38% on the 1B7 model. It indicates that SVDjoint emerges as the clear default choice. 5 Related Work Efficient Attention Architectures The standard Multi-Head Attention (MHA, 2017) mechanism’s quadratic complexity in context length has spurred numerous efficiency innovations. While MHA remains foundational, variants like Multi-Query Attention (MQA) and Grouped-Query Attention (GQA, 2023) reduce memory overhead by shar ing keys/values across heads—albeit at the cost of parameter pruning and performance degradation.
+
+Parallel efforts, such as Linear Transformers (Guo et al., 2019; Katharopoulos et al., 2020; Choroman ski et al., 2021), RWKV (Peng et al., 2023), and Mamba (Gu and Dao, 2023), replace softmax atten tion with linear recurrences or state-space models, but struggle to match the expressiveness of stan dard attention in autoregressive generation. Multi-Head Latent Attention (MLA, 2024) dis tinguishes itself by compressing KV caches into low-rank latent vectors without pruning atten tion parameters. Our work bridges MLA with mainstream architectures (MHA/GQA), enabling seamless migration via data-efficient fine-tuning. Notably, while many linear attention variants abandon softmax query-key interactions (e.g., through kernel approximations), architectures pre serving a query-key dot product structure—even in factorized forms—remain compatible with our MHA2MLA framework. Economical Key-Value Cache The memory footprint of KV caches has become a critical bottle neck for long-context inference. Recent advances fall into three categories: Innovative Architecture methods like MLA (DeepSeek-AI et al., 2024), MiniCache (Liu et al., 2024a), and MLKV (Zuhri et al., 2024) share or compress KV representations across layers or heads. While effective, cross-layer sharing risks conflating distinct attention patterns, potentially harming task-specific performance. Only MLA has been successfully validated in Deepseek’s LLMs. Quantization techniques such as GPTQ (Frantar et al., 2022), FlexGen (Sheng et al., 2023), and KIVI (Liu et al., 2024b) store KV caches in low bit formats (e.g., 2-bit), achieving memory savings with precision loss. Dynamic Pruning approaches like A2SF (Jo and Shin, 2024) and SnapKV (Li et al., 2024) prune “less important” tokens from the KV cache. However, token pruning risks discarding critical long-range dependencies, while head pruning (e.g., SliceGPT (Ashkboos et al., 2024), Sheared (Xia et al., 2024), and Simple Pruning (Sun et al., 2024)) irreversibly reduces model capacity. Our MHA2MLA method achieves the migration of standard Transformer-based LLMs to the more economical MLA architecture and has demon strated its ability to integrate with KV quantization techniques to realize a ~97% cache saving. It is also theoretically compatible with other methods like pruning. 33320
+
+6 Conclusion This work addresses the critical challenge of adapt ing pre-trained MHA-based LLMs (or variants) to the KV-cache-efficient MLA architecture. By introducing MHA2MLA with contribution-aware partial-RoPE removal and SVD-driven low-rank projection, we achieve near-lossless compression of KV cache (up to 96.87% size reduction for Llama2-7B) while requiring only 0.6% to 1% of training data. The framework demonstrates strong compatibility with existing compression techniques and maintains commonsense reasoning and long context processing capabilities, offering a practi cal pathway for deploying resource-efficient LLMs without sacrificing performance. Our results un derscore the feasibility of architectural migration for LLMs through targeted parameter reuse and data-efficient fine-tuning. Limitations Verification on More LLMs Considering that MHA2MLA can significantly reduce inference costs, it is worthwhile to validate it on larger and more diverse open-source LLMs. However, con strained by our computation resources, models like Llama3 require fine-tuning on a 128K con text length to mitigate performance degradation from continued training, so we did not perform such experiments. Furthermore, since Deepseek has not yet open-sourced the tensor-parallel infer ence framework for MLA, it is currently challeng ing to explore models larger than 7B. This will be addressed in our future work. Parameter-Efficient MHA2MLA Fine-tuning This paper primarily focuses on the data efficiency of MHA2MLA. Since the architectural transforma tion does not involve the Feed-Forward (FFN) mod ule, future work could explore parameter-efficient MHA2MLA fine-tuning, for example by freezing the FFN module and/or freezing the parameters in the queries and keys that correspond to the retained RoPE. This could further reduce the cost of the MHA2MLA transition. Acknowledgments The authors wish to thank all reviewers for their helpful comments and suggestions. The corre sponding authors are Yuanbin Wu, Xipeng Qiu, Qi Zhang, Tao Gui. This work was partially funded by Guangdong S&T Program 2024B0101050003,
+
+National Natural Science Foundation of China (No.62076069,62206057,61976056), Shanghai Rising-Star Program (23QA1400200), and Natural Science Foundation of Shanghai (23ZR1403500), Program of Shanghai Academic Research Leader under grant 22XD1401100. The computations in this research were performed using the CFFF plat form of Fudan University.
+
+References Joshua Ainslie, James Lee-Thorp, Michiel de Jong, Yury Zemlyanskiy, Federico Lebrón, and Sumit Sanghai. 2023. GQA: training generalized multi-query trans former models from multi-head checkpoints. In Pro ceedings of the 2023 Conference on Empirical Meth ods in Natural Language Processing, EMNLP 2023, Singapore, December 6-10, 2023, pages 4895–4901. Association for Computational Linguistics. Chenxin An, Shansan Gong, Ming Zhong, Xingjian Zhao, Mukai Li, Jun Zhang, Lingpeng Kong, and Xipeng Qiu. 2024. L-eval: Instituting standardized evaluation for long context language models. In Pro ceedings of the 62nd Annual Meeting of the Associa tion for Computational Linguistics (Volume 1: Long Papers), ACL 2024, Bangkok, Thailand, August 11-16, 2024, pages 14388–14411. Association for Com putational Linguistics. Saleh Ashkboos, Maximilian L. Croci, Marcelo Gen nari Do Nascimento, Torsten Hoefler, and James Hensman. 2024. Slicegpt: Compress large language models by deleting rows and columns. In The Twelfth International Conference on Learning Representa tions, ICLR 2024, Vienna, Austria, May 7-11, 2024. OpenReview.net. Hicham Badri and Appu Shaji. 2023. Half-quadratic quantization of large machine learning models. Yushi Bai, Xin Lv, Jiajie Zhang, Hongchang Lyu, Jiankai Tang, Zhidian Huang, Zhengxiao Du, Xiao Liu, Aohan Zeng, Lei Hou, Yuxiao Dong, Jie Tang, and Juanzi Li. 2024. Longbench: A bilingual, multi task benchmark for long context understanding. In Proceedings of the 62nd Annual Meeting of the As sociation for Computational Linguistics (Volume 1: Long Papers), ACL 2024, Bangkok, Thailand, Au gust 11-16, 2024, pages 3119–3137. Association for Computational Linguistics. Federico Barbero, Alex Vitvitskyi, Christos Perivolaropoulos, Razvan Pascanu, and Petar Velickovic. 2024. Round and round we go! what makes rotary positional encodings useful? CoRR, abs/2410.06205. Yonatan Bisk, Rowan Zellers, Ronan Le Bras, Jianfeng Gao, and Yejin Choi. 2020. PIQA: reasoning about physical commonsense in natural language. In The
+
+33321
+
+Thirty-Fourth AAAI Conference on Artificial Intelli gence, AAAI 2020, The Thirty-Second Innovative Ap plications of Artificial Intelligence Conference, IAAI 2020, The Tenth AAAI Symposium on Educational Advances in Artificial Intelligence, EAAI 2020, New York, NY, USA, February 7-12, 2020, pages 7432– 7439. AAAI Press.
+
+Sid Black, Leo Gao, Phil Wang, Connor Leahy, and Stella Biderman. 2021. GPT-Neo: Large Scale Autoregressive Language Modeling with Mesh Tensorflow. If you use this software, please cite it using these metadata.
+
+Krzysztof Marcin Choromanski, Valerii Likhosherstov, David Dohan, Xingyou Song, Andreea Gane, Tamás Sarlós, Peter Hawkins, Jared Quincy Davis, Afroz Mohiuddin, Lukasz Kaiser, David Benjamin Be langer, Lucy J. Colwell, and Adrian Weller. 2021. Rethinking attention with performers. In 9th Inter national Conference on Learning Representations, ICLR 2021, Virtual Event, Austria, May 3-7, 2021. OpenReview.net.
+
+Peter Clark, Isaac Cowhey, Oren Etzioni, Tushar Khot, Ashish Sabharwal, Carissa Schoenick, and Oyvind Tafjord. 2018. Think you have solved question an swering? try arc, the AI2 reasoning challenge. CoRR, abs/1803.05457.
+
+DeepSeek-AI, Aixin Liu, Bei Feng, Bin Wang, Bingx uan Wang, Bo Liu, Chenggang Zhao, Chengqi Deng, Chong Ruan, Damai Dai, Daya Guo, Dejian Yang, Deli Chen, Dongjie Ji, Erhang Li, Fangyun Lin, Fuli Luo, Guangbo Hao, Guanting Chen, Guowei Li, Hao Zhang, Hanwei Xu, Hao Yang, Haowei Zhang, Honghui Ding, Huajian Xin, Huazuo Gao, Hui Li, Hui Qu, J. L. Cai, Jian Liang, Jianzhong Guo, Ji aqi Ni, Jiashi Li, Jin Chen, Jingyang Yuan, Junjie Qiu, Junxiao Song, Kai Dong, Kaige Gao, Kang Guan, Lean Wang, Lecong Zhang, Lei Xu, Leyi Xia, Liang Zhao, Liyue Zhang, Meng Li, Miaojun Wang, Mingchuan Zhang, Minghua Zhang, Minghui Tang, Mingming Li, Ning Tian, Panpan Huang, Peiyi Wang, Peng Zhang, Qihao Zhu, Qinyu Chen, Qiushi Du, R. J. Chen, R. L. Jin, Ruiqi Ge, Ruizhe Pan, Runxin Xu, Ruyi Chen, S. S. Li, Shanghao Lu, Shangyan Zhou, Shanhuang Chen, Shaoqing Wu, Shengfeng Ye, Shirong Ma, Shiyu Wang, Shuang Zhou, Shuip ing Yu, Shunfeng Zhou, Size Zheng, Tao Wang, Tian Pei, Tian Yuan, Tianyu Sun, W. L. Xiao, Wangding Zeng, Wei An, Wen Liu, Wenfeng Liang, Wenjun Gao, Wentao Zhang, X. Q. Li, Xiangyue Jin, Xi anzu Wang, Xiao Bi, Xiaodong Liu, Xiaohan Wang, Xiaojin Shen, Xiaokang Chen, Xiaosha Chen, Xiao tao Nie, and Xiaowen Sun. 2024. Deepseek-v2: A strong, economical, and efficient mixture-of-experts language model. CoRR, abs/2405.04434.
+
+Elias Frantar, Saleh Ashkboos, Torsten Hoefler, and Dan Alistarh. 2022. GPTQ: accurate post-training quantization for generative pre-trained transformers. CoRR, abs/2210.17323.
+
+Albert Gu and Tri Dao. 2023. Mamba: Linear-time sequence modeling with selective state spaces. CoRR, abs/2312.00752. Qipeng Guo, Xipeng Qiu, Pengfei Liu, Yunfan Shao, Xiangyang Xue, and Zheng Zhang. 2019. Star transformer. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Tech nologies, NAACL-HLT 2019, Minneapolis, MN, USA, June 2-7, 2019, Volume 1 (Long and Short Papers), pages 1315–1325. Association for Computational Linguistics. Dan Hendrycks, Collin Burns, Steven Basart, Andy Zou, Mantas Mazeika, Dawn Song, and Jacob Stein hardt. 2021. Measuring massive multitask language understanding. In 9th International Conference on Learning Representations, ICLR 2021, Virtual Event, Austria, May 3-7, 2021. OpenReview.net. Hyun-rae Jo and Dongkun Shin. 2024. A2SF: ac cumulative attention scoring with forgetting factor for token pruning in transformer decoder. CoRR, abs/2407.20485. Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B. Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. 2020. Scaling laws for neural language models. CoRR, abs/2001.08361. Angelos Katharopoulos, Apoorv Vyas, Nikolaos Pap pas, and François Fleuret. 2020. Transformers are rnns: Fast autoregressive transformers with linear attention. In Proceedings of the 37th International Conference on Machine Learning, ICML 2020, 13-18 July 2020, Virtual Event, volume 119 of Proceedings of Machine Learning Research, pages 5156–5165. PMLR. Yuhong Li, Yingbing Huang, Bowen Yang, Bharat Venkitesh, Acyr Locatelli, Hanchen Ye, Tianle Cai, Patrick Lewis, and Deming Chen. 2024. Snapkv: LLM knows what you are looking for before genera tion. In Advances in Neural Information Processing Systems 38: Annual Conference on Neural Informa tion Processing Systems 2024, NeurIPS 2024, Van couver, BC, Canada, December 10 - 15, 2024. Akide Liu, Jing Liu, Zizheng Pan, Yefei He, Reza Haf fari, and Bohan Zhuang. 2024a. Minicache: KV cache compression in depth dimension for large lan guage models. In Advances in Neural Information Processing Systems 38: Annual Conference on Neu ral Information Processing Systems 2024, NeurIPS 2024, Vancouver, BC, Canada, December 10 - 15, 2024. Zirui Liu, Jiayi Yuan, Hongye Jin, Shaochen Zhong, Zhaozhuo Xu, Vladimir Braverman, Beidi Chen, and Xia Hu. 2024b. KIVI: A tuning-free asymmetric 2bit quantization for KV cache. In Forty-first Interna tional Conference on Machine Learning, ICML 2024, Vienna, Austria, July 21-27, 2024. OpenReview.net.
+
+33322
+
+Todor Mihaylov, Peter Clark, Tushar Khot, and Ashish Sabharwal. 2018. Can a suit of armor conduct elec tricity? A new dataset for open book question an swering. In Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing, Brussels, Belgium, October 31 - November 4, 2018, pages 2381–2391. Association for Computational Linguistics. Bo Peng, Eric Alcaide, Quentin Anthony, Alon Al balak, Samuel Arcadinho, Stella Biderman, Huanqi Cao, Xin Cheng, Michael Chung, Leon Derczyn ski, Xingjian Du, Matteo Grella, Kranthi Kiran GV, Xuzheng He, Haowen Hou, Przemyslaw Kazienko, Jan Kocon, Jiaming Kong, Bartlomiej Koptyra, Hay den Lau, Jiaju Lin, Krishna Sri Ipsit Mantri, Ferdi nand Mom, Atsushi Saito, Guangyu Song, Xiangru Tang, Johan S. Wind, Stanislaw Wozniak, Zhenyuan Zhang, Qinghua Zhou, Jian Zhu, and Rui-Jie Zhu. 2023. RWKV: reinventing rnns for the transformer era. In Findings of the Association for Computa tional Linguistics: EMNLP 2023, Singapore, Decem ber 6-10, 2023, pages 14048–14077. Association for Computational Linguistics. Keisuke Sakaguchi, Ronan Le Bras, Chandra Bhagavat ula, and Yejin Choi. 2021. Winogrande: an adver sarial winograd schema challenge at scale. Commun. ACM, 64(9):99–106. Noam Shazeer. 2019. Fast transformer decoding: One write-head is all you need. CoRR, abs/1911.02150. Ying Sheng, Lianmin Zheng, Binhang Yuan, Zhuohan Li, Max Ryabinin, Beidi Chen, Percy Liang, Christo pher Ré, Ion Stoica, and Ce Zhang. 2023. Flexgen: High-throughput generative inference of large lan guage models with a single GPU. In International Conference on Machine Learning, ICML 2023, 23-29 July 2023, Honolulu, Hawaii, USA, volume 202 of Proceedings of Machine Learning Research, pages 31094–31116. PMLR. Emma Strubell, Ananya Ganesh, and Andrew McCal lum. 2019. Energy and policy considerations for deep learning in NLP. In Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics, pages 3645–3650, Florence, Italy. Asso ciation for Computational Linguistics. Jianlin Su, Murtadha H. M. Ahmed, Yu Lu, Shengfeng Pan, Wen Bo, and Yunfeng Liu. 2024. Roformer: En hanced transformer with rotary position embedding. Neurocomputing, 568:127063. Mingjie Sun, Zhuang Liu, Anna Bair, and J. Zico Kolter. 2024. A simple and effective pruning approach for large language models. In The Twelfth International Conference on Learning Representations, ICLR 2024, Vienna, Austria, May 7-11, 2024. OpenReview.net. Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. 2017. Attention is all you need. In Advances in Neural Information Pro cessing Systems 30: Annual Conference on Neural
+
+Information Processing Systems 2017, December 4-9, 
+2017, Long Beach, CA, USA, pages 5998–6008. 
+Mengzhou Xia, Tianyu Gao, Zhiyuan Zeng, and Danqi 
+Chen. 2024. Sheared llama: Accelerating language 
+model pre-training via structured pruning. In The 
+Twelfth International Conference on Learning Rep 
+resentations, ICLR 2024, Vienna, Austria, May 7-11, 
+2024. OpenReview.net. 
+Rowan Zellers, Ari Holtzman, Yonatan Bisk, Ali 
+Farhadi, and Yejin Choi. 2019. Hellaswag: Can a 
+machine really finish your sentence? In Proceedings 
+of the 57th Conference of the Association for Compu 
+tational Linguistics, ACL 2019, Florence, Italy, July 
+28- August 2, 2019, Volume 1: Long Papers, pages 
+4791–4800. Association for Computational Linguis 
+tics. 
+Zayd Muhammad Kawakibi Zuhri, Muhammad Farid 
+Adilazuarda, Ayu Purwarianti, and Alham Fikri 
+Aji. 2024. MLKV: multi-layer key-value heads 
+for memory efficient transformer decoding. CoRR, 
+abs/2406.09297. 
+
+33323
+
+A The Calculation of 2-norm Score To compute the 2-norm scores for each attention head, we selected 1,024 samples from the train ing dataset. The proportions of the subsets and sequence length used during the 2-norm compu tation are consistent with those used during fine tuning. First, we calculate the query vectors and key vectors for each head. Then, for each rotational subspace of the vectors, we compute the 2-norm scores. Finally, the 2-norm scores of the query and key vectors are aggregated within each subspace. If the model employs Grouped-Query Attention (GQA), the 2-norm scores are averaged within each GQA group, and the scores are shared between the groups. B Inference Process of MHA2MLA During inference in the MHA2MLA model, our input includes the hidden representation xi of the i-th token, as well as the previously stored k (h) <i,rope and c<i,kv in the KV cache for the first i− 1 tokens. During the inference, our goal is to compute the h-th head’s dot product of these two parts q (h) i,ropek (h)⊤ ≤ i,rope and q (h) i,nopek (h)⊤ ≤
+
+i,nope. For the RoPE part, we can easily extract W (h) q,rope and W (h) k,rope from the pre-trained parameter matrices W (h) q and
+
+W (h) k (i.e., the rows corresponding to the sub space that retains RoPE) and then obtain the result through a linear transformation:
+
+q (h) i,rope = xiW (h) q,rope k (h) i,rope = xiW (h) k,rope k (h) ≤ i,rope = [k (h) <i,rope, k (h) i,rope] → q (h) i,ropek (h)⊤ ≤ i,rope.
+
+Note that k (h) <i,rope is already stored in the KV cache and can be directly retrieved. For the NoPE part, q (h) i,nope can still be easily obtained through a linear transformation W (h) q,nope which extracted from the pre-trained parameter ma trix W (h) q by separating the rows corresponding to the subspace with RoPE removed. However, k (h) i,nope requires two linear transformations: a dimension ality reduction transformation using Wdkv, and a dimensionality expansion transformation using W (h) uk . Note that Wdkv is shared across all heads in the current layer, and both Wdkv and W (h) uk are constrained by the SVD decomposition of the pre trained parameter matrices W (h) k,nope and W (h) v , pre serving most of the pre-trained knowledge: q (h) i,nope = xiW (h) q,nope ci,kv = xiWdkv,
+
+k (h) i,nope = ci,kvW (h) uk
+
+k 
+(h) 
+<i,nope = c<i,kvW 
+(h) 
+uk . 
+During inference, the NoPE part can also leverage 
+the standard MLA matrix merging algorithm to 
+reduce memory consumption: 
+k 
+(h) 
+≤ i,nope = [c<i,kv, ci,kv]W (h) 
+uk 
+
+q (h) i,nopek (h)⊤ ≤ i,nope = (xiW (h) q,nope)(c≤ i,kvW (h) uk )⊤ = xi(W (h) q,nopeW (h)⊤uk )c⊤ ≤
+
+i,kv. We can pre-multiply the parameter ma trices (W (h) q,nopeW (h)⊤uk ), and let c (h) i,q = xi(W (h) q,nopeW (h)⊤uk ). In the end, the output of MHA2MLA is as follows: v (h) i = ci,kvW (h) uv
+
+o (h) i =Softmax q (h) i,ropek (h)⊤ ≤
+
+i,rope+c (h) i,q c⊤ ≤ i,kv c≤ i,kv MHA2MLA(xi) = h . . . , o (h) i W (h) uv , . . . i Wo. Where W (h) uv and Wo can also perform matrix merging to make inference more economical. Why doesn’t MHA2MLA perform low-rank rep resentation on the query as DeepSeek does? Firstly, we found that the economical inference of MLA is not affected even if W (h) q,nope is not decom posed into a dimension-reducing matrix (e.g., Wdq) and a dimension-increasing matrix (e.g., W (h) uq ).
+
+Secondly, decomposing W (h) q,nope introduces addi tional architectural migration loss (approximation loss) and further reduces the number of LLM pa rameters. Therefore, we believe there is no need to decompose W (h) q,nope within the MHA2MLA frame work. C The Details of Fine-tuning Data We fine-tune our model using the pretrain ing corpus from SmolLM10. The dataset consists of fineweb-edu-dedup, cosmopedia-v2, python-edu, open-web-math, and StackOverflow. The first 10https://huggingface.co/blog/smollm
+
+33324
+
+three datasets are part of the smollm-corpus11 cu rated by HuggingFaceTB. Fineweb-edu-dedup is a high-quality dataset filtered by HuggingFaceTB from education-related webpages. Similarly, Hug gingFaceTB filtered Python code snippets from The Stack to construct the python-edu dataset. Cosmopedia-v2 is a high-quality dataset gener ated by a model based on 34,000 topics defined by BISAC book classifications. Additionally, open web-math12 and StackOverflow13 are sourced from high-quality mathematical texts available online and posts from StackOverflow, respectively. Hyperparameters The fine-tuning hyperparame ters for models of all sizes are listed in Table 4. The training process employs a warmup phase followed by a decay strategy. A 1-sqrt decay strategy is applied to ensure a smooth and gradual reduction.
+
+D Ablation Study on Partial-RoPE Dimensions To better determine the strategy and dimension ality for partial-RoPE, we conducted an ablation study on the number of RoPE dimensions using the 135MSmolLM model. The experimental results are presented in Table 5. By comparing the per formance of four different strategies in varying di mensionalities, we observed that the low-frequency strategy, S low, suffered significant performance degradation (-11.8%) when the dimensionality was relatively low (≤ 4). In contrast, both S uniform and S 2-norm consistently demonstrated superior perfor mance regardless of dimensionality. Furthermore, increasing the dimensionality from 4 to 8 provided negligible performance gains. Based on these find ings, we selected a dimensionality of 4 for partial RoPE.
+
+E Detailed Results 
+In this section, we present the detailed results. 
+Detailed LongBench evaluation is reported in 
+Table 6. 
+Detailed ablation experiment is reported in Ta 
+ble 7. 
+11https://huggingface.co/datasets/ 
+HuggingFaceTB/smollm-corpus 
+12https://huggingface.co/datasets/ 
+open-web-math/open-web-math 
+13https://huggingface.co/datasets/bigcode/ 
+stackoverflow-clean 
+
+0 2000 4000 6000 8000 10000 12000 #Step
+
+1.8
+
+2.0
+
+2.2
+
+L o s s
+
+MHA2MLA: SmolLM-1B7
+
+MHA2MLA dkv = 8 MHA2MLA dkv = 16 MHA2MLA dkv = 32 MHA
+
+0 2000 4000 6000 8000 10000 12000 #Step
+
+2.00
+
+2.25
+
+2.50
+
+2.75
+
+3.00
+
+L o s s
+
+GQA2MLA: SmolLM-360M
+
+GQA2MLA dkv = 8 GQA2MLA dkv = 16 GQA2MLA dkv = 32 GQA
+
+Figure 6: The fine-tuning loss curves under different KV cache storage ratios (with colors ranging from light to dark representing 12.5%, 18.75%, 31.25%, and 100%).
+
+0 2000 4000 6000 8000 10000 12000 #Step
+
+2.0
+
+2.5
+
+3.0
+
+3.5
+
+L o s s
+
+MHA2MLA: SmolLM-1B7 low high uniform 2-norm full-rope
+
+0 2000 4000 6000 8000 10000 12000 #Step
+
+2.5
+
+3.0
+
+3.5
+
+L o s s
+
+GQA2MLA: SmolLM-135M low high uniform 2-norm full-rope
+
+Figure 7: The fine-tuning loss curves under different partial-RoPE strategy.
+
+Additional visualizations of fine-tuning loss We present the loss of the other two models fine tuned, excluding the ones mentioned in the main text, in Figure 6. We observe that as fine-tuning pro gresses, the gap in loss between our approach and the baseline gradually decreases, and both exhibit similar fluctuations, demonstrating the effective ness of our approach. In Figure 7, we show the loss under different partial-RoPE strategies. Except for S low, the other three partial-RoPE schemes show little difference from the baseline. Additionally, S low has a higher probability of convergence fail ure. In Figure 8, we show the loss under different SVD strategies. The loss curves on both 1B7SmolLM and 135MSmolLM reveal that SVDjoint outperforms SVDsplit.
+
+33325
+
+| | Steps | | | | | | 12000 | | | | | | | 12000 | | | | | | | 12000 | | | | | | 12000 | | | | | 12000 | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| | Warmup | ratio | | | | | 10.0% | | | | | | | 10.0% | | | | | | | 10.0% | | | | | | 10.0% | | | | | 10.0% | | |
+| | Decay | | | | | | 16.7% | | | | | | | 16.7% | | | | | | | 16.7% | | | | | | 16.7% | | | | | 16.7% | | |
+| | Time | | | | | | 4h | | | | | | | | 8h | | | | | | 16h | | | | | | 28h | | | | | 36h | | |
+| | Seqlen | | | | | | 2048 | | | | | | | 2048 | | | | | | | 2048 | | | | | | 4096 | | | | | 4096 | | |
+| | | = dkv | 128/256† | | | 134.52M | | | | | | | 361.82M | | | | | | | | 1.71B | | | | | 6.61B† | | | | | 13.02B† | | | |
+| | | = dkv | 32/64† | | | 130.99M | | | | | | | 351.38M | | | | | | | | 1.67B | | | | | 6.37B† | | | | | 12.56B† | | | |
+| | #Param. | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
+| | | = dkv | 16/32† | | | 129.64M | | | | | | | 347.38M | | | | | | | | 1.59B | | | | | 5.99B† | | | | | 11.80B† | | | |
+| | | = dkv | 8/16† | | | 128.97M | | | | | | | 345.39M | | | | | | | | 1.56B | | | | | 5.79B† | | | | | 11.43B† | | | |
+| | | | Table | | | 4: | Training | | | | detail | | | information | | | | | | across | | | different | | | models. | | | | | | | | |
+| | | Model | | | | | Avg. | | | | MMLU | | | | | | ARC | | | PIQA | | | | HS | | OBQA | | | | WG | | | | |
+| | | 135M | r=32 | | | 44.42 | | | | | | 29.91 | | | | | 41.71 | | | 68.28 | | | | 41.33 | | | 33.80 | | | 51.46 | | | | |
+| | | | r=1 | | | 42.88 | | -1.54 | | | | 29.24 | | | | | 40.15 | | | 66.81 | | | | 37.90 | | | 33.40 | | | 49.80 | | | | |
+| | | - | r=2 high S | | | 43.07 | | -1.35 | | | | 29.73 | | | | | 40.60 | | | 67.25 | | | | 38.82 | | | 32.40 | | | 49.64 | | | | |
+| | | | r=4 | | | 43.60 | | -0.82 | | | | 29.87 | | | | | 41.29 | | | 67.08 | | | | 39.58 | | | 32.80 | | | 50.99 | | | | |
+| | | | r=8 | | | 43.90 | | -0.52 | | | | 29.79 | | | | | 40.89 | | | 68.01 | | | | 40.71 | | | 33.40 | | | 50.59 | | | | |
+| | | | r=1 | | | 39.85 | | -4.57 | | | | 27.72 | | | | | 36.56 | | | 62.95 | | | | 33.88 | | | 28.20 | | | 49.80 | | | | |
+| | | - | r=2 low S | | | 39.72 | | -4.70 | | | | 27.36 | | | | | 36.86 | | | 63.76 | | | | 33.85 | | | 27.80 | | | 48.70 | | | | |
+| | | | r=4 | | | 39.17 | | -5.25 | | | | 27.67 | | | | | 35.33 | | | 62.30 | | | | 33.32 | | | 27.60 | | | 48.78 | | | | |
+| | | | r=8 | | | 42.36 | | -2.06 | | | | 29.33 | | | | | 39.37 | | | 66.70 | | | | 38.13 | | | 31.00 | | | 49.64 | | | | |
+| | | | r=1 | | | 42.72 | | -1.70 | | | | 29.34 | | | | | 40.20 | | | 66.76 | | | | 37.60 | | | 32.60 | | | 49.80 | | | | |
+| | | - | r=2 uniform S | | | 43.50 | | -0.92 | | | | 29.41 | | | | | 41.30 | | | 67.63 | | | | 39.31 | | | 33.40 | | | 49.96 | | | | |
+| | | | r=4 | | | 44.01 | | -0.41 | | | | 29.79 | | | | | 41.09 | | | 67.95 | | | | 40.54 | | | 34.20 | | | 50.51 | | | | |
+| | | | r=8 | | | 43.79 | | -0.66 | | | | 29.85 | | | | | 40.72 | | | 67.57 | | | | 40.84 | | | 32.80 | | | 50.99 | | | | |
+| | | | r=1 | | | 43.27 | | -1.15 | | | | 29.58 | | | | | 40.83 | | | 67.25 | | | | 39.14 | | | 33.00 | | | 49.80 | | | | |
+| | | - | r=2 2-norm S | | | 43.77 | | -0.65 | | | | 29.82 | | | | | 40.76 | | | 68.28 | | | | 39.32 | | | 34.40 | | | 50.04 | | | | |
+| | | | r=4 | | | 43.73 | | -0.69 | | | | 30.00 | | | | | 41.29 | | | 68.17 | | | | 39.83 | | | 33.20 | | | 49.88 | | | | |
+| | | | r=8 | | | 44.18 | | -0.24 | | | | 30.01 | | | | | 41.52 | | | 68.12 | | | | 40.70 | | | 34.00 | | | 50.75 | | | | |
+
+Metrics 135MSmolLM 360MSmolLM 1B7SmolLM 7BLlama2 13BLlama2 n_batch × n_gpu 64× 4 64× 4 32× 8 16× 16 8× 32 Learning Rate 1e-4 1e-4 1e-4 1e-4 1e-4 Hardware NVIDIA L20Y NVIDIA L20Y NVIDIA L20Y NVIDIA L20Y NVIDIA L20Y
+
+Table 5: The impact of positional encoding dimensionality on model performance.
+
+MHA2MLA: SmolLM-1B7
+
+2.75
+
+full-rope 
+2-norm 
+2-norm + SVDjoint 
+2-norm + SVDsplit 
+
+2.50
+
+L o s s
+
+2.25
+
+2.00
+
+1.75
+
+0 2000 4000 6000 8000 10000 12000 #Step
+
+GQA2MLA: SmolLM-135M
+
+3.25
+
+full-rope 
+2-norm 
+2-norm + SVDjoint 
+2-norm + SVDsplit 
+
+3.00
+
+L o s s
+
+2.75
+
+2.50
+
+2.25
+
+0 2000 4000 6000 8000 10000 12000 #Step
+
+Figure 8: The fine-tuning loss curves under the combi nation of S 2-norm and different SVD strategies.
+
+33326
+
+| | BF16 | | 100.0% | 27.4 | | 15.1 9.6 | 21.1 7.5 | 9.7 3.7 26.7 | 20.5 | 3.2 65.5 87.5 | 34.1 1.9 6.6 | 66.5 | | 59.4 | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| | Int4HQQ | | -75.00% | 27.5 | | 16.1 9.1 | 22.0 7.3 | 9.9 3.6 26.5 | 21.1 | 3.4 65.5 87.2 | 34.3 1.5 6.7 | 66.0 | | 59.9 | | |
+| | Int4Quanto | | | 27.3 | | 14.4 9.5 | 20.5 7.5 | 9.7 3.5 25.8 | 20.7 | 3.1 65.5 87.7 | 34.3 1.4 7.3 | 66.8 | | 59.3 | | |
+| | Int2HQQ | | -87.50% | 21.2 | | 18.0 5.5 | 12.6 7.5 | 8.4 3.2 12.6 | 18.6 | 0.9 56.5 73.3 | 27.0 1.8 6.1 | 34.5 | | 52.9 | | |
+| | Int2Quanto | | | 18.5 | | 9.4 6.2 | 12.7 6.8 | 6.7 3.3 | 5.9 17.2 | 0.4 61.0 63.9 | 26.0 1.4 2.7 | 42.4 | | 30.5 | | |
+| | BF16 | | -68.75% | 26.7 | | 12.2 9.4 | 22.5 7.5 | 11.7 4.2 26.5 | 18.9 | 20.2 58.0 83.6 | 35.0 1.7 5.5 | 57.1 | | 52.8 | | |
+| 64 | Int4HQQ | | -92.19% | 26.4 | | 12.9 9.3 | 22.7 7.8 | 12.1 3.3 26.5 | 18.7 | 18.6 58.0 82.4 | 35.5 1.4 4.9 | 56.2 | | 51.8 | | |
+| | Int4Quanto | | | 26.3 | | 9.5 8.7 | 22.7 7.6 | 11.0 4.0 26.0 | 18.3 | 19.8 58.5 84.4 | 35.3 1.3 5.1 | 56.7 | | 51.4 | | |
+| | BF16 | | -81.25% | 26.0 | | 13.4 8.7 | 21.2 5.9 | 9.9 2.5 25.3 | 19.2 | 17.6 65.5 85.5 | 25.5 3.0 7.0 | 54.0 | | 51.4 | | |
+| 32 | Int4HQQ | | -95.31% | 25.8 | | 13.6 9.1 | 20.6 6.0 | 10.2 2.5 25.0 | 18.4 | 16.4 65.5 85.1 | 25.4 3.1 6.9 | 53.4 | | 51.0 | | |
+| | Int4Quanto | | | 25.5 | | 13.4 8.0 | 21.2 6.4 | 10.1 3.0 24.3 | 17.1 | 17.1 65.0 85.1 | 26.1 3.6 6.2 | 52.7 | | 49.0 | | |
+| | BF16 | | -87.50% | 25.1 | | 13.2 8.7 | 21.6 7.1 | 9.1 3.7 24.1 | 18.4 | 20.3 57.5 86.0 | 33.3 0.1 9.0 | 43.9 | | 44.9 | | |
+| 16 | Int4HQQ | | -96.87% | 25.0 | | 13.7 8.8 | 23.7 7.1 | 9.2 4.5 22.8 | 18.7 | 18.4 57.5 86.6 | 32.1 0.1 8.8 | 43.5 | | 44.3 | | |
+| | Int4Quanto | | | 24.6 | | 9.9 8.4 | 22.3 7.2 | 9.0 4.2 22.6 | 18.4 | 18.6 57.0 85.4 | 33.6 0.4 8.8 | 43.5 | | 45.0 | | |
+
+dkv Precision KV Avg. S-Doc QA M-Doc QA Summ. Few-shot Synth. Code A B C D E F G H I J K L M N O P 7BLlama2 (Length=4K)
+
+| | BF16 | | 100.0% | 18.7 | | 2.6 6.3 | 19.9 5.4 | 8.6 2.7 23.5 | 18.4 | 20.2 46.5 70.2 | 32.4 2.2 3.2 | 21.3 | | 16.5 | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| | Int4HQQ | | -75.00% | 18.6 | | 2.5 6.2 | 19.1 5.5 | 8.2 2.7 23.4 | 18.3 | 20.0 46.5 69.4 | 32.1 2.7 3.2 | 21.5 | | 16.0 | | |
+| | Int4Quanto | | | 18.6 | | 2.6 6.2 | 17.4 5.1 | 8.6 2.6 23.0 | 18.1 | 20.1 46.0 70.2 | 31.9 2.9 3.6 | 21.9 | | 16.7 | | |
+| | Int2HQQ | | -87.50% | 16.3 | | 2.5 5.6 | 13.0 4.8 | 7.5 2.7 14.8 | 16.3 | 9.3 46.0 70.4 | 26.9 2.6 3.4 | 18.3 | | 16.8 | | |
+| | Int2Quanto | | | 13.3 | | 1.6 3.8 | 10.3 3.9 | 7.3 1.4 | 5.9 13.4 | 6.3 40.0 64.3 | 14.6 3.1 3.5 | 15.6 | | 17.5 | | |
+| | BF16 | | -68.75% | 16.3 | | 2.6 6.1 | 17.8 5.3 | 9.2 2.4 21.8 | 14.7 | 18.8 52.5 55.6 | 28.8 1.7 4.7 | 12.5 | | 5.7 | | |
+| 32 | Int4HQQ | | -92.19% | 15.7 | | 2.3 6.4 | 16.4 5.2 | 8.8 2.3 20.5 | 14.2 | 16.6 52.5 56.7 | 27.8 1.5 4.2 | 11.9 | | 4.4 | | |
+| | Int4Quanto | | | 15.7 | | 2.3 6.0 | 16.5 5.3 | 8.8 2.1 22.1 | 14.5 | 17.5 50.5 55.0 | 27.6 1.8 3.2 | 13.3 | | 5.5 | | |
+| | BF16 | | -81.25% | 15.5 | | 2.4 6.2 | 17.1 5.5 | 9.2 2.5 21.0 | 15.2 | 16.5 47.5 53.9 | 31.4 1.3 3.3 | 9.5 | | 5.3 | | |
+| 16 | Int4HQQ | | -95.31% | 15.3 | | 2.4 5.7 | 17.0 4.8 | 9.0 2.1 20.0 | 15.5 | 16.8 47.5 53.1 | 30.1 2.0 3.4 | 10.6 | | 5.3 | | |
+| | Int4Quanto | | | 15.1 | | 2.3 5.9 | 16.0 6.0 | 9.4 2.5 19.1 | 14.4 | 15.5 47.5 52.5 | 28.4 2.0 3.2 | 11.2 | | 5.3 | | |
+| | BF16 | | -87.50% | 14.0 | | 2.6 5.6 | 16.5 5.1 | 8.9 2.1 19.8 | 15.7 | 14.2 40.0 51.0 | 28.0 2.1 3.3 | 7.1 | | 2.6 | | |
+| 8 | Int4HQQ | | -96.87% | 13.8 | | 2.6 5.0 | 15.4 4.5 | 9.5 2.5 20.5 | 14.8 | 14.0 40.0 48.2 | 27.1 1.8 4.2 | 7.6 | | 3.1 | | |
+| | Int4Quanto | | | 13.9 | | 2.5 5.4 | 16.6 4.8 | 8.9 2.3 19.3 | 14.6 | 15.8 40.0 50.2 | 26.4 1.1 3.4 | 8.3 | | 3.5 | | |
+
+BF16 -87.50% 25.1 13.2 8.7 21.6 7.1 9.1 3.7 24.1 18.4 20.3 57.5 86.0 33.3 0.1 9.0 43.9 44.9 Int4HQQ -96.87% 25.0 13.7 8.8 23.7 7.1 9.2 4.5 22.8 18.7 18.4 57.5 86.6 32.1 0.1 8.8 43.5 44.3 Int4Quanto 24.6 9.9 8.4 22.3 7.2 9.0 4.2 22.6 18.4 18.6 57.0 85.4 33.6 0.4 8.8 43.5 45.0 1B7SmolLM (Length=2K)
+
+| | BF16 | | 100.0% | 13.5 | | 2.4 6.4 | 14.3 5.0 | 8.8 2.5 18.0 | 17.5 | 7.1 47.5 37.5 | 24.9 1.5 3.4 | 8.1 | | 10.4 | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| | Int4HQQ | | -75.00% | 13.4 | | 2.7 6.1 | 14.1 5.5 | 8.4 3.0 16.2 | 15.4 | 11.2 47.5 37.5 | 23.4 1.3 3.7 | 9.0 | | 10.1 | | |
+| | Int4Quanto | | | 13.3 | | 2.4 6.2 | 13.7 5.4 | 8.7 2.6 15.4 | 17.4 | 7.3 47.5 37.3 | 24.4 1.0 3.7 | 8.4 | | 11.0 | | |
+| | Int2HQQ | | -87.50% | 10.8 | | 2.7 4.7 | 8.3 5.4 | 5.9 1.9 | 9.9 10.0 | 8.4 45.2 27.5 | 14.2 2.1 4.2 | 10.0 | | 11.9 | | |
+| | Int2Quanto | | | 8.6 | | 2.6 2.2 | 4.4 3.9 | 4.8 1.4 | 5.6 8.9 | 2.9 44.0 26.8 | 9.6 1.0 1.9 | 7.2 | | 9.7 | | |
+| | BF16 | | -68.75% | 13.3 | | 2.5 6.0 | 13.6 5.0 | 8.4 2.8 19.2 | 15.4 | 10.4 43.5 35.0 | 29.8 1.0 3.0 | 10.5 | | 6.5 | | |
+| 32 | Int4HQQ | | -92.19% | 12.8 | | 2.2 5.6 | 14.2 4.7 | 8.7 2.6 14.3 | 14.6 | 8.0 43.5 34.1 | 29.7 1.2 3.1 | 11.9 | | 6.8 | | |
+| | Int4Quanto | | | 12.9 | | 2.1 5.2 | 11.9 5.0 | 8.9 2.7 15.9 | 15.1 | 10.6 43.5 31.8 | 27.0 0.7 3.0 | 16.6 | | 7.1 | | |
+| | BF16 | | -81.25% | 10.9 | | 2.0 5.5 | 13.5 4.9 | 9.9 3.1 13.1 | 13.8 | 10.7 26.5 27.0 | 19.7 0.8 4.0 | 13.0 | | 6.3 | | |
+| 16 | Int4HQQ | | -95.31% | 10.4 | | 2.1 4.7 | 13.1 4.9 | 9.3 2.8 11.5 | 12.8 | 8.0 26.5 25.5 | 20.5 0.7 4.1 | 14.1 | | 6.5 | | |
+| | Int4Quanto | | | 10.2 | | 2.0 5.0 | 13.2 4.4 | 9.0 2.5 12.0 | 12.5 | 9.7 27.5 24.0 | 18.9 0.6 3.2 | 11.3 | | 7.6 | | |
+| | BF16 | | -87.50% | 9.4 | | 1.9 4.5 | 11.7 4.3 | 8.5 2.9 12.5 | 12.5 | 9.5 24.0 20.3 | 14.4 0.9 3.7 | 10.9 | | 8.3 | | |
+| 8 | Int4HQQ | | -96.87% | 9.0 | | 1.8 4.4 | 11.2 4.3 | 8.0 2.4 10.5 | 11.4 | 7.2 23.5 20.8 | 12.5 0.9 4.2 | 11.5 | | 8.7 | | |
+| | Int4Quanto | | | 8.8 | | 2.2 3.8 | 10.7 3.8 | 7.3 2.8 11.2 | 11.1 | 7.5 22.5 21.0 | 12.0 0.7 4.6 | 10.5 | | 8.7 | | |
+| Table | 6: Evaluation | | results | of | all | models on | LongBench, | including | Task A: | narrativeqa, B: | qasper, C: multifieldqa_en, | | | | | |
+| D: hotpotqa, | | E: | 2wikimqa, | F: | musique, | G: | gov_report, | H: qmsum, | I: multi_news, | J: trec, | K: triviaqa, L: samsum, | | | | M: | |
+| passage_count, | | | N: passage_retrieval_en, | | | O: | lcc, P: repobench-p. | | indicates Bold | compression | ratios greater | | than | | or | |
+
+BF16 -87.50% 14.0 2.6 5.6 16.5 5.1 8.9 2.1 19.8 15.7 14.2 40.0 51.0 28.0 2.1 3.3 7.1 2.6 Int4HQQ -96.87% 13.8 2.6 5.0 15.4 4.5 9.5 2.5 20.5 14.8 14.0 40.0 48.2 27.1 1.8 4.2 7.6 3.1 Int4Quanto 13.9 2.5 5.4 16.6 4.8 8.9 2.3 19.3 14.6 15.8 40.0 50.2 26.4 1.1 3.4 8.3 3.5 360MSmolLM (Length=2K) equal to Int2 quantization while also achieving performance higher than Int2.
+
+33327
+
+Model Tokens Avg@CS MMLU ARC PIQA HS OBQA WG 135MSmolLM 600B 44.50 29.80 42.43 68.06 41.09 33.60 52.01 - full-rope
+
+6B
+
+44.42 29.91 41.71 68.28 41.33 33.80 51.46 - S high 43.60 -0.82 29.87 41.29 67.08 39.58 32.80 50.99 - S low 39.17 -5.25 27.67 35.33 62.30 33.32 27.60 48.78 - S uniform 44.01 -0.41 29.79 41.09 67.95 40.54 34.20 50.51 - S 2-norm 43.73 -0.69 30.00 41.29 68.17 39.83 33.20 49.88 - S high + SVDjoint
+
+6B
+
+40.85 -3.57 28.46 37.25 64.85 35.31 30.20 49.01 - S uniform + SVDjoint 41.79 -2.63 28.74 39.30 65.83 36.37 31.20 49.33 - S 2-norm + SVDjoint 42.18 -2.24 28.79 40.11 65.94 36.68 31.20 50.36 - S 2-norm + SVDsplit 41.27 -3.15 28.05 38.65 65.51 34.04 31.20 49.17 1B7SmolLM 1T 55.90 39.27 59.87 75.73 62.93 42.80 54.85 - full-rope
+
+6B
+
+55.71 38.66 59.02 75.79 62.60 43.20 55.01 - S high 54.80 -0.91 38.18 57.57 75.08 60.66 42.40 54.93 - S low 53.84 -1.87 37.49 55.24 74.16 59.22 42.60 54.30 - S uniform 55.30 -0.41 38.52 57.89 75.68 61.85 42.60 55.25 - S 2-norm 54.98 -0.73 38.33 57.47 76.06 61.77 41.40 54.85 - S high + SVDjoint
+
+6B
+
+54.17 -1.54 37.35 55.99 74.59 59.18 42.20 55.72 
+- S uniform + SVDjoint 54.27 -1.44 37.95 56.78 74.86 60.23 41.00 54.78 
+- S 2-norm + SVDjoint 54.28 -1.43 37.79 56.33 75.68 60.59 41.00 54.30 
+- S 2-norm + SVDsplit 52.90 -2.81 36.99 53.80 73.39 58.55 41.60 53.04 
+Table 7: The complete results of the ablation experiment. 
+
+33328
+

@@ -1,0 +1,686 @@
+MEDUSA | Proceedings of the 41st International Conference on Machine Learning
+## This website uses cookies
+We occasionally run membership recruitment campaigns on social media channels and use cookies to track post-clicks. We also share information about your use of our site with our social media, advertising and analytics partners who may combine it with other information that you’ve provided to them or that they’ve collected from your use of their services. Use the check boxes below to choose the types of cookies you consent to have stored on your device.
+Do not sell or share my personal information
+[Use necessary cookies only](#)[Allow all cookies](#)[Show details](#)
+[OK](#)
+[Use necessary cookies only](#)[Allow selected cookies](#)[Allow all cookies](#)
+Necessary
+Preferences
+Statistics
+Marketing
+[Show details](#)
+[Cookie declaration](#)[[#IABV2SETTINGS#]](#)[About](#)
+[Necessary (9)](#)[Preferences (5)](#)[Statistics (14)](#)[Marketing (25)](#)[Unclassified (21)](#)
+Necessary cookies help make a website usable by enabling basic functions like page navigation and access to secure areas of the website. The website cannot function properly without these cookies. These cookies do not gather information about you that could be used for marketing purposes and do not remember where you have been on the internet.
+|Name|Provider|Purpose|Maximum Storage Duration|Type|
+\_\_cf\_bm[x2]|[ACM](https://www.acm.org/privacy-policy)|This cookie is used to distinguish between humans and bots. This is beneficial for the website, in order to make valid reports on the use of their website.|1 day|HTTP Cookie|
+\_\_jid|c.disquscdn.com|Used to add comments to the website and remember the user's Disqus login credentials across websites that use said service.|Session|HTTP Cookie|
+disqusauth|c.disquscdn.com|Registers whether the user is logged in. This allows the website owner to make parts of the website inaccessible, based on the user's log-in status.|Session|HTTP Cookie|
+\_cfuvid|[ACM](https://www.acm.org/privacy-policy)|This cookie is a part of the services provided by Cloudflare - Including load-balancing, deliverance of website content and serving DNS connection for website operators.|Session|HTTP Cookie|
+CookieConsent|[Cookiebot](https://www.cookiebot.com/goto/privacy-policy/)|Stores the user's cookie consent state for the current domain|1 year|HTTP Cookie|
+JSESSIONID|[ACM](https://www.acm.org/privacy-policy)|Preserves users states across page requests.|Session|HTTP Cookie|
+\_gh\_sess|[Github](https://help.github.com/en/articles/github-privacy-statement)|Preserves users states across page requests.|Session|HTTP Cookie|
+logged\_in|[Github](https://help.github.com/en/articles/github-privacy-statement)|Registers whether the user is logged in. This allows the website owner to make parts of the website inaccessible, based on the user's log-in status.|1 year|HTTP Cookie|
+Preference cookies enable a website to remember information that changes the way the website behaves or looks, like your preferred language or the region that you are in.
+|Name|Provider|Purpose|Maximum Storage Duration|Type|
+aet-dismiss|c.disquscdn.com|Necessary for the functionality of the website's comment-system.|Persistent|HTML Local Storage|
+drafts.queue|c.disquscdn.com|Necessary for the functionality of the website's comment-system.|Persistent|HTML Local Storage|
+submitted\_posts\_cache|c.disquscdn.com|Necessary for the functionality of the website's comment-system.|Persistent|HTML Local Storage|
+mopDeploy|[Mopinion](https://mopinion.com/privacy/)|Pending|Session|HTML Local Storage|
+MACHINE\_LAST\_SEEN|[ACM](https://www.acm.org/privacy-policy)|Pending|300 days|HTTP Cookie|
+Statistic cookies help website owners understand how visitors interact with websites by collecting and reporting information anonymously.
+|Name|Provider|Purpose|Maximum Storage Duration|Type|
+\_ga|[Google](https://business.safety.google/privacy/)|Registers a unique ID that is used to generate statistical data on how the visitor uses the website.|2 years|HTTP Cookie|
+\_ga\_#|[Google](https://business.safety.google/privacy/)|Used by Google Analytics to collect data on the number of times a user has visited the website as well as dates for the first and most recent visit.|2 years|HTTP Cookie|
+\_gat|[Google](https://business.safety.google/privacy/)|Used by Google Analytics to throttle request rate|1 day|HTTP Cookie|
+\_gid|[Google](https://business.safety.google/privacy/)|Registers a unique ID that is used to generate statistical data on how the visitor uses the website.|1 day|HTTP Cookie|
+\_hjSession\_#|[Hotjar](https://www.hotjar.com/legal/policies/privacy/)|Collects statistics on the visitor's visits to the website, such as the number of visits, average time spent on the website and what pages have been read.|1 day|HTTP Cookie|
+\_hjSessionUser\_#|[Hotjar](https://www.hotjar.com/legal/policies/privacy/)|Collects statistics on the visitor's visits to the website, such as the number of visits, average time spent on the website and what pages have been read.|1 year|HTTP Cookie|
+\_hjTLDTest|[Hotjar](https://www.hotjar.com/legal/policies/privacy/)|Registers statistical data on users' behaviour on the website. Used for internal analytics by the website operator.|Session|HTTP Cookie|
+\_hp2\_#|[Heap Analytics](https://heap.io/privacy)|Collects data on the user’s navigation and behavior on the website. This is used to compile statistical reports and heatmaps for the website owner.|1 day|HTTP Cookie|
+\_hp2\_hld#.#|[Heap Analytics](https://heap.io/privacy)|Collects data on the user’s navigation and behavior on the website. This is used to compile statistical reports and heatmaps for the website owner.|1 day|HTTP Cookie|
+\_hp2\_id.#|[Heap Analytics](https://heap.io/privacy)|Collects data on the user’s navigation and behavior on the website. This is used to compile statistical reports and heatmaps for the website owner.|13 months|HTTP Cookie|
+\_hp2\_ses\_props.#|[Heap Analytics](https://heap.io/privacy)|Collects data on the user’s navigation and behavior on the website. This is used to compile statistical reports and heatmaps for the website owner.|1 day|HTTP Cookie|
+disqus\_unique|c.disquscdn.com|Collects statistics related to the user's visits to the website, such as number of visits, average time spent on the website and loaded pages.|Session|HTTP Cookie|
+\_octo|[Github](https://help.github.com/en/articles/github-privacy-statement)|Pending|1 year|HTTP Cookie|
+collect|[Google](https://business.safety.google/privacy/)|Used to send data to Google Analytics about the visitor's device and behavior. Tracks the visitor across devices and marketing channels.|Session|Pixel Tracker|
+Marketing cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging for the individual user and thereby more valuable for publishers and third party advertisers.
+|Name|Provider|Purpose|Maximum Storage Duration|Type|
+badges-message|c.disquscdn.com|Collects data on the visitor’s use of the comment system on the website, and what blogs/articles the visitor has read. This can be used for marketing purposes.|Persistent|HTML Local Storage|
+NID|[Google](https://business.safety.google/privacy/)|Pending|6 months|HTTP Cookie|
+api/telemetry|[Heap Analytics](https://heap.io/privacy)|Collects data on user behaviour and interaction in order to optimize the website and make advertisement on the website more relevant.|Session|Pixel Tracker|
+h|[Heap Analytics](https://heap.io/privacy)|Collects data on user behaviour and interaction in order to optimize the website and make advertisement on the website more relevant.|Session|Pixel Tracker|
+#-#|[YouTube](https://business.safety.google/privacy/)|Used to track user’s interaction with embedded content.|Session|HTML Local Storage|
+\_\_Secure-ROLLOUT\_TOKEN|[YouTube](https://business.safety.google/privacy/)|Pending|180 days|HTTP Cookie|
+iU5q-!O9@$|[YouTube](https://business.safety.google/privacy/)|Registers a unique ID to keep statistics of what videos from YouTube the user has seen.|Session|HTML Local Storage|
+LAST\_RESULT\_ENTRY\_KEY|[YouTube](https://business.safety.google/privacy/)|Used to track user’s interaction with embedded content.|Session|HTTP Cookie|
+LogsDatabaseV2:V#||LogsRequestsStore|[YouTube](https://business.safety.google/privacy/)|Used to track user’s interaction with embedded content.|Persistent|IndexedDB|
+nextId|[YouTube](https://business.safety.google/privacy/)|Used to track user’s interaction with embedded content.|Session|HTTP Cookie|
+remote\_sid|[YouTube](https://business.safety.google/privacy/)|Necessary for the implementation and functionality of YouTube video-content on the website.|Session|HTTP Cookie|
+requests|[YouTube](https://business.safety.google/privacy/)|Used to track user’s interaction with embedded content.|Session|HTTP Cookie|
+TESTCOOKIESENABLED|[YouTube](https://business.safety.google/privacy/)|Used to track user’s interaction with embedded content.|1 day|HTTP Cookie|
+VISITOR\_INFO1\_LIVE|[YouTube](https://business.safety.google/privacy/)|Pending|180 days|HTTP Cookie|
+YSC|[YouTube](https://business.safety.google/privacy/)|Pending|Session|HTTP Cookie|
+yt.innertube::nextId|[YouTube](https://business.safety.google/privacy/)|Registers a unique ID to keep statistics of what videos from YouTube the user has seen.|Persistent|HTML Local Storage|
+ytidb::LAST\_RESULT\_ENTRY\_KEY|[YouTube](https://business.safety.google/privacy/)|Used to track user’s interaction with embedded content.|Persistent|HTML Local Storage|
+YtIdbMeta#databases|[YouTube](https://business.safety.google/privacy/)|Used to track user’s interaction with embedded content.|Persistent|IndexedDB|
+yt-remote-cast-available|[YouTube](https://business.safety.google/privacy/)|Stores the user's video player preferences using embedded YouTube video|Session|HTML Local Storage|
+yt-remote-cast-installed|[YouTube](https://business.safety.google/privacy/)|Stores the user's video player preferences using embedded YouTube video|Session|HTML Local Storage|
+yt-remote-connected-devices|[YouTube](https://business.safety.google/privacy/)|Stores the user's video player preferences using embedded YouTube video|Persistent|HTML Local Storage|
+yt-remote-device-id|[YouTube](https://business.safety.google/privacy/)|Stores the user's video player preferences using embedded YouTube video|Persistent|HTML Local Storage|
+yt-remote-fast-check-period|[YouTube](https://business.safety.google/privacy/)|Stores the user's video player preferences using embedded YouTube video|Session|HTML Local Storage|
+yt-remote-session-app|[YouTube](https://business.safety.google/privacy/)|Stores the user's video player preferences using embedded YouTube video|Session|HTML Local Storage|
+yt-remote-session-name|[YouTube](https://business.safety.google/privacy/)|Stores the user's video player preferences using embedded YouTube video|Session|HTML Local Storage|
+Unclassified cookies are cookies that we are in the process of classifying, together with the providers of individual cookies.
+|Name|Provider|Purpose|Maximum Storage Duration|Type|
+disqus.thread|c.disquscdn.com|Pending|Persistent|HTML Local Storage|
+10.1145%2F2593245\_pdf|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|HTML Local Storage|
+10.1145%2F3708554\_pdf|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|HTML Local Storage|
+access|[ACM](https://www.acm.org/privacy-policy)|Pending|Session|HTML Local Storage|
+accessType|[ACM](https://www.acm.org/privacy-policy)|Pending|Session|HTML Local Storage|
+article\_reader\_settings|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|HTML Local Storage|
+book\_reader\_settings|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|HTML Local Storage|
+chapter\_reader\_settings|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|HTML Local Storage|
+cr\_lib\_prompt\_seen|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|HTML Local Storage|
+doi|[ACM](https://www.acm.org/privacy-policy)|Pending|Session|HTML Local Storage|
+issue\_reader\_settings|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|HTML Local Storage|
+MAID|[ACM](https://www.acm.org/privacy-policy)|Pending|300 days|HTTP Cookie|
+sharedOffline#availableContents|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|IndexedDB|
+sharedOffline#formats|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|IndexedDB|
+sharedOffline#libraryContents|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|IndexedDB|
+sharedOffline#metadataAttachment|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|IndexedDB|
+sharedOffline#referencesAttachment|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|IndexedDB|
+sharedOffline#relationsAttachment|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|IndexedDB|
+tipKey|[ACM](https://www.acm.org/privacy-policy)|Pending|Persistent|HTML Local Storage|
+title|[ACM](https://www.acm.org/privacy-policy)|Pending|Session|HTML Local Storage|
+GSP|[Google](https://business.safety.google/privacy/)|Pending|400 days|HTTP Cookie|
+[[#IABV2\_LABEL\_PURPOSES#]](#)[[#IABV2\_LABEL\_FEATURES#]](#)[[#IABV2\_LABEL\_PARTNERS#]](#)
+[#IABV2\_BODY\_PURPOSES#]
+[#IABV2\_BODY\_FEATURES#]
+[#IABV2\_BODY\_PARTNERS#]
+Cookies are small text files that can be used by websites to make a user's experience more efficient. Other than those strictly necessary for the operation of the site, we need your permission to store any type of cookies on your device.Learn more about ACM, how you can contact us, and how we process personal data in our[Privacy Policy](https://www.acm.org/privacy-policy). Also please consult our[Cookie Notice](https://www.acm.org/cookie-notice).
+You can change or withdraw your consent from the Cookie Declaration on our website at any time by visiting the[Cookie Declaration](https://acm-stag.literatumonline.com/cookie-declaration)page. If contacting us regarding your consent, please state your consent ID and date from that page.
+Your consent applies to the following domains: dl.acm.org
+Cookie declaration last updated on 2/5/25 by[Cookiebot](https://www.cookiebot.com)
+[skip to main content](#skip-to-main-content)
+[](#global-menu)
+Search ACM Digital Library
+SearchSearch
+[Advanced Search](https://dl.acm.org/search/advanced)
+10.5555/3692070.3692273guideproceedingsArticle/Chapter ViewAbstractPublication PagesicmlConference Proceedingsconference-collections
+[icml](#)
+research-article
+Share on
+* [**](https://dl.acm.org/#x)
+* [**](https://dl.acm.org/#linkedin)
+* [**](https://dl.acm.org/#reddit)
+* [**](https://dl.acm.org/#facebook)
+* [**](https://dl.acm.org/#email)
+* # MEDUSA:Simple LLM inference acceleration framework with multiple decoding heads
+AUTHORs:[![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)TianleCai](#)
+![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)
+TianleCai
+Princeton University and Together AI
+[View Profile](https://dl.acm.org/profile/99659733798)
+,[![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)YuhongLi](#)
+![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)
+YuhongLi
+University of Illinois Urbana-Champaign
+[View Profile](https://dl.acm.org/profile/99659376932)
+,[![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)ZhengyangGeng](#)
+![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)
+ZhengyangGeng
+Carnegie Mellon University
+[View Profile](https://dl.acm.org/profile/99661458188)
+,[![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)HongwuPeng](#)
+![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)
+HongwuPeng
+University of Connecticut
+[View Profile](https://dl.acm.org/profile/99661459789)
+,+ 3,[![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)Jason D.Lee](#)
+![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)
+Jason D.Lee
+Princeton University
+[View Profile](https://dl.acm.org/profile/99661473871)
+,[![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)DemingChen](#)
+![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)
+DemingChen
+University of Illinois Urbana-Champaign
+[View Profile](https://dl.acm.org/profile/81100109981)
+,[![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)TriDao](#)
+![](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)
+TriDao
+Princeton University and Together AI
+[View Profile](https://dl.acm.org/profile/99661463513)
+(Less)[Authors Info & Claims](#tab-contributors)
+[ICML'24: Proceedings of the 41st International Conference on Machine Learning](https://dl.acm.org/doi/proceedings/10.5555/3692070)
+Article No.: 203, Pages5209-5235
+Published:21 July 2024[Publication History](#core-history)
+**0citation**0Downloads
+Metrics
+[
+Total Citations0
+](#tab-citations)[
+Total Downloads0
+](#tab-metrics-inner)
+Last 12 Months0
+Last 6 weeks0
+**Get Citation Alerts
+**
+**
+[**Publisher Site](https://raw.githubusercontent.com/mlresearch/v235/main/assets/cai24b/cai24b.pdf)
+* **Contents
+* * [**Information & Contributors](#core-collateral-info)
+* [**Bibliometrics & Citations](#core-collateral-metrics)
+* [**View Options](#core-collateral-fulltext-options)
+* [**References52](#core-collateral-references)
+* [**Figures](#core-collateral-figures)
+* [**Tables](#core-collateral-tables)
+* [**Media](#core-collateral-media)
+* [**Share](#core-collateral-share)
+## Abstract
+Large Language Models (LLMs) employ auto-regressive decoding that requires sequential computation, with each step reliant on the previous one's output. This creates a bottleneck as each step necessitates moving the full model parameters from High-Bandwidth Memory (HBM) to the accelerator's cache. While methods such as speculative decoding have been suggested to address this issue, their implementation is impeded by the challenges associated with acquiring and maintaining a separate draft model. In this paper, we present MEDUSA, an efficient method that augments LLM inference by adding extra decoding heads to predict multiple subsequent tokens in parallel. Using a*tree-based attention mechanism*, MEDUSA constructs multiple candidate continuations and verifies them simultaneously in each decoding step. By leveraging parallel processing, MEDUSA substantially reduces the number of decoding steps required. We present two levels of fine-tuning procedures for MEDUSA to meet the needs of different use cases:**MEDUSA-1**: MEDUSA is directly fine-tuned on top of a*frozen*backbone LLM, enabling lossless inference acceleration.**MEDUSA-2**: MEDUSA is fine-tuned together with the backbone LLM, enabling better prediction accuracy of MEDUSA heads and higher speedup but needing a special training recipe that preserves the model's capabilities. Moreover, we propose several extensions that improve or expand the utility of MEDUSA, including a*self-distillation*to handle situations where no training data is available and a*typical acceptance scheme*to boost the acceptance rate while maintaining generation quality. We evaluate MEDUSA on models of various sizes and training procedures. Our experiments demonstrate that MEDUSA-1 can achieve over 2.2× speedup without compromising generation quality, while MEDUSA-2 further improves the speedup to 2.3-2.8×.
+## References
+[1]
+Ainslie, J., Lee-Thorp, J., de Jong, M., Zemlyanskiy, Y., Lebrón, F., and Sanghai, S. Gqa: Training generalized multi-query transformer models from multi-head checkpoints.*arXiv preprint arXiv:2305.13245*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Ainslie,+J.,+Lee-Thorp,+J.,+de+Jong,+M.,+Zemlyanskiy,+Y.,+Lebrón,+F.,+and+Sanghai,+S.+Gqa:+Training+generalized+multi-query+transformer+models+from+multi-head+checkpoints.+arXiv+preprint+arXiv:2305.13245,+2023.)
+[2]
+Axolotl. Axolotl. https://github.com/OpenAccess-AI-Collective/axolotl, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Axolotl.+Axolotl.+https://github.com/OpenAccess-AI-Collective/axolotl,+2023.)
+[3]
+Basu, S., Ramachandran, G. S., Keskar, N. S., and Varshney, L. R. {MIROSTAT}: A {neural} {text} {decoding} {algorithm} {that} {directly} {controls} {perplexity}. In*International Conference on Learning Representations*, 2021. URL https://openreview.net/forum?id=W1G1JZEIy5\_.
+[Google Scholar](https://scholar.google.com/scholar?q=Basu,+S.,+Ramachandran,+G.+S.,+Keskar,+N.+S.,+and+Varshney,+L.+R.+{MIROSTAT}:+A+{neural}+{text}+{decoding}+{algorithm}+{that}+{directly}+{controls}+{perplexity}.+In+International+Conference+on+Learning+Representations,+2021.+URL+https://openreview.net/forum?id=W1G1JZEIy5_.)
+[4]
+Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., et al. Language models are few-shot learners.*Advances in neural information processing systems*, 33: 1877-1901, 2020.
+[Google Scholar](https://scholar.google.com/scholar?q=Brown,+T.,+Mann,+B.,+Ryder,+N.,+Subbiah,+M.,+Kaplan,+J.+D.,+Dhariwal,+P.,+Neelakantan,+A.,+Shyam,+P.,+Sastry,+G.,+Askell,+A.,+et+al.+Language+models+are+few-shot+learners.+Advances+in+neural+information+processing+systems,+33:+1877-1901,+2020.)
+[5]
+Chen, C., Borgeaud, S., Irving, G., Lespiau, J.-B., Sifre, L., and Jumper, J. Accelerating large language model decoding with speculative sampling. February 2023.
+[Crossref](https://doi.org/10.48550/ARXIV.2302.01318)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.48550/ARXIV.2302.01318)
+[6]
+Chen, L. Dissecting batching effects in gpt inference. https://le.qun.ch/en/blog/2023/05/13/transformer-batching/, 2023. Blog.
+[Google Scholar](https://scholar.google.com/scholar?q=Chen,+L.+Dissecting+batching+effects+in+gpt+inference.+https://le.qun.ch/en/blog/2023/05/13/transformer-batching/,+2023.+Blog.)
+[7]
+Chiang, W.-L., Li, Z., Lin, Z., Sheng, Y., Wu, Z., Zhang, H., Zheng, L., Zhuang, S., Zhuang, Y., Gonzalez, J. E., Stoica, I., and Xing, E. P. Vicuna: An open-source chatbot impressing gpt-4 with 90\*chatgpt quality, March 2023. URL https://lmsys.org/blog/2023-03-30-vicuna/.
+[Google Scholar](https://scholar.google.com/scholar?q=Chiang,+W.-L.,+Li,+Z.,+Lin,+Z.,+Sheng,+Y.,+Wu,+Z.,+Zhang,+H.,+Zheng,+L.,+Zhuang,+S.,+Zhuang,+Y.,+Gonzalez,+J.+E.,+Stoica,+I.,+and+Xing,+E.+P.+Vicuna:+An+open-source+chatbot+impressing+gpt-4+with+90*+chatgpt+quality,+March+2023.+URL+https://lmsys.org/blog/2023-03-30-vicuna/.)
+[8]
+Chowdhery, A., Narang, S., Devlin, J., Bosma, M., Mishra, G., Roberts, A., Barham, P., Chung, H. W., Sutton, C., Gehrmann, S., et al. Palm: Scaling language modeling with pathways.*arXiv preprint arXiv:2204.02311*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Chowdhery,+A.,+Narang,+S.,+Devlin,+J.,+Bosma,+M.,+Mishra,+G.,+Roberts,+A.,+Barham,+P.,+Chung,+H.+W.,+Sutton,+C.,+Gehrmann,+S.,+et+al.+Palm:+Scaling+language+modeling+with+pathways.+arXiv+preprint+arXiv:2204.02311,+2022.)
+[9]
+Dettmers, T., Lewis, M., Shleifer, S., and Zettlemoyer, L. 8- bit optimizers via block-wise quantization.*International Conference on Learning Representations*, 2021.
+[Google Scholar](https://scholar.google.com/scholar?q=Dettmers,+T.,+Lewis,+M.,+Shleifer,+S.,+and+Zettlemoyer,+L.+8-+bit+optimizers+via+block-wise+quantization.+International+Conference+on+Learning+Representations,+2021.)
+[10]
+Dettmers, T., Lewis, M., Belkada, Y., and Zettlemoyer, L. Llm. int8 (): 8-bit matrix multiplication for transformers at scale.*arXiv preprint arXiv:2208.07339*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Dettmers,+T.,+Lewis,+M.,+Belkada,+Y.,+and+Zettlemoyer,+L.+Llm.+int8+():+8-bit+matrix+multiplication+for+transformers+at+scale.+arXiv+preprint+arXiv:2208.07339,+2022.)
+[11]
+Dettmers, T., Pagnoni, A., Holtzman, A., and Zettlemoyer, L. Qlora: Efficient finetuning of quantized llms.*arXiv preprint arXiv:2305.14314*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Dettmers,+T.,+Pagnoni,+A.,+Holtzman,+A.,+and+Zettlemoyer,+L.+Qlora:+Efficient+finetuning+of+quantized+llms.+arXiv+preprint+arXiv:2305.14314,+2023.)
+[12]
+Ding, N., Chen, Y., Xu, B., Qin, Y., Zheng, Z., Hu, S., Liu, Z., Sun, M., and Zhou, B. Enhancing chat language models by scaling high-quality instructional conversations, 2023.
+[Crossref](https://doi.org/10.18653/v1/2023.emnlp-main.183)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.18653/v1/2023.emnlp-main.183)
+[13]
+Dubois, Y., Li, X., Taori, R., Zhang, T., Gulrajani, I., Ba, J., Guestrin, C., Liang, P., and Hashimoto, T. B. Alpacafarm: A simulation framework for methods that learn from human feedback, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Dubois,+Y.,+Li,+X.,+Taori,+R.,+Zhang,+T.,+Gulrajani,+I.,+Ba,+J.,+Guestrin,+C.,+Liang,+P.,+and+Hashimoto,+T.+B.+Alpacafarm:+A+simulation+framework+for+methods+that+learn+from+human+feedback,+2023.)
+[14]
+Elfwing, S., Uchibe, E., and Doya, K. Sigmoid-weighted linear units for neural network function approximation in reinforcement learning.*Neural Networks*, 2017.
+[Crossref](https://doi.org/10.1016/j.neunet.2017.12.012)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.1016/j.neunet.2017.12.012)
+[15]
+Fan, A., Lewis, M., and Dauphin, Y. Hierarchical neural story generation. In*Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)*. Association for Computational Linguistics, 2018.
+[Crossref](https://doi.org/10.18653/v1/p18-1082)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.18653/v1/p18-1082)
+[16]
+Frantar, E., Ashkboos, S., Hoefler, T., and Alistarh, D. Gptq: Accurate post-training quantization for generative pretrained transformers.*arXiv preprint arXiv:2210.17323*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Frantar,+E.,+Ashkboos,+S.,+Hoefler,+T.,+and+Alistarh,+D.+Gptq:+Accurate+post-training+quantization+for+generative+pretrained+transformers.+arXiv+preprint+arXiv:2210.17323,+2022.)
+[17]
+Google. Palm 2 technical report, 2023. URL https://ai.google/static/documents/palm2techreport.pdf.
+[Google Scholar](https://scholar.google.com/scholar?q=Google.+Palm+2+technical+report,+2023.+URL+https://ai.google/static/documents/palm2techreport.pdf.)
+[18]
+Hewitt, J., Manning, C. D., and Liang, P. Truncation sampling as language model desmoothing. October 2022.
+[Crossref](https://doi.org/10.18653/v1/2022.findings-emnlp.249)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.18653/v1/2022.findings-emnlp.249)
+[19]
+Hoffmann, J., Borgeaud, S., Mensch, A., Buchatskaya, E., Cai, T., Rutherford, E., Casas, D. d. L., Hendricks, L. A., Welbl, J., Clark, A., et al. Training compute-optimal large language models.*arXiv preprint arXiv:2203.15556*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Hoffmann,+J.,+Borgeaud,+S.,+Mensch,+A.,+Buchatskaya,+E.,+Cai,+T.,+Rutherford,+E.,+Casas,+D.+d.+L.,+Hendricks,+L.+A.,+Welbl,+J.,+Clark,+A.,+et+al.+Training+compute-optimal+large+language+models.+arXiv+preprint+arXiv:2203.15556,+2022.)
+[20]
+Holtzman, A., Buys, J., Du, L., Forbes, M., and Choi, Y. The curious case of neural text degeneration. In*International Conference on Learning Representations*, 2020. URL https://openreview.net/forum?id=rygGQyrFvH.
+[Google Scholar](https://scholar.google.com/scholar?q=Holtzman,+A.,+Buys,+J.,+Du,+L.,+Forbes,+M.,+and+Choi,+Y.+The+curious+case+of+neural+text+degeneration.+In+International+Conference+on+Learning+Representations,+2020.+URL+https://openreview.net/forum?id=rygGQyrFvH.)
+[21]
+Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., and Chen, W. Lora: Low-rank adaptation of large language models.*ICLR*, 2021.
+[Google Scholar](https://scholar.google.com/scholar?q=Hu,+E.+J.,+Shen,+Y.,+Wallis,+P.,+Allen-Zhu,+Z.,+Li,+Y.,+Wang,+S.,+and+Chen,+W.+Lora:+Low-rank+adaptation+of+large+language+models.+ICLR,+2021.)
+[22]
+Joao Gante. Assisted generation: a new direction toward low-latency text generation, 2023. URL https://huggingface.co/blog/assisted-generation.
+[Google Scholar](https://scholar.google.com/scholar?q=Joao+Gante.+Assisted+generation:+a+new+direction+toward+low-latency+text+generation,+2023.+URL+https://huggingface.co/blog/assisted-generation.)
+[23]
+Kim, S., Hooper, C., Gholami, A., Dong, Z., Li, X., Shen, S., Mahoney, M. W., and Keutzer, K. Squeezellm: Dense-and-sparse quantization.*arXiv preprint arXiv:2306.07629*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Kim,+S.,+Hooper,+C.,+Gholami,+A.,+Dong,+Z.,+Li,+X.,+Shen,+S.,+Mahoney,+M.+W.,+and+Keutzer,+K.+Squeezellm:+Dense-and-sparse+quantization.+arXiv+preprint+arXiv:2306.07629,+2023.)
+[24]
+Kim, Y. and Rush, A. M. Sequence-level knowledge distillation.*EMNLP*, 2016.
+[Crossref](https://doi.org/10.18653/v1/D16-1139)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.18653/v1/D16-1139)
+[25]
+Kumar, A., Raghunathan, A., Jones, R., Ma, T., and Liang, P. Fine-tuning can distort pretrained features and under-perform out-of-distribution.*International Conference on Learning Representations*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Kumar,+A.,+Raghunathan,+A.,+Jones,+R.,+Ma,+T.,+and+Liang,+P.+Fine-tuning+can+distort+pretrained+features+and+under-perform+out-of-distribution.+International+Conference+on+Learning+Representations,+2022.)
+[26]
+Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Yu, C. H., Gonzalez, J. E., Zhang, H., and Stoica, I. Efficient memory management for large language model serving with pagedattention. In*Proceedings of the ACM SIGOPS 29th Symposium on Operating Systems Principles*, 2023.
+[Digital Library](https://dl.acm.org/doi/10.1145/3600006.3613165)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.1145/3600006.3613165)
+[27]
+Leviathan, Y., Kalman, M., and Matias, Y. Fast inference from transformers via speculative decoding. November 2022.
+[Crossref](https://doi.org/10.48550/ARXIV.2211.17192)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.48550/ARXIV.2211.17192)
+[28]
+Li, X., Zhang, T., Dubois, Y., Taori, R., Gulrajani, I., Guestrin, C., Liang, P., and Hashimoto, T. B. Alpacaeval: An automatic evaluator of instruction-following models. https://github.com/tatsu-lab/alpaca\_eval, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Li,+X.,+Zhang,+T.,+Dubois,+Y.,+Taori,+R.,+Gulrajani,+I.,+Guestrin,+C.,+Liang,+P.,+and+Hashimoto,+T.+B.+Alpacaeval:+An+automatic+evaluator+of+instruction-following+models.+https://github.com/tatsu-lab/alpaca_eval,+2023.)
+[29]
+Lin, J., Tang, J., Tang, H., Yang, S., Dang, X., and Han, S. Awq: Activation-aware weight quantization for llm compression and acceleration.*arXiv preprint arXiv:2306.00978*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Lin,+J.,+Tang,+J.,+Tang,+H.,+Yang,+S.,+Dang,+X.,+and+Han,+S.+Awq:+Activation-aware+weight+quantization+for+llm+compression+and+acceleration.+arXiv+preprint+arXiv:2306.00978,+2023.)
+[30]
+Meister, C., Wiher, G., Pimentel, T., and Cotterell, R. On the probability-quality paradox in language generation. March 2022.
+[Crossref](https://doi.org/10.18653/v1/2022.acl-short.5)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.18653/v1/2022.acl-short.5)
+[31]
+Meister, C., Pimentel, T., Wiher, G., and Cotterell, R. Locally typical sampling.*Transactions of the Association for Computational Linguistics*, 11:102-121, 2023.
+[Crossref](https://doi.org/10.1162/tacl_a_00536)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.1162/tacl_a_00536)
+[32]
+Miao, X., Oliaro, G., Zhang, Z., Cheng, X., Wang, Z., Wong, R. Y. Y., Chen, Z., Arfeen, D., Abhyankar, R., and Jia, Z. Specinfer: Accelerating generative llm serving with speculative inference and token tree verification.*arXiv preprint arXiv:2305.09781*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Miao,+X.,+Oliaro,+G.,+Zhang,+Z.,+Cheng,+X.,+Wang,+Z.,+Wong,+R.+Y.+Y.,+Chen,+Z.,+Arfeen,+D.,+Abhyankar,+R.,+and+Jia,+Z.+Specinfer:+Accelerating+generative+llm+serving+with+speculative+inference+and+token+tree+verification.+arXiv+preprint+arXiv:2305.09781,+2023.)
+[33]
+NVIDIA. Nvidia a100 tensor core gpu.
+[Google Scholar](https://scholar.google.com/scholar?q=NVIDIA.+Nvidia+a100+tensor+core+gpu.)
+[34]
+OpenAI. Gpt-4 technical report, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=OpenAI.+Gpt-4+technical+report,+2023.)
+[35]
+Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C. L., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A., et al. Training language models to follow instructions with human feedback.*arXiv preprint arXiv:2203.02155*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Ouyang,+L.,+Wu,+J.,+Jiang,+X.,+Almeida,+D.,+Wainwright,+C.+L.,+Mishkin,+P.,+Zhang,+C.,+Agarwal,+S.,+Slama,+K.,+Ray,+A.,+et+al.+Training+language+models+to+follow+instructions+with+human+feedback.+arXiv+preprint+arXiv:2203.02155,+2022.)
+[36]
+Pan, J. Tiny vicuna 1b. https://huggingface.co/Jiayi-Pan/Tiny-Vicuna-1B, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Pan,+J.+Tiny+vicuna+1b.+https://huggingface.co/Jiayi-Pan/Tiny-Vicuna-1B,+2023.)
+[37]
+Pillutla, K., Swayamdipta, S., Zellers, R., Thickstun, J., Welleck, S., Choi, Y., and Harchaoui, Z. MAUVE: Measuring the gap between neural text and human text using divergence frontiers. In Beygelzimer, A., Dauphin, Y., Liang, P., and Vaughan, J. W. (eds.),*Advances in Neural Information Processing Systems*, 2021. URL https://openreview.net/forum?id=Tqx7nJp7PR.
+[Google Scholar](https://scholar.google.com/scholar?q=Pillutla,+K.,+Swayamdipta,+S.,+Zellers,+R.,+Thickstun,+J.,+Welleck,+S.,+Choi,+Y.,+and+Harchaoui,+Z.+MAUVE:+Measuring+the+gap+between+neural+text+and+human+text+using+divergence+frontiers.+In+Beygelzimer,+A.,+Dauphin,+Y.,+Liang,+P.,+and+Vaughan,+J.+W.+(eds.),+Advances+in+Neural+Information+Processing+Systems,+2021.+URL+https://openreview.net/forum?id=Tqx7nJp7PR.)
+[38]
+Pope, R., Douglas, S., Chowdhery, A., Devlin, J., Bradbury, J., Levskaya, A., Heek, J., Xiao, K., Agrawal, S., and Dean, J. Efficiently scaling transformer inference. November 2022.
+[Crossref](https://doi.org/10.48550/ARXIV.2211.05102)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.48550/ARXIV.2211.05102)
+[39]
+ShareGPT. ShareGPT. https://huggingface.co/datasets/Aeala/ShareGPT\_Vicuna\_unfiltered, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=ShareGPT.+ShareGPT.+https://huggingface.co/datasets/Aeala/ShareGPT_Vicuna_unfiltered,+2023.)
+[40]
+Shazeer, N. Fast transformer decoding: One write-head is all you need.*arXiv preprint arXiv:1911.02150*, 2019.
+[Google Scholar](https://scholar.google.com/scholar?q=Shazeer,+N.+Fast+transformer+decoding:+One+write-head+is+all+you+need.+arXiv+preprint+arXiv:1911.02150,+2019.)
+[41]
+Spector, B. and Re, C. Accelerating llm inference with staged speculative decoding.*arXiv preprint arXiv:2308.04623*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Spector,+B.+and+Re,+C.+Accelerating+llm+inference+with+staged+speculative+decoding.+arXiv+preprint+arXiv:2308.04623,+2023.)
+[42]
+Stern, M., Shazeer, N. M., and Uszkoreit, J. Blockwise parallel decoding for deep autoregressive models.*Neural Information Processing Systems*, 2018.
+[Google Scholar](https://scholar.google.com/scholar?q=Stern,+M.,+Shazeer,+N.+M.,+and+Uszkoreit,+J.+Blockwise+parallel+decoding+for+deep+autoregressive+models.+Neural+Information+Processing+Systems,+2018.)
+[43]
+Touvron, H., Martin, L., Stone, K., Albert, P., Almahairi, A., Babaei, Y., Bashlykov, N., Batra, S., Bhargava, P., Bhosale, S., et al. Llama 2: Open foundation and fine-tuned chat models.*arXiv preprint arXiv:2307.09288*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Touvron,+H.,+Martin,+L.,+Stone,+K.,+Albert,+P.,+Almahairi,+A.,+Babaei,+Y.,+Bashlykov,+N.,+Batra,+S.,+Bhargava,+P.,+Bhosale,+S.,+et+al.+Llama+2:+Open+foundation+and+fine-tuned+chat+models.+arXiv+preprint+arXiv:2307.09288,+2023.)
+[44]
+Tunstall, L., Beeching, E., Lambert, N., Rajani, N., Rasul, K., Belkada, Y., Huang, S., von Werra, L., Fourrier, C., Habib, N., Sarrazin, N., Sanseviero, O., Rush, A. M., and Wolf, T. Zephyr: Direct distillation of lm alignment, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Tunstall,+L.,+Beeching,+E.,+Lambert,+N.,+Rajani,+N.,+Rasul,+K.,+Belkada,+Y.,+Huang,+S.,+von+Werra,+L.,+Fourrier,+C.,+Habib,+N.,+Sarrazin,+N.,+Sanseviero,+O.,+Rush,+A.+M.,+and+Wolf,+T.+Zephyr:+Direct+distillation+of+lm+alignment,+2023.)
+[45]
+Xia, H., Ge, T., Chen, S.-Q., Wei, F., and Sui, Z. Speculative decoding: Lossless speedup of autoregressive translation, 2023. URL https://openreview.net/forum?id=H-VlwsYvVi.
+[Google Scholar](https://scholar.google.com/scholar?q=Xia,+H.,+Ge,+T.,+Chen,+S.-Q.,+Wei,+F.,+and+Sui,+Z.+Speculative+decoding:+Lossless+speedup+of+autoregressive+translation,+2023.+URL+https://openreview.net/forum?id=H-VlwsYvVi.)
+[46]
+Xiao, G., Lin, J., Seznec, M., Wu, H., Demouth, J., and Han, S. Smoothquant: Accurate and efficient post-training quantization for large language models. In*International Conference on Machine Learning*, pp. 38087-38099. PMLR, 2023a.
+[Google Scholar](https://scholar.google.com/scholar?q=Xiao,+G.,+Lin,+J.,+Seznec,+M.,+Wu,+H.,+Demouth,+J.,+and+Han,+S.+Smoothquant:+Accurate+and+efficient+post-training+quantization+for+large+language+models.+In+International+Conference+on+Machine+Learning,+pp.+38087-38099.+PMLR,+2023a.)
+[47]
+Xiao, Y., Wu, L., Guo, J., Li, J., Zhang, M., Qin, T., and Liu, T.-y. A survey on non-autoregressive generation for neural machine translation and beyond.*IEEE Transactions on Pattern Analysis and Machine Intelligence*, 2023b.
+[Digital Library](https://dl.acm.org/doi/10.1109/TPAMI.2023.3277122)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.1109/TPAMI.2023.3277122)
+[48]
+Ying, C., Cai, T., Luo, S., Zheng, S., Ke, G., He, D., Shen, Y., and Liu, T.-Y. Do transformers really perform badly for graph representation?*Advances in Neural Information Processing Systems*, 34:28877-28888, 2021.
+[Google Scholar](https://scholar.google.com/scholar?q=Ying,+C.,+Cai,+T.,+Luo,+S.,+Zheng,+S.,+Ke,+G.,+He,+D.,+Shen,+Y.,+and+Liu,+T.-Y.+Do+transformers+really+perform+badly+for+graph+representation?+Advances+in+Neural+Information+Processing+Systems,+34:28877-28888,+2021.)
+[49]
+Zhang, P., Zeng, G., Wang, T., and Lu, W. Tinyllama: An open-source small language model, 2024.
+[Google Scholar](https://scholar.google.com/scholar?q=Zhang,+P.,+Zeng,+G.,+Wang,+T.,+and+Lu,+W.+Tinyllama:+An+open-source+small+language+model,+2024.)
+[50]
+Zhang, S., Roller, S., Goyal, N., Artetxe, M., Chen, M., Chen, S., Dewan, C., Diab, M., Li, X., Lin, X. V., et al. Opt: Open pre-trained transformer language models.*arXiv preprint arXiv:2205.01068*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Zhang,+S.,+Roller,+S.,+Goyal,+N.,+Artetxe,+M.,+Chen,+M.,+Chen,+S.,+Dewan,+C.,+Diab,+M.,+Li,+X.,+Lin,+X.+V.,+et+al.+Opt:+Open+pre-trained+transformer+language+models.+arXiv+preprint+arXiv:2205.01068,+2022.)
+[51]
+Zhang, Z., Sheng, Y., Zhou, T., Chen, T., Zheng, L., Cai, R., Song, Z., Tian, Y., Ré, C., Barrett, C., et al. H 2 o: Heavy-hitter oracle for efficient generative inference of large language models.*arXiv preprint arXiv:2306.14048*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Zhang,+Z.,+Sheng,+Y.,+Zhou,+T.,+Chen,+T.,+Zheng,+L.,+Cai,+R.,+Song,+Z.,+Tian,+Y.,+Ré,+C.,+Barrett,+C.,+et+al.+H+2+o:+Heavy-hitter+oracle+for+efficient+generative+inference+of+large+language+models.+arXiv+preprint+arXiv:2306.14048,+2023.)
+[52]
+Zheng, L., Chiang, W.-L., Sheng, Y., Zhuang, S., Wu, Z., Zhuang, Y., Lin, Z., Li, Z., Li, D., Xing, E. P., Zhang, H., Gonzalez, J. E., and Stoica, I. Judging llm-as-a-judge with mt-bench and chatbot arena, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Zheng,+L.,+Chiang,+W.-L.,+Sheng,+Y.,+Zhuang,+S.,+Wu,+Z.,+Zhuang,+Y.,+Lin,+Z.,+Li,+Z.,+Li,+D.,+Xing,+E.+P.,+Zhang,+H.,+Gonzalez,+J.+E.,+and+Stoica,+I.+Judging+llm-as-a-judge+with+mt-bench+and+chatbot+arena,+2023.)
+Show all references
+## Index Terms
+1. MEDUSA: Simple LLM inference acceleration framework with multiple decoding heads
+1. [Computing methodologies](https://dl.acm.org/topic/ccs2012/10010147?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Information systems](https://dl.acm.org/topic/ccs2012/10002951?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Information storage systems](https://dl.acm.org/topic/ccs2012/10002951.10003152?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Record storage systems](https://dl.acm.org/topic/ccs2012/10002951.10003152.10003161?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Directory structures](https://dl.acm.org/topic/ccs2012/10002951.10003152.10003161.10003163?ContentGroupKey=10.5555/3692070&expand=all)
+1. [B-trees](https://dl.acm.org/topic/ccs2012/10002951.10003152.10003161.10003163.10003415?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Mathematics of computing](https://dl.acm.org/topic/ccs2012/10002950?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Discrete mathematics](https://dl.acm.org/topic/ccs2012/10002950.10003624?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Graph theory](https://dl.acm.org/topic/ccs2012/10002950.10003624.10003633?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Trees](https://dl.acm.org/topic/ccs2012/10002950.10003624.10003633.10003634?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Software and its engineering](https://dl.acm.org/topic/ccs2012/10011007?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Software notations and tools](https://dl.acm.org/topic/ccs2012/10011007.10011006?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Compilers](https://dl.acm.org/topic/ccs2012/10011007.10011006.10011041?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Source code generation](https://dl.acm.org/topic/ccs2012/10011007.10011006.10011041.10011047?ContentGroupKey=10.5555/3692070&expand=all)
+1. [General programming languages](https://dl.acm.org/topic/ccs2012/10011007.10011006.10011008?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Language types](https://dl.acm.org/topic/ccs2012/10011007.10011006.10011008.10011009?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Constraint and logic languages](https://dl.acm.org/topic/ccs2012/10011007.10011006.10011008.10011009.10011015?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Theory of computation](https://dl.acm.org/topic/ccs2012/10003752?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Formal languages and automata theory](https://dl.acm.org/topic/ccs2012/10003752.10003766?ContentGroupKey=10.5555/3692070&expand=all)
+1. [Grammars and context-free languages](https://dl.acm.org/topic/ccs2012/10003752.10003766.10003771?ContentGroupKey=10.5555/3692070&expand=all)
+1. 2. Index terms have been assigned to the content through auto-classification.
+## Recommendations
+* [### Medusa:Accelerating Serverless LLM Inference with Materialization
+](https://dl.acm.org/doi/10.1145/3669940.3707285)
+ASPLOS '25: Proceedings of the 30th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 1
+Serverless is a promising paradigm to provide scalable, cost-efficient, and easy-to-use model inference services. However, the cold start of model inference functions requires loading models to the devices, which incurs high latencies and undermines the ...****
+******
+[Read More](https://dl.acm.org/doi/10.1145/3669940.3707285)
+* [### MEDUSA: A Predictable and High-Performance DRAM Controller for Multicore Based Embedded Systems
+](https://dl.acm.org/doi/10.1109/CPSNA.2015.24)
+CPSNA '15: Proceedings of the 2015 IEEE 3rd International Conference on Cyber-Physical Systems, Networks, and Applications
+Commercial-Off-The-Shelf (COTS) DRAM controllers are optimized for high memory throughput, but they do not provide predictable timing among memory requests from different cores in multicore systems. Therefore, memory requests from a critical real-time ...
+[Read More](https://dl.acm.org/doi/10.1109/CPSNA.2015.24)
+* [### MeDUSA - A Model-Based Construction Method for Embedded and Real-Time Software
+](https://dl.acm.org/doi/10.1109/COMPSAC.2008.132)
+COMPSAC '08: Proceedings of the 2008 32nd Annual IEEE International Computer Software and Applications Conference
+While engineering of embedded & real-time systems has moved much into the focus of the research community, being strongly promoted by those prominent application areas as the automotive, aerospace & defense, or telecommunications industry, small ...
+[Read More](https://dl.acm.org/doi/10.1109/COMPSAC.2008.132)
+## Comments
+[0 Comments](https://dl.acm.org/doi/10.5555/3692070.3692273#disqus_thread)
+## **Information & Contributors
+**
+InformationContributors
+### Information
+#### Published In
+![cover image Guide Proceedings](https://dl.acm.org/specs/products/acm/releasedAssets/images/cover-default--proceeding-7f3b898f647fee8a51d37150f04bd4eb.svg)
+ICML'24: Proceedings of the 41st International Conference on Machine Learning
+July 2024
+63010 pages
+* **Editors:**
+* [![Author Picture](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)Ruslan Salakhutdinov](https://dl.acm.org/profile/81100562217),
+* [![Author Picture](https://dl.acm.org/pb-assets/icons/DOs/default-profile-1543932446943.svg)Zico Kolter](https://dl.acm.org/profile/99659851385),
+* + 5
+Copyright ©2024.
+#### Publisher
+JMLR.org
+#### Publication History
+**Published**: 21 July 2024
+#### Qualifiers
+* Research-article
+* Research
+* Refereed limited
+#### Acceptance Rates
+Overall Acceptance Rate 140 of 548 submissions, 26%
+### Contributors
+![](https://dl.acm.org/specs/products/acm/releasedAssets/images/loader-7e60691fbe777356dc81ff6d223a82a6.gif)
+#### Other Metrics
+[View Article Metrics](#tab-metrics-inner)
+## **Bibliometrics & Citations
+**
+BibliometricsCitations
+### Bibliometrics
+#### Article Metrics
+* 0
+Total Citations
+* 0
+Total Downloads
+* Downloads (Last 12 months)0
+* Downloads (Last 6 weeks)0
+Reflects downloads up to 12 Feb 2025
+#### Other Metrics
+[View Author Metrics](#tab-contributors)
+### Citations
+## **View Options
+**
+### View options
+## **Figures
+**
+## **Tables
+**
+## **Media
+**
+## **Share
+**
+### Share
+#### Share this Publication link
+https://dl.acm.org/doi/10.5555/3692070.3692273
+**Copy Link
+**Copied!
+**Copying failed.
+#### Share on social media
+[**X](https://dl.acm.org/#twitter)[**LinkedIn](https://dl.acm.org/#linkedin)[**Reddit](https://dl.acm.org/#reddit)[**Facebook](https://dl.acm.org/#facebook)[**email](https://dl.acm.org/#email)
+## **References
+**
+### References
+[1]
+Ainslie, J., Lee-Thorp, J., de Jong, M., Zemlyanskiy, Y., Lebrón, F., and Sanghai, S. Gqa: Training generalized multi-query transformer models from multi-head checkpoints.*arXiv preprint arXiv:2305.13245*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Ainslie,+J.,+Lee-Thorp,+J.,+de+Jong,+M.,+Zemlyanskiy,+Y.,+Lebrón,+F.,+and+Sanghai,+S.+Gqa:+Training+generalized+multi-query+transformer+models+from+multi-head+checkpoints.+arXiv+preprint+arXiv:2305.13245,+2023.)
+[2]
+Axolotl. Axolotl. https://github.com/OpenAccess-AI-Collective/axolotl, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Axolotl.+Axolotl.+https://github.com/OpenAccess-AI-Collective/axolotl,+2023.)
+[3]
+Basu, S., Ramachandran, G. S., Keskar, N. S., and Varshney, L. R. {MIROSTAT}: A {neural} {text} {decoding} {algorithm} {that} {directly} {controls} {perplexity}. In*International Conference on Learning Representations*, 2021. URL https://openreview.net/forum?id=W1G1JZEIy5\_.
+[Google Scholar](https://scholar.google.com/scholar?q=Basu,+S.,+Ramachandran,+G.+S.,+Keskar,+N.+S.,+and+Varshney,+L.+R.+{MIROSTAT}:+A+{neural}+{text}+{decoding}+{algorithm}+{that}+{directly}+{controls}+{perplexity}.+In+International+Conference+on+Learning+Representations,+2021.+URL+https://openreview.net/forum?id=W1G1JZEIy5_.)
+[4]
+Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., et al. Language models are few-shot learners.*Advances in neural information processing systems*, 33: 1877-1901, 2020.
+[Google Scholar](https://scholar.google.com/scholar?q=Brown,+T.,+Mann,+B.,+Ryder,+N.,+Subbiah,+M.,+Kaplan,+J.+D.,+Dhariwal,+P.,+Neelakantan,+A.,+Shyam,+P.,+Sastry,+G.,+Askell,+A.,+et+al.+Language+models+are+few-shot+learners.+Advances+in+neural+information+processing+systems,+33:+1877-1901,+2020.)
+[5]
+Chen, C., Borgeaud, S., Irving, G., Lespiau, J.-B., Sifre, L., and Jumper, J. Accelerating large language model decoding with speculative sampling. February 2023.
+[Crossref](https://doi.org/10.48550/ARXIV.2302.01318)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.48550/ARXIV.2302.01318)
+[6]
+Chen, L. Dissecting batching effects in gpt inference. https://le.qun.ch/en/blog/2023/05/13/transformer-batching/, 2023. Blog.
+[Google Scholar](https://scholar.google.com/scholar?q=Chen,+L.+Dissecting+batching+effects+in+gpt+inference.+https://le.qun.ch/en/blog/2023/05/13/transformer-batching/,+2023.+Blog.)
+[7]
+Chiang, W.-L., Li, Z., Lin, Z., Sheng, Y., Wu, Z., Zhang, H., Zheng, L., Zhuang, S., Zhuang, Y., Gonzalez, J. E., Stoica, I., and Xing, E. P. Vicuna: An open-source chatbot impressing gpt-4 with 90\*chatgpt quality, March 2023. URL https://lmsys.org/blog/2023-03-30-vicuna/.
+[Google Scholar](https://scholar.google.com/scholar?q=Chiang,+W.-L.,+Li,+Z.,+Lin,+Z.,+Sheng,+Y.,+Wu,+Z.,+Zhang,+H.,+Zheng,+L.,+Zhuang,+S.,+Zhuang,+Y.,+Gonzalez,+J.+E.,+Stoica,+I.,+and+Xing,+E.+P.+Vicuna:+An+open-source+chatbot+impressing+gpt-4+with+90*+chatgpt+quality,+March+2023.+URL+https://lmsys.org/blog/2023-03-30-vicuna/.)
+[8]
+Chowdhery, A., Narang, S., Devlin, J., Bosma, M., Mishra, G., Roberts, A., Barham, P., Chung, H. W., Sutton, C., Gehrmann, S., et al. Palm: Scaling language modeling with pathways.*arXiv preprint arXiv:2204.02311*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Chowdhery,+A.,+Narang,+S.,+Devlin,+J.,+Bosma,+M.,+Mishra,+G.,+Roberts,+A.,+Barham,+P.,+Chung,+H.+W.,+Sutton,+C.,+Gehrmann,+S.,+et+al.+Palm:+Scaling+language+modeling+with+pathways.+arXiv+preprint+arXiv:2204.02311,+2022.)
+[9]
+Dettmers, T., Lewis, M., Shleifer, S., and Zettlemoyer, L. 8- bit optimizers via block-wise quantization.*International Conference on Learning Representations*, 2021.
+[Google Scholar](https://scholar.google.com/scholar?q=Dettmers,+T.,+Lewis,+M.,+Shleifer,+S.,+and+Zettlemoyer,+L.+8-+bit+optimizers+via+block-wise+quantization.+International+Conference+on+Learning+Representations,+2021.)
+[10]
+Dettmers, T., Lewis, M., Belkada, Y., and Zettlemoyer, L. Llm. int8 (): 8-bit matrix multiplication for transformers at scale.*arXiv preprint arXiv:2208.07339*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Dettmers,+T.,+Lewis,+M.,+Belkada,+Y.,+and+Zettlemoyer,+L.+Llm.+int8+():+8-bit+matrix+multiplication+for+transformers+at+scale.+arXiv+preprint+arXiv:2208.07339,+2022.)
+[11]
+Dettmers, T., Pagnoni, A., Holtzman, A., and Zettlemoyer, L. Qlora: Efficient finetuning of quantized llms.*arXiv preprint arXiv:2305.14314*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Dettmers,+T.,+Pagnoni,+A.,+Holtzman,+A.,+and+Zettlemoyer,+L.+Qlora:+Efficient+finetuning+of+quantized+llms.+arXiv+preprint+arXiv:2305.14314,+2023.)
+[12]
+Ding, N., Chen, Y., Xu, B., Qin, Y., Zheng, Z., Hu, S., Liu, Z., Sun, M., and Zhou, B. Enhancing chat language models by scaling high-quality instructional conversations, 2023.
+[Crossref](https://doi.org/10.18653/v1/2023.emnlp-main.183)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.18653/v1/2023.emnlp-main.183)
+[13]
+Dubois, Y., Li, X., Taori, R., Zhang, T., Gulrajani, I., Ba, J., Guestrin, C., Liang, P., and Hashimoto, T. B. Alpacafarm: A simulation framework for methods that learn from human feedback, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Dubois,+Y.,+Li,+X.,+Taori,+R.,+Zhang,+T.,+Gulrajani,+I.,+Ba,+J.,+Guestrin,+C.,+Liang,+P.,+and+Hashimoto,+T.+B.+Alpacafarm:+A+simulation+framework+for+methods+that+learn+from+human+feedback,+2023.)
+[14]
+Elfwing, S., Uchibe, E., and Doya, K. Sigmoid-weighted linear units for neural network function approximation in reinforcement learning.*Neural Networks*, 2017.
+[Crossref](https://doi.org/10.1016/j.neunet.2017.12.012)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.1016/j.neunet.2017.12.012)
+[15]
+Fan, A., Lewis, M., and Dauphin, Y. Hierarchical neural story generation. In*Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)*. Association for Computational Linguistics, 2018.
+[Crossref](https://doi.org/10.18653/v1/p18-1082)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.18653/v1/p18-1082)
+[16]
+Frantar, E., Ashkboos, S., Hoefler, T., and Alistarh, D. Gptq: Accurate post-training quantization for generative pretrained transformers.*arXiv preprint arXiv:2210.17323*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Frantar,+E.,+Ashkboos,+S.,+Hoefler,+T.,+and+Alistarh,+D.+Gptq:+Accurate+post-training+quantization+for+generative+pretrained+transformers.+arXiv+preprint+arXiv:2210.17323,+2022.)
+[17]
+Google. Palm 2 technical report, 2023. URL https://ai.google/static/documents/palm2techreport.pdf.
+[Google Scholar](https://scholar.google.com/scholar?q=Google.+Palm+2+technical+report,+2023.+URL+https://ai.google/static/documents/palm2techreport.pdf.)
+[18]
+Hewitt, J., Manning, C. D., and Liang, P. Truncation sampling as language model desmoothing. October 2022.
+[Crossref](https://doi.org/10.18653/v1/2022.findings-emnlp.249)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.18653/v1/2022.findings-emnlp.249)
+[19]
+Hoffmann, J., Borgeaud, S., Mensch, A., Buchatskaya, E., Cai, T., Rutherford, E., Casas, D. d. L., Hendricks, L. A., Welbl, J., Clark, A., et al. Training compute-optimal large language models.*arXiv preprint arXiv:2203.15556*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Hoffmann,+J.,+Borgeaud,+S.,+Mensch,+A.,+Buchatskaya,+E.,+Cai,+T.,+Rutherford,+E.,+Casas,+D.+d.+L.,+Hendricks,+L.+A.,+Welbl,+J.,+Clark,+A.,+et+al.+Training+compute-optimal+large+language+models.+arXiv+preprint+arXiv:2203.15556,+2022.)
+[20]
+Holtzman, A., Buys, J., Du, L., Forbes, M., and Choi, Y. The curious case of neural text degeneration. In*International Conference on Learning Representations*, 2020. URL https://openreview.net/forum?id=rygGQyrFvH.
+[Google Scholar](https://scholar.google.com/scholar?q=Holtzman,+A.,+Buys,+J.,+Du,+L.,+Forbes,+M.,+and+Choi,+Y.+The+curious+case+of+neural+text+degeneration.+In+International+Conference+on+Learning+Representations,+2020.+URL+https://openreview.net/forum?id=rygGQyrFvH.)
+[21]
+Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., and Chen, W. Lora: Low-rank adaptation of large language models.*ICLR*, 2021.
+[Google Scholar](https://scholar.google.com/scholar?q=Hu,+E.+J.,+Shen,+Y.,+Wallis,+P.,+Allen-Zhu,+Z.,+Li,+Y.,+Wang,+S.,+and+Chen,+W.+Lora:+Low-rank+adaptation+of+large+language+models.+ICLR,+2021.)
+[22]
+Joao Gante. Assisted generation: a new direction toward low-latency text generation, 2023. URL https://huggingface.co/blog/assisted-generation.
+[Google Scholar](https://scholar.google.com/scholar?q=Joao+Gante.+Assisted+generation:+a+new+direction+toward+low-latency+text+generation,+2023.+URL+https://huggingface.co/blog/assisted-generation.)
+[23]
+Kim, S., Hooper, C., Gholami, A., Dong, Z., Li, X., Shen, S., Mahoney, M. W., and Keutzer, K. Squeezellm: Dense-and-sparse quantization.*arXiv preprint arXiv:2306.07629*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Kim,+S.,+Hooper,+C.,+Gholami,+A.,+Dong,+Z.,+Li,+X.,+Shen,+S.,+Mahoney,+M.+W.,+and+Keutzer,+K.+Squeezellm:+Dense-and-sparse+quantization.+arXiv+preprint+arXiv:2306.07629,+2023.)
+[24]
+Kim, Y. and Rush, A. M. Sequence-level knowledge distillation.*EMNLP*, 2016.
+[Crossref](https://doi.org/10.18653/v1/D16-1139)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.18653/v1/D16-1139)
+[25]
+Kumar, A., Raghunathan, A., Jones, R., Ma, T., and Liang, P. Fine-tuning can distort pretrained features and under-perform out-of-distribution.*International Conference on Learning Representations*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Kumar,+A.,+Raghunathan,+A.,+Jones,+R.,+Ma,+T.,+and+Liang,+P.+Fine-tuning+can+distort+pretrained+features+and+under-perform+out-of-distribution.+International+Conference+on+Learning+Representations,+2022.)
+[26]
+Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Yu, C. H., Gonzalez, J. E., Zhang, H., and Stoica, I. Efficient memory management for large language model serving with pagedattention. In*Proceedings of the ACM SIGOPS 29th Symposium on Operating Systems Principles*, 2023.
+[Digital Library](https://dl.acm.org/doi/10.1145/3600006.3613165)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.1145/3600006.3613165)
+[27]
+Leviathan, Y., Kalman, M., and Matias, Y. Fast inference from transformers via speculative decoding. November 2022.
+[Crossref](https://doi.org/10.48550/ARXIV.2211.17192)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.48550/ARXIV.2211.17192)
+[28]
+Li, X., Zhang, T., Dubois, Y., Taori, R., Gulrajani, I., Guestrin, C., Liang, P., and Hashimoto, T. B. Alpacaeval: An automatic evaluator of instruction-following models. https://github.com/tatsu-lab/alpaca\_eval, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Li,+X.,+Zhang,+T.,+Dubois,+Y.,+Taori,+R.,+Gulrajani,+I.,+Guestrin,+C.,+Liang,+P.,+and+Hashimoto,+T.+B.+Alpacaeval:+An+automatic+evaluator+of+instruction-following+models.+https://github.com/tatsu-lab/alpaca_eval,+2023.)
+[29]
+Lin, J., Tang, J., Tang, H., Yang, S., Dang, X., and Han, S. Awq: Activation-aware weight quantization for llm compression and acceleration.*arXiv preprint arXiv:2306.00978*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Lin,+J.,+Tang,+J.,+Tang,+H.,+Yang,+S.,+Dang,+X.,+and+Han,+S.+Awq:+Activation-aware+weight+quantization+for+llm+compression+and+acceleration.+arXiv+preprint+arXiv:2306.00978,+2023.)
+[30]
+Meister, C., Wiher, G., Pimentel, T., and Cotterell, R. On the probability-quality paradox in language generation. March 2022.
+[Crossref](https://doi.org/10.18653/v1/2022.acl-short.5)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.18653/v1/2022.acl-short.5)
+[31]
+Meister, C., Pimentel, T., Wiher, G., and Cotterell, R. Locally typical sampling.*Transactions of the Association for Computational Linguistics*, 11:102-121, 2023.
+[Crossref](https://doi.org/10.1162/tacl_a_00536)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.1162/tacl_a_00536)
+[32]
+Miao, X., Oliaro, G., Zhang, Z., Cheng, X., Wang, Z., Wong, R. Y. Y., Chen, Z., Arfeen, D., Abhyankar, R., and Jia, Z. Specinfer: Accelerating generative llm serving with speculative inference and token tree verification.*arXiv preprint arXiv:2305.09781*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Miao,+X.,+Oliaro,+G.,+Zhang,+Z.,+Cheng,+X.,+Wang,+Z.,+Wong,+R.+Y.+Y.,+Chen,+Z.,+Arfeen,+D.,+Abhyankar,+R.,+and+Jia,+Z.+Specinfer:+Accelerating+generative+llm+serving+with+speculative+inference+and+token+tree+verification.+arXiv+preprint+arXiv:2305.09781,+2023.)
+[33]
+NVIDIA. Nvidia a100 tensor core gpu.
+[Google Scholar](https://scholar.google.com/scholar?q=NVIDIA.+Nvidia+a100+tensor+core+gpu.)
+[34]
+OpenAI. Gpt-4 technical report, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=OpenAI.+Gpt-4+technical+report,+2023.)
+[35]
+Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C. L., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A., et al. Training language models to follow instructions with human feedback.*arXiv preprint arXiv:2203.02155*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Ouyang,+L.,+Wu,+J.,+Jiang,+X.,+Almeida,+D.,+Wainwright,+C.+L.,+Mishkin,+P.,+Zhang,+C.,+Agarwal,+S.,+Slama,+K.,+Ray,+A.,+et+al.+Training+language+models+to+follow+instructions+with+human+feedback.+arXiv+preprint+arXiv:2203.02155,+2022.)
+[36]
+Pan, J. Tiny vicuna 1b. https://huggingface.co/Jiayi-Pan/Tiny-Vicuna-1B, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Pan,+J.+Tiny+vicuna+1b.+https://huggingface.co/Jiayi-Pan/Tiny-Vicuna-1B,+2023.)
+[37]
+Pillutla, K., Swayamdipta, S., Zellers, R., Thickstun, J., Welleck, S., Choi, Y., and Harchaoui, Z. MAUVE: Measuring the gap between neural text and human text using divergence frontiers. In Beygelzimer, A., Dauphin, Y., Liang, P., and Vaughan, J. W. (eds.),*Advances in Neural Information Processing Systems*, 2021. URL https://openreview.net/forum?id=Tqx7nJp7PR.
+[Google Scholar](https://scholar.google.com/scholar?q=Pillutla,+K.,+Swayamdipta,+S.,+Zellers,+R.,+Thickstun,+J.,+Welleck,+S.,+Choi,+Y.,+and+Harchaoui,+Z.+MAUVE:+Measuring+the+gap+between+neural+text+and+human+text+using+divergence+frontiers.+In+Beygelzimer,+A.,+Dauphin,+Y.,+Liang,+P.,+and+Vaughan,+J.+W.+(eds.),+Advances+in+Neural+Information+Processing+Systems,+2021.+URL+https://openreview.net/forum?id=Tqx7nJp7PR.)
+[38]
+Pope, R., Douglas, S., Chowdhery, A., Devlin, J., Bradbury, J., Levskaya, A., Heek, J., Xiao, K., Agrawal, S., and Dean, J. Efficiently scaling transformer inference. November 2022.
+[Crossref](https://doi.org/10.48550/ARXIV.2211.05102)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.48550/ARXIV.2211.05102)
+[39]
+ShareGPT. ShareGPT. https://huggingface.co/datasets/Aeala/ShareGPT\_Vicuna\_unfiltered, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=ShareGPT.+ShareGPT.+https://huggingface.co/datasets/Aeala/ShareGPT_Vicuna_unfiltered,+2023.)
+[40]
+Shazeer, N. Fast transformer decoding: One write-head is all you need.*arXiv preprint arXiv:1911.02150*, 2019.
+[Google Scholar](https://scholar.google.com/scholar?q=Shazeer,+N.+Fast+transformer+decoding:+One+write-head+is+all+you+need.+arXiv+preprint+arXiv:1911.02150,+2019.)
+[41]
+Spector, B. and Re, C. Accelerating llm inference with staged speculative decoding.*arXiv preprint arXiv:2308.04623*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Spector,+B.+and+Re,+C.+Accelerating+llm+inference+with+staged+speculative+decoding.+arXiv+preprint+arXiv:2308.04623,+2023.)
+[42]
+Stern, M., Shazeer, N. M., and Uszkoreit, J. Blockwise parallel decoding for deep autoregressive models.*Neural Information Processing Systems*, 2018.
+[Google Scholar](https://scholar.google.com/scholar?q=Stern,+M.,+Shazeer,+N.+M.,+and+Uszkoreit,+J.+Blockwise+parallel+decoding+for+deep+autoregressive+models.+Neural+Information+Processing+Systems,+2018.)
+[43]
+Touvron, H., Martin, L., Stone, K., Albert, P., Almahairi, A., Babaei, Y., Bashlykov, N., Batra, S., Bhargava, P., Bhosale, S., et al. Llama 2: Open foundation and fine-tuned chat models.*arXiv preprint arXiv:2307.09288*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Touvron,+H.,+Martin,+L.,+Stone,+K.,+Albert,+P.,+Almahairi,+A.,+Babaei,+Y.,+Bashlykov,+N.,+Batra,+S.,+Bhargava,+P.,+Bhosale,+S.,+et+al.+Llama+2:+Open+foundation+and+fine-tuned+chat+models.+arXiv+preprint+arXiv:2307.09288,+2023.)
+[44]
+Tunstall, L., Beeching, E., Lambert, N., Rajani, N., Rasul, K., Belkada, Y., Huang, S., von Werra, L., Fourrier, C., Habib, N., Sarrazin, N., Sanseviero, O., Rush, A. M., and Wolf, T. Zephyr: Direct distillation of lm alignment, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Tunstall,+L.,+Beeching,+E.,+Lambert,+N.,+Rajani,+N.,+Rasul,+K.,+Belkada,+Y.,+Huang,+S.,+von+Werra,+L.,+Fourrier,+C.,+Habib,+N.,+Sarrazin,+N.,+Sanseviero,+O.,+Rush,+A.+M.,+and+Wolf,+T.+Zephyr:+Direct+distillation+of+lm+alignment,+2023.)
+[45]
+Xia, H., Ge, T., Chen, S.-Q., Wei, F., and Sui, Z. Speculative decoding: Lossless speedup of autoregressive translation, 2023. URL https://openreview.net/forum?id=H-VlwsYvVi.
+[Google Scholar](https://scholar.google.com/scholar?q=Xia,+H.,+Ge,+T.,+Chen,+S.-Q.,+Wei,+F.,+and+Sui,+Z.+Speculative+decoding:+Lossless+speedup+of+autoregressive+translation,+2023.+URL+https://openreview.net/forum?id=H-VlwsYvVi.)
+[46]
+Xiao, G., Lin, J., Seznec, M., Wu, H., Demouth, J., and Han, S. Smoothquant: Accurate and efficient post-training quantization for large language models. In*International Conference on Machine Learning*, pp. 38087-38099. PMLR, 2023a.
+[Google Scholar](https://scholar.google.com/scholar?q=Xiao,+G.,+Lin,+J.,+Seznec,+M.,+Wu,+H.,+Demouth,+J.,+and+Han,+S.+Smoothquant:+Accurate+and+efficient+post-training+quantization+for+large+language+models.+In+International+Conference+on+Machine+Learning,+pp.+38087-38099.+PMLR,+2023a.)
+[47]
+Xiao, Y., Wu, L., Guo, J., Li, J., Zhang, M., Qin, T., and Liu, T.-y. A survey on non-autoregressive generation for neural machine translation and beyond.*IEEE Transactions on Pattern Analysis and Machine Intelligence*, 2023b.
+[Digital Library](https://dl.acm.org/doi/10.1109/TPAMI.2023.3277122)
+[Google Scholar](https://scholar.google.com/scholar_lookup?doi=10.1109/TPAMI.2023.3277122)
+[48]
+Ying, C., Cai, T., Luo, S., Zheng, S., Ke, G., He, D., Shen, Y., and Liu, T.-Y. Do transformers really perform badly for graph representation?*Advances in Neural Information Processing Systems*, 34:28877-28888, 2021.
+[Google Scholar](https://scholar.google.com/scholar?q=Ying,+C.,+Cai,+T.,+Luo,+S.,+Zheng,+S.,+Ke,+G.,+He,+D.,+Shen,+Y.,+and+Liu,+T.-Y.+Do+transformers+really+perform+badly+for+graph+representation?+Advances+in+Neural+Information+Processing+Systems,+34:28877-28888,+2021.)
+[49]
+Zhang, P., Zeng, G., Wang, T., and Lu, W. Tinyllama: An open-source small language model, 2024.
+[Google Scholar](https://scholar.google.com/scholar?q=Zhang,+P.,+Zeng,+G.,+Wang,+T.,+and+Lu,+W.+Tinyllama:+An+open-source+small+language+model,+2024.)
+[50]
+Zhang, S., Roller, S., Goyal, N., Artetxe, M., Chen, M., Chen, S., Dewan, C., Diab, M., Li, X., Lin, X. V., et al. Opt: Open pre-trained transformer language models.*arXiv preprint arXiv:2205.01068*, 2022.
+[Google Scholar](https://scholar.google.com/scholar?q=Zhang,+S.,+Roller,+S.,+Goyal,+N.,+Artetxe,+M.,+Chen,+M.,+Chen,+S.,+Dewan,+C.,+Diab,+M.,+Li,+X.,+Lin,+X.+V.,+et+al.+Opt:+Open+pre-trained+transformer+language+models.+arXiv+preprint+arXiv:2205.01068,+2022.)
+[51]
+Zhang, Z., Sheng, Y., Zhou, T., Chen, T., Zheng, L., Cai, R., Song, Z., Tian, Y., Ré, C., Barrett, C., et al. H 2 o: Heavy-hitter oracle for efficient generative inference of large language models.*arXiv preprint arXiv:2306.14048*, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Zhang,+Z.,+Sheng,+Y.,+Zhou,+T.,+Chen,+T.,+Zheng,+L.,+Cai,+R.,+Song,+Z.,+Tian,+Y.,+Ré,+C.,+Barrett,+C.,+et+al.+H+2+o:+Heavy-hitter+oracle+for+efficient+generative+inference+of+large+language+models.+arXiv+preprint+arXiv:2306.14048,+2023.)
+[52]
+Zheng, L., Chiang, W.-L., Sheng, Y., Zhuang, S., Wu, Z., Zhuang, Y., Lin, Z., Li, Z., Li, D., Xing, E. P., Zhang, H., Gonzalez, J. E., and Stoica, I. Judging llm-as-a-judge with mt-bench and chatbot arena, 2023.
+[Google Scholar](https://scholar.google.com/scholar?q=Zheng,+L.,+Chiang,+W.-L.,+Sheng,+Y.,+Zhuang,+S.,+Wu,+Z.,+Zhuang,+Y.,+Lin,+Z.,+Li,+Z.,+Li,+D.,+Xing,+E.+P.,+Zhang,+H.,+Gonzalez,+J.+E.,+and+Stoica,+I.+Judging+llm-as-a-judge+with+mt-bench+and+chatbot+arena,+2023.)
+#### Affiliations
+[**](#)
+**Go to
+**Go to
+**
+* **
+Show all references
+Request permissionsExpand All
+**Collapse
+**Expand Table
+[Authors Info & Affiliations](#tab-contributors)
+[View Table of Conten](https://dl.acm.org/doi/proceedings/10.5555/3692070)
+[**](#)
+**Close modal## New Citation Alert added!
+This alert has been successfully added and will be sent to:
+You will be notified whenever a record that you have chosen has been cited.
+To manage your alert preferences, click on the button below.
+[Manage my Alerts](https://dl.acm.org/action/showPreferences?menuTab=Alerts)
+**Close modal## New Citation Alert!
+Please[log in to your account](https://dl.acm.org/action/showLogin?redirectUri=/doi/10.5555/3692070.3692273)
+**Close modal## Export Citations
+Select Citation formatBibTeXEndNoteACM Ref**
+* Please download or close your previous search result export first before starting a new bulk export.
+Preview is not available.
+By clicking download,**a status dialog**will open to start the export process. The process may take**a few minutes**but once it finishes a file will be downloadable from your browser. You may continue to browse the DL while the export process is in progress.
+[**Download**](#)
+* ```
+```
+* [Download citation**](javascript:void(0))
+* [Copy citation**](javascript:void(0))
+**Your Search Results Download Request**
+We are preparing your search results for download ...
+We will inform you here when the file is ready.
+[Download now!](#)
+**Your Search Results Download Request**
+Your file of search results citations is now ready.
+[Download now!](#)
+**Your Search Results Download Request**
+Your search export query has expired. Please try again.
+![Cookiebot session tracker icon loaded](https://imgsct.cookiebot.com/1.gif?dgi=d5e9e377-b0f2-49fd-b006-d86d5073d17e)
+*icon*Feedback
+✓Thanks for sharing!
+[AddToAny](https://www.addtoany.com)
+[More…](#addtoany)
+# What would you like to report?
+What is your opinion?
+Please select your feedback category:\*
+*icon*Other
+*icon*Compliment
+*icon*Bug
+*icon*Content Error
+*icon*Suggestion
+Please leave your feedback below:
+What is your opinion of this page?\*
+If you 'd like us to contact you regarding your feedback, please provide your contact details here.
+Website data
+Send*send feedback icon*
+[Powered by](https://mopinion.com/form-referral-landing/?track=FormReferral)
