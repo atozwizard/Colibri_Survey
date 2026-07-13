@@ -1,0 +1,18 @@
+[project]
+name = "colibri-survey"
+version = "0.1.0"
+description = "Survey of colibri (GLM-5.2 744B MoE disk-streaming inference engine) and related techniques"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+# colibri 런타임(C 엔진)과 doctor/plan/build CLI는 순수 표준 라이브러리라 추가 의존성이 없다.
+# 아래는 선택적 도구용 의존성(모델 변환/벤치)이며, 필요할 때만 설치한다:
+#   uv sync --extra convert     # FP8 -> int4 변환기 (coli convert)
+#   uv sync --extra bench       # 품질 벤치 (coli bench)
+[project.optional-dependencies]
+convert = ["torch", "safetensors", "huggingface_hub", "numpy"]
+bench = ["tokenizers", "datasets"]
+
+[tool.uv]
+package = false
