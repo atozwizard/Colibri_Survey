@@ -52,7 +52,10 @@ flowchart TD
 - [`30-local-run-notes.md`](./30-local-run-notes.md) — 로컬 빌드/실행 노트
 - [`40-analysis-tradeoffs.md`](./40-analysis-tradeoffs.md) — 장점·단점·trade-off 분석
 - [`50-resource-requirements.md`](./50-resource-requirements.md) — 필요 자원 분석
-- [`60-applying-to-other-models.md`](./60-applying-to-other-models.md) — 타 모델 적용 방안
+- [`60-applying-to-other-models.md`](./60-applying-to-other-models.md) — 타 모델 적용 방안(일반)
+- [`61-apply-gpt-oss-20b.md`](./61-apply-gpt-oss-20b.md) — gpt-oss-20b 적용 설계서
+- [`62-apply-gemma4.md`](./62-apply-gemma4.md) — gemma4 적용 설계서(적합성 판정)
+- [`70-executive-brief.md`](./70-executive-brief.md) — 경영·기술 통합 브리프
 
 ## 성능에 대한 정직한 시각
 - 개발 머신(WSL2, 12코어, 25GB RAM, ~1GB/s NVMe) 기준 **cold ~0.05–0.1 tok/s**. 느리다.
