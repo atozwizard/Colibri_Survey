@@ -16,6 +16,24 @@
 ## colibrì의 구현 (코드 근거)
 분석 대상: `external/colibri/c/glm.c`의 `moe()` (`:1270`)와 expert I/O 서브시스템.
 
+```mermaid
+flowchart TD
+    A["FASE A: 라우팅<br/>router→sigmoid+bias→top-K (:1277)"] --> B["FASE B: batch-union<br/>배치 내 unique expert (:1318)"]
+    B --> C{"각 expert 해소<br/>(64개 블록)"}
+    C -->|"pin hit (:1332)"| HIT["캐시/pin에서 사용"]
+    C -->|"LRU hit (:1334)"| HIT
+    C -->|"miss (:1336)"| LOAD["expert_load: pread<br/>O_DIRECT/버퍼드 (:897)"]
+    LOAD -->|"g_pipe: 비동기"| PIPE["load ‖ matmul 오버랩<br/>pipe_dispatch (:1054)"]
+    HIT --> MM["matmul_qt: gate/up/down<br/>SiLU (:1376)"]
+    PIPE --> MM
+    MM --> PRE["다음 블록 prefetch<br/>WILLNEED (:1350)"]
+    PRE --> PROMO["LRU 승격/교체 (:1388)"]
+    PROMO --> C
+    C -->|완료| SH["FASE E: shared expert (:1396)"]
+    ROUTER["router-lookahead PILOT<br/>la_predict (:1419)"] -.->|"다음 레이어 예측 선반입"| LOAD
+```
+
+
 ### 1) 라우팅 (FASE A)
 - 각 position에서 router 로짓 → sigmoid + bias → top-K 선택(DeepSeek-V3식 noaux_tc, `routed_scale`).
 - `--topp`(adaptive expert top-p)로 실제 사용하는 expert 수 `keff`를 줄여 디스크 읽기 감소.

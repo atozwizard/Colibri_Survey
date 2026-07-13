@@ -13,6 +13,22 @@
   - 근거: `data/topics/speculative-decoding/paper-medusa.txt`, `primer-amanai-speculative-decoding.txt`.
 - GLM-5.2는 MTP 레이어를 speculative decoding용으로 개선해 accepted length를 최대 20% 향상, rejection sampling 도입. 근거: `data/glm/notes.md`.
 
+## 동작 흐름 (draft → verify → accept)
+
+```mermaid
+sequenceDiagram
+    participant M as 메인 모델
+    participant D as Draft 소스<br/>(MTP head / n-gram / grammar)
+    participant V as 검증 (batch-union forward)
+    M->>D: 마지막 hidden(hlast) + 직전 토큰
+    D->>D: G개 토큰 순차 draft<br/>mtp_draft (:1589)
+    D->>V: draft 토큰들
+    V->>V: 한 번의 배치 forward로 병렬 검증
+    V-->>M: 일치하는 prefix 수락<br/>불일치는 fallback
+    M->>M: mtp_absorb: 검증쌍 KV 흡수 (:1627)
+    Note over D,V: int8 head → 39-59% 수락 (2.2-2.8 tok/fw)<br/>int4 head → 0-4% (미작동)
+```
+
 ## colibrì의 구현 (코드 근거)
 분석 대상: `external/colibri/c/glm.c`.
 

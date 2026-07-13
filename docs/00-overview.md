@@ -12,6 +12,29 @@
 - colibrì는 이 특성을 이용해 "안 쓰는 파라미터는 디스크에 두고, 필요할 때만 읽는다"는 구조를 택했다.
 
 ## colibrì의 메모리 계층
+
+```mermaid
+flowchart TD
+    subgraph DISK["SSD (~370GB, int4)"]
+        RE["Routed Experts<br/>21,504개 (75층 × 256)"]
+    end
+    subgraph RAM["RAM (~10-25GB)"]
+        DENSE["Dense 상주<br/>attention · shared expert · embedding"]
+        LRU["Expert LRU 캐시<br/>(레이어별)"]
+        PIN["Hot Expert Pin<br/>(.coli_usage 학습)"]
+        KV["압축 MLA KV Cache"]
+    end
+    subgraph OPT["선택적"]
+        VRAM["VRAM Hot Tier (CUDA)"]
+    end
+    RE -->|"필요 시 pread 스트리밍"| LRU
+    RE -.->|"자주 쓰는 것 고정"| PIN
+    LRU -->|"토큰별 top-K expert"| DENSE
+    PIN --> DENSE
+    RE -.->|"OS Page Cache (무료 L2)"| LRU
+    PIN -.->|opt-in| VRAM
+```
+
 | 구성 요소 | 위치 | 근거 |
 |---|---|---|
 | Dense (attention, shared expert, embedding, ~17B) | **RAM 상주** (int4, ~9.9GB) | `external/colibri/README.md:19` |

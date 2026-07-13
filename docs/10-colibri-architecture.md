@@ -32,6 +32,24 @@ external/colibri/
 ```
 근거: `external/colibri/README.md:426`(Repo layout).
 
+## 1.5 추론 파이프라인 (한 토큰)
+
+```mermaid
+flowchart LR
+    TOK["입력 토큰"] --> EMB["embed_row<br/>(:880)"]
+    EMB --> LOOP{"레이어 반복<br/>layers_forward (:1503)"}
+    LOOP --> ATT["attention (:1113)<br/>MLA + DSA"]
+    ATT --> BR{"레이어 종류"}
+    BR -->|"첫 3개 dense"| DMLP["dense_mlp (:1407)"]
+    BR -->|"MoE 레이어"| MOE["moe (:1270)<br/>라우팅 + expert 스트리밍"]
+    DMLP --> LOOP
+    MOE --> LOOP
+    LOOP -->|"마지막 레이어"| NORM["final_norm"]
+    NORM --> LM["lm_head → logits"]
+    LM --> SAMP["pick_tok (:1753)<br/>temp + nucleus"]
+    LM -.->|"draft"| MTP["mtp_draft (:1589)<br/>speculative"]
+```
+
 ## 2. glm.c 내부 구조 (함수 지도)
 
 ### 2.1 양자화 / 커널

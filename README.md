@@ -27,7 +27,17 @@
 - `20-moe-streaming.md` — MoE 디스크 스트리밍
 - `21-mla-kv-compression.md` — MLA KV 압축
 - `22-speculative-decoding.md` — Speculative Decoding
+- `30-local-run-notes.md` — 로컬 빌드/실행(coli doctor) 노트
 - `99-references.md` — 참고문헌
+
+## 빌드/실행 (uv)
+의존성은 [uv](https://docs.astral.sh/uv/)로 관리한다. C 엔진과 `coli` CLI는 표준 라이브러리만 쓰므로 추가 설치가 필요 없다.
+```bash
+uv venv --python 3.14
+make -C external/colibri/c glm                              # 엔진 빌드
+uv run --no-sync python external/colibri/c/coli doctor      # 준비 상태 점검
+```
+자세한 로컬 노트는 [`docs/30-local-run-notes.md`](./docs/30-local-run-notes.md) 참조.
 
 ## 규칙
 작업 규칙과 작성 방향은 [`AGENTS.md`](./AGENTS.md) 참조.

@@ -11,6 +11,26 @@
 - **MLA**(DeepSeek-V2, arXiv:2405.04434)는 low-rank 공동 압축으로 **MHA급 성능 + MQA급 캐시**를 달성.
   - 근거: `data/topics/mla-kv/paper-deepseek-v2-arxiv-2405.04434.txt`, `paper-mha2mla-acl-2025.txt`.
 
+## 개념 비교 (MHA vs MLA)
+
+```mermaid
+flowchart LR
+    subgraph MHA["표준 MHA (캐시 큼)"]
+        X1["x"] --> K1["K: n_h×d_h"]
+        X1 --> V1["V: n_h×d_h"]
+        K1 --> C1["KV캐시: 2·n_h·d_h<br/>= 32,768/토큰"]
+        V1 --> C1
+    end
+    subgraph MLA["MLA (캐시 57× 작음)"]
+        X2["x"] --> DKV["W_DKV 압축"]
+        DKV --> L["latent c_kv (512)"]
+        X2 --> R["k_rot (64, 부분 RoPE)"]
+        L --> C2["KV캐시: 576/토큰<br/>(latent + rope)"]
+        R --> C2
+        C2 -.->|"weight absorption:<br/>재구성 없이 직접 질의"| ATTN["attention score"]
+    end
+```
+
 ## MLA의 원리 (개념)
 1. 입력 x를 `W_DKV`로 **latent `c_kv`(예: 512차원)** 로 압축 → 이것만 캐시.
 2. 필요 시 `W_UK`, `W_UV`로 각 head의 k_nope/value를 재구성.
