@@ -36,7 +36,14 @@
 - `62-apply-gemma4.md` — gemma4 적용 설계서(적합성 판정 포함)
 - `70-executive-brief.md` — 경영·기술 통합 브리프
 - `80-olmoe-and-h100-recommendations.md` — OLMoE 위상 · H100 서빙 추천 모델
+- `81-thinkflow-upgrade-design.md` — (c) ThinkFlow H100 서빙 모델 업그레이드 설계
+- `82-gpt-oss-mxfp4-to-int4-converter.md` — (a) MXFP4→int4 변환기 프로토타입
+- `83-olmoe-streaming-measurement.md` — (b) 스트리밍 실측(로컬 실증 + H100 프로토콜)
 - `99-references.md` — 참고문헌
+
+## 스크립트 (scripts/)
+- `mxfp4_to_int4_prototype.py` — gpt-oss MXFP4→colibri int4 변환기 프로토타입(`--selftest`)
+- `olmoe_streaming_bench.sh` — OLMoE 실가중치 스트리밍 실측(H100 박스 권장)
 
 ## 빌드/실행 (uv)
 의존성은 [uv](https://docs.astral.sh/uv/)로 관리한다. C 엔진과 `coli` CLI는 표준 라이브러리만 쓰므로 추가 설치가 필요 없다.
