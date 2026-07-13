@@ -28,12 +28,14 @@
 - `21-mla-kv-compression.md` — MLA KV 압축
 - `22-speculative-decoding.md` — Speculative Decoding
 - `30-local-run-notes.md` — 로컬 빌드/실행(coli doctor) 노트
+- `31-engine-verification.md` — 엔진 정확성 실검증(C 테스트 + tiny GLM oracle 32/32)
 - `40-analysis-tradeoffs.md` — 논리적 장점·단점·trade-off 분석
 - `50-resource-requirements.md` — 필요 자원(하드웨어 등급별)
 - `60-applying-to-other-models.md` — 타 모델 적용 방안(일반)
 - `61-apply-gpt-oss-20b.md` — gpt-oss-20b 적용 설계서
 - `62-apply-gemma4.md` — gemma4 적용 설계서(적합성 판정 포함)
 - `70-executive-brief.md` — 경영·기술 통합 브리프
+- `80-olmoe-and-h100-recommendations.md` — OLMoE 위상 · H100 서빙 추천 모델
 - `99-references.md` — 참고문헌
 
 ## 빌드/실행 (uv)
