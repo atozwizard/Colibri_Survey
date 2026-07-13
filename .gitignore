@@ -1,0 +1,35 @@
+# 모델 가중치 / 체크포인트 (대용량, 커밋 금지)
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.int4
+*.int8
+*.fp8
+
+# 빌드 산출물
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+*.out
+build/
+dist/
+
+# OS / 에디터
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 로그 / 임시
+*.log
+tmp/
+.cache/
+
+# vendored 원본 소스의 git 메타데이터는 제거하지만, 혹시 남을 경우 대비
+external/**/.git/
