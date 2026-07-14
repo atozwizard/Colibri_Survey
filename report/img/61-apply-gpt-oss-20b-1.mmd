@@ -1,0 +1,19 @@
+flowchart TD
+    subgraph REUSE["재사용 (colibri 코어)"]
+        R1["expert_load pread<br/>glm.c:897"]
+        R2["레이어별 LRU + batch-union<br/>moe glm.c:1270"]
+        R3["prefetch WILLNEED<br/>glm.c:1070"]
+        R4["safetensors 로더 st.h"]
+        R5["RAM 안전 캡 glm.c:2538"]
+    end
+    subgraph NEW["신규 (gpt-oss 어댑터)"]
+        N1["config 매핑: 32e/top4, GQA, 24층"]
+        N2["attention: GQA + sink bias + sliding/full 교대"]
+        N3["YaRN RoPE 확장"]
+        N4["QuickGELU-gated expert MLP"]
+        N5["MXFP4 → colibri int4 변환기"]
+        N6["expert 텐서 이름 규칙 매핑"]
+    end
+    N1 --> R2
+    N6 --> R1
+    N2 --> R2

@@ -1,0 +1,6 @@
+flowchart LR
+    START["작은 RAM<br/>(캐시 2 slot)"] -->|"RAM 증설 / pin"| CACHE["캐시 hit↑"]
+    CACHE -->|"느린 디스크"| DISK["디스크 대역폭 병목"]
+    DISK -->|"빠른 NVMe(PCIe5)"| MM["CPU matmul 병목<br/>(~250 GFLOP/s)"]
+    MM -->|"AVX-512/VNNI · 코어↑"| INTER["인터랙티브<br/>(5-15 tok/s)"]
+    DISK -.->|"speculation warm"| CACHE

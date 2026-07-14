@@ -1,0 +1,6 @@
+flowchart LR
+    A["gpt-oss safetensors<br/>expert: *_blocks + *_scales"] --> B["MXFP4 dequant<br/>E2M1 LUT × E8M0(2^e-127)"]
+    B --> C["f32 [O, I]"]
+    C --> D["colibri quant_int4<br/>row amax→scale, nibble[-8,7], pack"]
+    D --> E["int4 스냅샷<br/>name(U8)+name.qs(F32)+manifest"]
+    F["dense(bf16): norm/embed/attn/router"] --> G["그대로 저장<br/>(엔진이 load 시 F32 승격)"]

@@ -6,12 +6,25 @@
 """
 from __future__ import annotations
 
+import os
 import re
+import shutil
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 OUT = ROOT / "report" / "master.md"
+IMG = ROOT / "report" / "img"
+
+# mermaid CLI: env MMDC 우선, 없으면 스크래치 설치본, 없으면 PATH.
+MMDC = os.environ.get("MMDC") or "/tmp/mermaid-tools/node_modules/.bin/mmdc"
+if not Path(MMDC).exists():
+    MMDC = shutil.which("mmdc") or MMDC
+PPTR = "/tmp/mermaid-tools/pptr.json"
+RENDER = os.environ.get("RENDER_MERMAID", "1") == "1"
+
+MERMAID_BLOCK = re.compile(r"```mermaid\s*\n(.*?)\n```", re.DOTALL)
 
 # 부(Part) 구성: (제목, [문서 stem prefix])
 PARTS = [
@@ -24,7 +37,7 @@ PARTS = [
     ("제7부 · 실적용: ThinkFlow(H100) & 변환·실측",
      ["80-olmoe-and-h100-recommendations", "81-thinkflow-upgrade-design",
       "82-gpt-oss-mxfp4-to-int4-converter", "83-olmoe-streaming-measurement",
-      "84-thinkflow-swap-checklist"]),
+      "84-thinkflow-swap-checklist", "85-dual-model-crossval-resources"]),
     ("제8부 · 상태·마감·참고문헌", ["90-status-and-closeout", "99-references"]),
 ]
 
@@ -55,6 +68,43 @@ def find_doc(stem: str) -> Path:
     return p
 
 
+def render_mermaid(md: str, stem: str) -> str:
+    """```mermaid 블록을 png로 렌더해 이미지 링크로 치환. 실패 시 원본 유지."""
+    if not RENDER:
+        return md
+    IMG.mkdir(parents=True, exist_ok=True)
+    idx = 0
+
+    def repl(m: re.Match) -> str:
+        nonlocal idx
+        idx += 1
+        src = m.group(1)
+        base = f"{stem}-{idx}"
+        mmd = IMG / f"{base}.mmd"
+        png = IMG / f"{base}.png"
+        mmd.write_text(src, encoding="utf-8")
+        cmd = [MMDC, "-i", str(mmd), "-o", str(png), "-b", "white", "-s", "2"]
+        if Path(PPTR).exists():
+            cmd += ["-p", PPTR]
+        try:
+            subprocess.run(cmd, check=True, capture_output=True, timeout=120)
+        except Exception as e:  # 실패하면 원본 코드블록 유지
+            print(f"  ! mermaid 렌더 실패({base}): {e}")
+            return m.group(0)
+        # 페이지 폭(약 6.2in)에 맞게 이미지 폭 제약. -s2 고해상도라 192dpi로 환산.
+        w_in = 6.2
+        try:
+            raw = png.read_bytes()[:24]
+            if raw[12:16] == b"IHDR":
+                px = int.from_bytes(raw[16:20], "big")
+                w_in = min(6.2, round(px / 192, 2))
+        except Exception:
+            pass
+        return f"![{stem} 다이어그램 {idx}](img/{base}.png){{width={w_in}in}}"
+
+    return MERMAID_BLOCK.sub(repl, md)
+
+
 FRONT = """---
 title: "colibrì 추론 엔진 종합 서베이 보고서"
 subtitle: "GLM-5.2 744B MoE 디스크 스트리밍 엔진 · 분석 · 로컬 검증 · ThinkFlow(H100) 실적용"
@@ -63,6 +113,10 @@ date: "2026-07-14"
 lang: ko
 toc-title: "목차"
 ---
+
+```{=openxml}
+<w:p><w:r><w:br w:type="page"/></w:r></w:p>
+```
 
 # 보고서 서문 · 독해 안내
 
@@ -95,6 +149,7 @@ def main() -> int:
         buf.append(f"\n\n# {title}\n")
         for stem in stems:
             md = find_doc(stem).read_text(encoding="utf-8")
+            md = render_mermaid(md, stem)          # mermaid → 이미지
             buf.append("\n\n" + demote(md, by=1) + "\n")
     OUT.write_text("\n".join(buf), encoding="utf-8")
     n = OUT.read_text(encoding="utf-8").count("\n")

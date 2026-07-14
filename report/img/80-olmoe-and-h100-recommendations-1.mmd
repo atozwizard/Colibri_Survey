@@ -1,0 +1,12 @@
+flowchart LR
+    subgraph H100["H100 80GB 영역 (VRAM 적재 · colibri 불필요)"]
+        A["gpt-oss-120b (MXFP4 가중치 ~63GB)"]
+        B["GLM-4.5-Air 106B"]
+        C["Qwen3-Next-80B-A3B"]
+    end
+    subgraph BEYOND["초과 영역 (colibri 스트리밍 or 멀티GPU)"]
+        D["GLM-5.2 744B"]
+        E["DeepSeek-V3/V4"]
+        F["Qwen3-235B-A22B"]
+    end
+    H100 -->|"모델이 커지면"| BEYOND

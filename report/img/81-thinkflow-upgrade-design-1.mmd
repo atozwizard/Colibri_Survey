@@ -1,0 +1,6 @@
+flowchart LR
+    A["신규 vLLM :8081<br/>gpt-oss-120b"] --> B["워밍업 + smoke"]
+    B --> C["KPI 하네스 A/B<br/>(kpi cases: hit_rate·consistency)"]
+    C -->|"품질 ≥ 기존"| D["엔드포인트 :8080→:8081 전환"]
+    C -->|"열세/실패"| E["롤백 유지(:8080 gpt-oss-20b)"]
+    D --> F["구 컨테이너 드레인·제거"]

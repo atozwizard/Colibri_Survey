@@ -40,6 +40,7 @@
 - `82-gpt-oss-mxfp4-to-int4-converter.md` — (a) MXFP4→int4 변환기 프로토타입
 - `83-olmoe-streaming-measurement.md` — (b) 스트리밍 실측(로컬 실증 + H100 프로토콜)
 - `84-thinkflow-swap-checklist.md` — (1) 120b 스왑 운영자 런북/체크리스트
+- `85-dual-model-crossval-resources.md` — 2모델 교차검증(골든셋) 자원 분석
 - `90-status-and-closeout.md` — 서베이 상태·마감·재개 안내
 - `99-references.md` — 참고문헌
 
@@ -47,6 +48,17 @@
 - `mxfp4_to_int4_prototype.py` — gpt-oss MXFP4→colibri int4 변환기(검증된 레이아웃, `--selftest`)
 - `olmoe_streaming_bench.sh` — OLMoE 스트리밍 실측(공유서버 안전: cgroup/nice/ionice/iobench)
 - `thinkflow_swap_rehearsal.sh` — ThinkFlow LLM 무중단 스왑 리허설(preflight/cutover/rollback)
+- `build_report.py` — 전 문서 결합 + mermaid→이미지 렌더 → `report/master.md`
+- `make_reference_docx.py` — 기업용 docx 테마(`report/reference.docx`)
+
+## 종합 보고서 (report/)
+`report/Colibri_Survey_Report.docx` — 전 문서를 요약 없이 결합한 DOCX(목차·표·다이어그램 이미지·기업 테마). 재생성:
+```bash
+uv run --with python-docx python scripts/make_reference_docx.py
+uv run --with python-docx python scripts/build_report.py   # mermaid 렌더(mmdc 필요, 없으면 코드블록 유지)
+pandoc report/master.md -o report/Colibri_Survey_Report.docx --toc --toc-depth=3 \
+  --reference-doc=report/reference.docx --resource-path=report
+```
 
 ## 빌드/실행 (uv)
 의존성은 [uv](https://docs.astral.sh/uv/)로 관리한다. C 엔진과 `coli` CLI는 표준 라이브러리만 쓰므로 추가 설치가 필요 없다.

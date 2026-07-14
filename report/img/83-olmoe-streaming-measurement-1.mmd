@@ -1,0 +1,5 @@
+flowchart LR
+    A["cap↓ (캐시 축소)"] --> B["hit rate↓"]
+    B --> C["expert-disk 시간↑"]
+    C --> D["tok/s↓"]
+    A --> E["RSS↓ (메모리 절약)"]

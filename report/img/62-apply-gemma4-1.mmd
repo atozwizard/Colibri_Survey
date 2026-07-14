@@ -1,0 +1,16 @@
+flowchart TD
+    subgraph REUSE["재사용 (colibri 코어)"]
+        R1["expert_load / LRU / batch-union"]
+        R2["shared expert 경로 (glm.c:1396)"]
+        R3["prefetch / RAM 캡"]
+    end
+    subgraph NEW["신규 (gemma4 어댑터)"]
+        N1["config: 30층·128e·top8·1 shared"]
+        N2["attention: sliding(1024)/full 교대 + RoPE"]
+        N3["Q4_0(블록 4bit) → colibri int4 변환"]
+        N4["Gemma 정규화/활성(GeGLU 계열) 매핑"]
+        N5["멀티모달 제거: 텍스트 경로만"]
+    end
+    N1 --> R1
+    N2 --> R1
+    N4 --> R2

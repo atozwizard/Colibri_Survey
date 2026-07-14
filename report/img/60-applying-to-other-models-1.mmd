@@ -1,0 +1,12 @@
+flowchart TD
+    A["1. 구조 확인<br/>MoE? sparsity? attention 종류?"] --> B{"MoE인가?"}
+    B -->|"아니오"| X["부적합(dense)"]
+    B -->|"예"| C["2. 파라미터 레이아웃 파악<br/>expert 텐서 이름/오프셋"]
+    C --> D["3. config 로더 매핑<br/>Cfg 구조체 채우기"]
+    D --> E["4. attention 어댑터<br/>MHA/GQA→표준경로, MLA→압축경로"]
+    E --> F["5. 양자화 변환<br/>FP/BF16→int4(+scale)"]
+    F --> G["6. 코어 재사용<br/>expert_load·LRU·moe·prefetch"]
+    G --> H["7. 정확성 검증<br/>oracle와 token-exact 비교"]
+    H --> I{"draft head 있음?"}
+    I -->|"예"| J["8. speculative 어댑터<br/>(MTP/Medusa)"]
+    I -->|"아니오"| K["8'. n-gram/grammar draft만"]

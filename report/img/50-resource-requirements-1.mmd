@@ -1,0 +1,6 @@
+flowchart TD
+    Q{"목표?"}
+    Q -->|"일단 돌려보기"| MIN["RAM 16-25GB<br/>NVMe 400GB<br/>→ 0.05-0.1 tok/s"]
+    Q -->|"로컬 실사용(느려도 OK)"| MID["RAM 64GB+<br/>PCIe5 NVMe(8GB/s+)<br/>pin 40GB → 2-4 tok/s"]
+    Q -->|"체감 인터랙티브"| HI["RAM 128GB+<br/>24-32코어(AVX-512/VNNI)<br/>hot expert 상주 → 5-15 tok/s"]
+    Q -->|"Apple 통합메모리"| MAC["M-series Max<br/>96-128GB · Metal<br/>→ ~2 tok/s"]
