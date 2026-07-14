@@ -38,7 +38,8 @@ PARTS = [
      ["80-olmoe-and-h100-recommendations", "81-thinkflow-upgrade-design",
       "82-gpt-oss-mxfp4-to-int4-converter", "83-olmoe-streaming-measurement",
       "84-thinkflow-swap-checklist", "85-dual-model-crossval-resources"]),
-    ("제8부 · 상태·마감·참고문헌", ["90-status-and-closeout", "99-references"]),
+    ("제8부 · 라이선스·상태·마감·참고문헌",
+     ["91-licensing-compliance", "90-status-and-closeout", "99-references"]),
 ]
 
 FENCE = re.compile(r"^\s*(```|~~~)")

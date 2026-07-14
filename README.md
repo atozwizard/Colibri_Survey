@@ -41,6 +41,7 @@
 - `83-olmoe-streaming-measurement.md` — (b) 스트리밍 실측(로컬 실증 + H100 프로토콜)
 - `84-thinkflow-swap-checklist.md` — (1) 120b 스왑 운영자 런북/체크리스트
 - `85-dual-model-crossval-resources.md` — 2모델 교차검증(골든셋) 자원 분석
+- `91-licensing-compliance.md` — 라이선스(GLM MIT · colibri Apache-2.0)·보안/컴플라이언스 검토
 - `90-status-and-closeout.md` — 서베이 상태·마감·재개 안내
 - `99-references.md` — 참고문헌
 
