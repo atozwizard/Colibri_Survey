@@ -80,6 +80,17 @@ flowchart LR
 3. **컷오버**: LLM 엔드포인트(config 단일 출처) 전환 → 구 컨테이너 드레인.
 4. **롤백**: 회귀 시 `run_vllm.sh`(20b)로 즉시 복귀.
 
+### 4.0 리허설 스크립트
+`scripts/thinkflow_swap_rehearsal.sh` — 단일 H100 제약(20b/120b 동시 상주 불가)을 반영해 3단 분리:
+```bash
+# ThinkFlow 박스에서:
+bash scripts/thinkflow_swap_rehearsal.sh --preflight   # 무중단: 다운로드/용량/이미지/설정 사전점검
+CONFIRM=yes bash scripts/thinkflow_swap_rehearsal.sh --cutover    # 유지보수 창: 20b↓ 120b↑ 스모크
+CONFIRM=yes bash scripts/thinkflow_swap_rehearsal.sh --rollback   # 회귀 시 20b 복귀
+```
+- `--preflight`는 현행 서빙 무중단(네트워크 다운로드·용량·VRAM 산술·롤백자산만 확인).
+- `--cutover`/`--rollback`은 파괴적이라 `CONFIRM=yes` 필수.
+
 ### 4.1 반드시 실측할 것
 - 32k 컨텍스트에서 **KV OOM 여부**(util 0.90→0.92 조정).
 - BGE CPU 이전 후 **RAG 지연**(임베딩/리랭크 p95) 허용범위인지.

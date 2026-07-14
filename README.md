@@ -42,8 +42,9 @@
 - `99-references.md` — 참고문헌
 
 ## 스크립트 (scripts/)
-- `mxfp4_to_int4_prototype.py` — gpt-oss MXFP4→colibri int4 변환기 프로토타입(`--selftest`)
-- `olmoe_streaming_bench.sh` — OLMoE 실가중치 스트리밍 실측(H100 박스 권장)
+- `mxfp4_to_int4_prototype.py` — gpt-oss MXFP4→colibri int4 변환기(검증된 레이아웃, `--selftest`)
+- `olmoe_streaming_bench.sh` — OLMoE 스트리밍 실측(공유서버 안전: cgroup/nice/ionice/iobench)
+- `thinkflow_swap_rehearsal.sh` — ThinkFlow LLM 무중단 스왑 리허설(preflight/cutover/rollback)
 
 ## 빌드/실행 (uv)
 의존성은 [uv](https://docs.astral.sh/uv/)로 관리한다. C 엔진과 `coli` CLI는 표준 라이브러리만 쓰므로 추가 설치가 필요 없다.

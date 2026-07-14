@@ -44,11 +44,15 @@ flowchart LR
 uv run --python 3.12 --with numpy python scripts/mxfp4_to_int4_prototype.py --selftest
 ```
 
-## 4. 남은 작업(실 체크포인트 대상)
-1. **weight 키/형상 확정**: gpt-oss의 `experts.gate_up_proj_blocks/_scales`, `down_proj_*`의 실제 축 순서(O/I 방향)와 grouped-expert 형상[E, ...]을 대상 체크포인트로 검증. 스켈레톤의 `reshape(-1, I)` 가정을 실측으로 교정.
-2. **엔진 어댑터**: gpt-oss는 `glm_moe_dsa`가 아님(GQA+sliding-window attention, MLA/DSA 없음). colibri 실행에는 별도 엔진 경로 필요(`docs/61` §3~4). 변환기는 그 중 '양자화'만 담당.
+## 4. 실 체크포인트 확인 & 남은 작업
+1. **weight 키/형상 확정 — 완료(검증됨).** `openai/gpt-oss-20b` safetensors 헤더를 range-fetch로 직접 확인:
+   - MXFP4는 **expert MLP만**(config `modules_to_not_convert`: attn/router/embed/lm_head 제외).
+   - grouped: `experts.gate_up_proj_blocks` U8 `[32, 5760, 90, 16]`, `_scales` U8 `[32, 5760, 90]`; `down_proj` U8 `[32, 2880, 90, 16]`. (16B/block×2=32 element, 90×32=2880=K).
+   - 변환기를 이 실제 4D 그룹 레이아웃으로 교정(expert별 `[O,K]`→int4). 상세: `data/topics/apply-gpt-oss/weight-layout-verified.md`.
+   - 잔여 미세확인: `gate_up`의 gate/up 인터리브 순서, byte 내 nibble 순서(표준 가정).
+2. **엔진 어댑터**: gpt-oss는 `glm_moe_dsa`가 아님(GQA+sliding-window 128 교대, YaRN rope, SwiGLU(limit 7), MLA/DSA 없음). colibri 실행에는 별도 엔진 경로 필요(`docs/61` §3~4). 변환기는 그 중 '양자화'만 담당.
 3. **정확성 게이트**: 변환 후 tiny-oracle 방식(`docs/31`)으로 gpt-oss도 token-exact 검증 하네스 구축.
-4. **품질 평가**: int4 재양자화(그룹→행 스케일 전환)의 perplexity 영향 측정. E8M0(블록)→F32(행) 전환은 이론상 손실 요인이므로 그룹 스케일 유지 옵션도 후보.
+4. **품질 평가**: int4 재양자화(블록 E8M0 → 행 F32 스케일 전환)의 perplexity 영향 측정. 이론상 손실 요인이므로 그룹 스케일 유지 옵션도 후보.
 
 ## 5. 왜 굳이? (연구 가치)
 - colibri를 **다른 양자화 계보(MXFP4)** 모델로 확장하는 일반화 사례.

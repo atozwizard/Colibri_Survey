@@ -1,18 +1,30 @@
 #!/usr/bin/env python3
 """(a) gpt-oss MXFP4 -> colibri int4 변환기 프로토타입.
 
-목적: gpt-oss(예: openai/gpt-oss-20b/120b)의 MoE expert 가중치가 저장된
+목적: gpt-oss(openai/gpt-oss-20b/120b)의 MoE expert 가중치가 저장된
 MXFP4(OCP Microscaling FP4: E2M1 원소 + 32개마다 E8M0 공유 스케일) 포맷을
 colibri C 엔진이 읽는 int4 컨테이너(row-wise nibble packing + F32 per-row scale)로
 변환한다. 양자화 수학은 colibri `tools/convert_fp8_to_int4.py`의 quant_int4와 '동일'하게
 맞춰, 엔진이 기존 GLM 경로와 같은 dequant-on-use로 처리하도록 한다.
 
+검증된 레이아웃(openai/gpt-oss-20b safetensors 헤더, 2026-07 확인):
+ - MXFP4는 EXPERT MLP만(config.quantization_config.modules_to_not_convert:
+   attn/router/embed/lm_head 제외).
+ - per-layer grouped(32 experts):
+     experts.gate_up_proj_blocks  U8 [E=32, O=5760, K/32=90, 16B]   (K=2880=hidden)
+     experts.gate_up_proj_scales  U8 [E=32, O=5760, 90]              (블록당 1 E8M0)
+     experts.gate_up_proj_bias   BF16 [E=32, 5760]
+     experts.down_proj_blocks     U8 [E=32, O=2880, K/32=90, 16B]   (K=2880=inter)
+     experts.down_proj_scales     U8 [E=32, O=2880, 90]
+     experts.down_proj_bias      BF16 [E=32, 2880]
+   16B/block × 2 nibble/B = 32 element/block; 90×32 = 2880 = K. ✓
+ - 나머지(norm/attn/router/embed/lm_head)는 bf16 → 엔진이 F32 승격, 그대로 저장.
+
 상태: 프로토타입/설계 검증용.
- - `--selftest`: MXFP4 dequant + int4 round-trip 수학을 torch/numpy 없이 검증(합성 데이터).
- - 실제 gpt-oss 체크포인트 대상 변환은 `--model <dir>` 로 실행하되, gpt-oss weight 키
-   레이아웃(*_blocks/*_scales)과 expert 텐서 형상은 대상 체크포인트로 반드시 재확인할 것.
- - 주의: 본 변환기는 '양자화 스테이지'만 담당한다. gpt-oss는 glm_moe_dsa가 아니므로
-   colibri에서 실행하려면 별도 엔진 어댑터가 필요하다(설계: docs/61-apply-gpt-oss-20b.md).
+ - `--selftest`: 실제 블록 레이아웃([O,nb,16])으로 MXFP4 dequant + int4 round-trip 검증.
+ - `--model <dir> --out <dir>`: grouped expert를 per-expert [O,K] int4로 변환.
+ - 주의: 본 변환기는 '양자화 스테이지'만 담당. gpt-oss는 glm_moe_dsa가 아님
+   (GQA+sliding-window, MLA/DSA 없음) → colibri 실행엔 엔진 어댑터 필요(docs/61).
 
 USAGE
   python scripts/mxfp4_to_int4_prototype.py --selftest
@@ -45,18 +57,30 @@ def e8m0_to_scale(exp_byte: np.ndarray) -> np.ndarray:
 
 
 def dequant_mxfp4(blocks: np.ndarray, scales: np.ndarray, block: int = 32) -> np.ndarray:
-    """blocks: uint8 [..., I/2] (2 nibble/byte, little-nibble first).
-       scales: uint8 [..., I/block] (블록당 1 E8M0).
-       반환: f32 [..., I]."""
+    """gpt-oss 실제 레이아웃 dequant.
+       blocks: uint8 [O, nb, 16]  (블록당 16바이트 = 32 nibble, little-nibble first)
+       scales: uint8 [O, nb]      (블록당 1 E8M0)
+       반환:   f32   [O, nb*32=K].
+    호환: blocks가 2D [O, K/2]면 nb=K/2 취급(옛 경로)도 처리."""
+    if blocks.ndim == 3:
+        O, nb, bpb = blocks.shape                    # bpb=16
+        lo = mxfp4_nibble_to_f32(blocks & 0x0F)      # [O,nb,16]
+        hi = mxfp4_nibble_to_f32(blocks >> 4)
+        vals = np.empty((O, nb, bpb * 2), np.float32)
+        vals[..., 0::2] = lo
+        vals[..., 1::2] = hi                         # [O,nb,32]
+        sc = e8m0_to_scale(scales)[..., None]        # [O,nb,1]
+        vals = vals * sc
+        return vals.reshape(O, nb * bpb * 2)         # [O, K]
+    # ---- 폴백: 2D [.., I/2] ----
     lo = mxfp4_nibble_to_f32(blocks & 0x0F)
     hi = mxfp4_nibble_to_f32(blocks >> 4)
-    # 인터리브 복원: [b0_lo, b0_hi, b1_lo, b1_hi, ...]
     vals = np.empty(blocks.shape[:-1] + (blocks.shape[-1] * 2,), dtype=np.float32)
     vals[..., 0::2] = lo
     vals[..., 1::2] = hi
     I = vals.shape[-1]
-    sc = e8m0_to_scale(scales)                      # [..., I/block]
-    sc = np.repeat(sc, block, axis=-1)[..., :I]     # 원소 단위로 확장
+    sc = e8m0_to_scale(scales)
+    sc = np.repeat(sc, block, axis=-1)[..., :I]
     return vals * sc
 
 
@@ -91,12 +115,14 @@ def dequant_int4(qbytes: np.ndarray, scale: np.ndarray, O: int, I: int) -> np.nd
 # ---------- selftest ----------
 def selftest() -> int:
     rng = np.random.default_rng(0)
-    O, I, block = 5, 64, 32
-    # 합성 MXFP4: 임의 nibble + 임의 E8M0(정상 범위)
-    blocks = rng.integers(0, 256, size=(O, I // 2), dtype=np.uint8)
-    scales = rng.integers(118, 130, size=(O, I // block), dtype=np.uint8)
+    # gpt-oss down_proj 한 expert 형상 축소판: O=8, nb=4 -> K=128
+    O, nb, block = 8, 4, 32
+    K = nb * block
+    blocks = rng.integers(0, 256, size=(O, nb, 16), dtype=np.uint8)  # [O,nb,16B]
+    scales = rng.integers(118, 130, size=(O, nb), dtype=np.uint8)    # [O,nb]
     w = dequant_mxfp4(blocks, scales, block)
-    assert w.shape == (O, I), w.shape
+    assert w.shape == (O, K), w.shape
+    I = K
     # int4 재양자화 후 dequant → 상대오차 확인
     qb, sc = quant_int4(w)
     wr = dequant_int4(qb, sc, O, I)
@@ -112,8 +138,8 @@ def selftest() -> int:
 
 # ---------- 실제 변환(스켈레톤) ----------
 def convert_checkpoint(model_dir: str, out_dir: str, ebits: int) -> int:
-    """gpt-oss HF 체크포인트 -> colibri int4 스냅샷(스켈레톤).
-    NOTE: expert 키/형상은 대상 체크포인트로 반드시 검증 후 매핑 확정."""
+    """gpt-oss HF 체크포인트 -> colibri int4 스냅샷.
+    grouped expert 텐서 [E,O,nb,16] 를 per-expert [O,K] int4로 변환."""
     try:
         from pathlib import Path
 
@@ -130,40 +156,43 @@ def convert_checkpoint(model_dir: str, out_dir: str, ebits: int) -> int:
     if (src / "config.json").is_file():
         shutil.copy2(src / "config.json", out / "config.json")
 
-    # gpt-oss expert(MoE) 가중치는 *_blocks / *_scales 쌍으로 저장(MXFP4).
-    BLOCK_RE = re.compile(r"(experts).*(gate_up_proj|down_proj)_blocks$")
+    # per-layer grouped: ...experts.{gate_up_proj|down_proj}_blocks : [E,O,nb,16]
+    BLOCK_RE = re.compile(r"experts\.(gate_up_proj|down_proj)_blocks$")
     shards = sorted(src.glob("*.safetensors"))
     if not shards:
         sys.exit(f"safetensors 없음: {src}")
 
-    manifest = {"experts": [], "note": "prototype; verify layout on real checkpoint"}
+    manifest = {"experts": [], "layout": "gpt-oss grouped [E,O,nb,16] -> per-expert [O,K] int4"}
     for si, shard in enumerate(shards, 1):
         t = load_file(str(shard))
         out_t = {}
-        keys = list(t.keys())
-        for name in keys:
+        for name in list(t.keys()):
             if BLOCK_RE.search(name):
-                base = name[: -len("_blocks")]
+                base = name[: -len("_blocks")]           # ...experts.gate_up_proj
                 scales = t.get(base + "_scales")
                 if scales is None:
                     sys.exit(f"scales 없음: {base}_scales")
-                blocks = t[name]
-                # blocks: [..., I/2], scales: [..., I/block]  (마지막 축이 I 방향이라 가정)
-                w = dequant_mxfp4(blocks.astype(np.uint8), scales.astype(np.uint8))
-                w2 = w.reshape(-1, w.shape[-1])          # [O, I]로 평탄화(형상 검증 필요)
-                qb, sc = quant_int4(w2, ebits)
-                out_t[base] = qb
-                out_t[base + ".qs"] = sc
-                manifest["experts"].append({"name": base, "O": w2.shape[0], "I": w2.shape[1]})
+                blocks = t[name].astype(np.uint8)        # [E,O,nb,16]
+                scales = scales.astype(np.uint8)         # [E,O,nb]
+                E = blocks.shape[0]
+                for e in range(E):                       # expert 분해
+                    w = dequant_mxfp4(blocks[e], scales[e])   # [O,K]
+                    qb, sc = quant_int4(w, ebits)
+                    ekey = base.replace("experts.", f"experts.{e}.")
+                    out_t[ekey] = qb
+                    out_t[ekey + ".qs"] = sc
+                    if e == 0:
+                        manifest["experts"].append(
+                            {"name": base, "E": int(E), "O": int(w.shape[0]), "K": int(w.shape[1])})
             elif name.endswith("_scales"):
-                continue                                  # blocks에서 함께 처리
+                continue                                 # blocks에서 함께 소비
             else:
-                out_t[name] = t[name]                     # dense: 그대로(엔진이 F32 승격)
+                out_t[name] = t[name]                    # dense/bias: 그대로(엔진이 F32 승격)
         save_file(out_t, str(out / shard.name))
-        print(f"[{si}/{len(shards)}] {shard.name} ok ({len(manifest['experts'])} experts so far)")
+        print(f"[{si}/{len(shards)}] {shard.name} ok (expert groups: {len(manifest['experts'])})")
 
     (out / "colibri_manifest.json").write_text(json.dumps(manifest, indent=1))
-    print(f"done -> {out}  (experts quantized: {len(manifest['experts'])})")
+    print(f"done -> {out}  (expert groups quantized: {len(manifest['experts'])})")
     print("주의: gpt-oss는 glm_moe_dsa가 아님 → 엔진 어댑터 필요(docs/61).")
     return 0
 
