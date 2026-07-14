@@ -35,7 +35,7 @@
 ```mermaid
 flowchart LR
     subgraph H100["H100 80GB 영역 (VRAM 적재 · colibri 불필요)"]
-        A["gpt-oss-120b (MXFP4 ~73.5GB)"]
+        A["gpt-oss-120b (MXFP4 가중치 ~63GB)"]
         B["GLM-4.5-Air 106B"]
         C["Qwen3-Next-80B-A3B"]
     end
@@ -48,14 +48,14 @@ flowchart LR
 ```
 
 ### 추천 1순위: **gpt-oss-120b**
-- 117B / **5.1B 활성**, 128 expert top-4, **네이티브 MXFP4** → **단일 H100 80GB에 정확히 맞도록 설계됨**(~73.5GB, 10–20% KV 여유 포함).
+- 117B / **5.1B 활성**, 128 expert top-4, **네이티브 MXFP4** → **단일 H100 80GB에 정확히 맞도록 설계됨**(MXFP4 가중치 ~63GB, KV 포함 서빙 시 ~73GB로 80GB 내 여유).
 - 근거: OpenAI 모델카드/HF — "fits into a single 80GB GPU (H100/MI300X)". 처리량 NVFP4 ~1474 t/s(canitrun).
 - 이유: **VRAM 활용도·품질·처리량의 균형이 H100에 최적화**. 소형 모델(20B)은 H100을 낭비, 초대형은 안 들어감 → 120b가 "알맞게 올릴" 정답.
 
 ### 추천 대안 (용도별)
 | 모델 | 규모(활성) | Q4/FP4 VRAM | 특징 | 언제 |
 |---|---|---|---|---|
-| **gpt-oss-120b** | 117B (5.1B) | ~73.5GB MXFP4 | H100 딱 맞음·고추론 | 범용 1순위 |
+| **gpt-oss-120b** | 117B (5.1B) | ~63GB(MXFP4 가중치) | H100 딱 맞음·고추론 | 범용 1순위 |
 | **GLM-4.5-Air** | 106B | ~fit | MMLU-Pro 81.4·코딩 강함 | 코딩/에이전트 |
 | **Qwen3-Next-80B-A3B** | 80B (3B) | ~49.5GB | 초희소·고처리량·여유 VRAM=긴 컨텍스트 | 대량/긴맥락 |
 | **Qwen 3.5 122B-A10B** | 122B (10B) | NVFP4 fit | MMLU-Pro 86.7·최상위 품질 | 품질 최우선 |
