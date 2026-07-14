@@ -39,6 +39,8 @@
 - `81-thinkflow-upgrade-design.md` — (c) ThinkFlow H100 서빙 모델 업그레이드 설계
 - `82-gpt-oss-mxfp4-to-int4-converter.md` — (a) MXFP4→int4 변환기 프로토타입
 - `83-olmoe-streaming-measurement.md` — (b) 스트리밍 실측(로컬 실증 + H100 프로토콜)
+- `84-thinkflow-swap-checklist.md` — (1) 120b 스왑 운영자 런북/체크리스트
+- `90-status-and-closeout.md` — 서베이 상태·마감·재개 안내
 - `99-references.md` — 참고문헌
 
 ## 스크립트 (scripts/)
