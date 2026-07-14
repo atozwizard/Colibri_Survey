@@ -1331,18 +1331,32 @@ flowchart LR
 | **GLM-4.5-Air** | 106B | ~fit | MMLU-Pro 81.4·코딩 강함 | 코딩/에이전트 |
 | **Qwen3-Next-80B-A3B** | 80B (3B) | ~49.5GB | 초희소·고처리량·여유 VRAM=긴 컨텍스트 | 대량/긴맥락 |
 | **Qwen 3.5 122B-A10B** | 122B (10B) | NVFP4 fit | MMLU-Pro 86.7·최상위 품질 | 품질 최우선 |
+| **Gemma 4 31B (Dense)** | 31B (31B 전량) | ~17.5GB Q4 / ~69.9GB bf16 | **MMLU-Pro 85.2·AIME 89.2·Arena 최상위·멀티모달(img/video)** | 품질·멀티모달 우선 |
 | **Gemma 4 26B-A4B** | 25.2B (3.8B) | ~14.4GB | 멀티모달·저지연·VRAM 대량 여유 | 멀티모달/고동시성 |
 | **Qwen3-30B-A3B** | 30B (3B) | ~20GB | 가볍고 빠름 | 저지연·다중 인스턴스 |
+
+> **Gemma에 대한 정정·보강**: Gemma 4 계열의 **최대 모델은 31B Dense**이며, 100B급 대형 Gemma는 존재하지 않는다(라인업: E2B·E4B·12B·26B-A4B MoE·31B Dense). 따라서 "큰 Gemma"의 상한은 31B다. 품질만 보면 **Gemma 4 31B는 gpt-oss-120b보다 벤치가 높은 최상위권**(MMLU-Pro 85.2 vs 80.7, AIME 89.2)이고 **네이티브 멀티모달**이라, 문서 RAG(향후 이미지/영상 문서 포함) 관점에서 강력한 후보다. 그럼에도 아래 §Q2 최종 추천에서 gpt-oss-120b를 1순위로 둔 이유는 **품질이 아니라 마이그레이션 위험과 처리량 효율**이다(다음 항 설명). 참고: 이는 "H100 VRAM 서빙" 관점이며, colibri **스트리밍** 관점에서 31B Dense는 부적합하다(`docs/62`).
 
 #### 언제 colibri가 필요한가 (ThinkFlow 초과 시)
 - **단일 H100로 안 되는** 프론티어 MoE를 굳이 그 박스에서 돌려야 할 때:
   - GLM-5.2 744B, DeepSeek-V3/V4, Qwen3-235B-A22B, Llama-4 Maverick, Kimi-K2 등.
   - 이 경우 선택지: (a) **멀티 H100**(정석, 빠름), 또는 (b) **colibri식 CPU+NVMe 스트리밍**(느리지만 GPU 부족 시 최후수단), 또는 (c) H100을 colibri의 **hot-expert VRAM tier**로만 활용(`README.md:239`).
 
+#### 왜 gpt-oss-120b가 1순위인가 (Gemma 31B와 정면 비교)
+품질만 보면 Gemma 4 31B가 앞선다. 그럼에도 **ThinkFlow 맥락**에서 gpt-oss-120b를 1순위로 둔 이유는 3가지:
+1. **마이그레이션 위험(가장 큼)**: ThinkFlow는 이미 `gpt-oss-20b`로 서빙 중이며, 프롬프트·챗 템플릿·툴호출 계약·출력 파서가 gpt-oss에 맞춰져 있다. 20b→120b는 **동일 패밀리·동일 토크나이저·동일 OpenAI API**라 이 계약을 그대로 유지(무재튜닝) → 운영 리스크 최소. Gemma로 가면 챗 템플릿·토크나이저·행동이 달라 **RAG 프롬프트 재튜닝 필수**.
+2. **처리량 효율(sparsity)**: gpt-oss-120b는 117B 중 **5.1B만 활성(MoE)** → 같은 지연 예산에서 큰 용량. Gemma 31B는 **Dense = 매 토큰 31B 전량 활성** → 토큰당 연산이 무거워 동시성/처리량에서 불리.
+3. **H100 VRAM 적합 설계**: 120b는 네이티브 MXFP4로 80GB에 맞도록 만들어짐. 31B는 Q4로 17.5GB(대량 유휴)·bf16으로 69.9GB(정밀↑ 가능하나 여전히 31B 용량).
+
+#### 그럼 Gemma 31B는 언제 고르나
+- **품질/추론 최우선**이고 재튜닝을 감수할 때(벤치 최상위).
+- **멀티모달 RAG**가 로드맵일 때: Gemma는 네이티브 text+image+video, **gpt-oss는 텍스트 전용**. 문서 RAG가 이미지/스캔/영상을 다루게 되면 Gemma가 결정적 우위.
+- 이 경우 **Gemma 4 31B(Dense, 품질) 또는 26B-A4B(MoE, 처리량)** 를 선택.
+
 #### 결론(경영 판단)
-1. **ThinkFlow(H100 단일)에 "알맞게 올릴" 모델 = gpt-oss-120b**(네이티브 MXFP4로 80GB에 맞춤). 품질 최우선이면 Qwen 3.5 122B-A10B, 멀티모달이면 Gemma 4 26B-A4B.
+1. **ThinkFlow 1순위 = gpt-oss-120b** — 이유는 품질이 아니라 **무재튜닝 스왑 + MoE 처리량 + H100 적합**. 순수 품질 최우선이면 Qwen 3.5 122B-A10B, **멀티모달·품질이면 Gemma 4 31B**, 처리량형 멀티모달이면 Gemma 4 26B-A4B.
 2. 이 영역에선 **colibri를 쓰지 말 것**(VRAM 적재가 훨씬 빠름). colibri는 **H100로도 안 들어가는 초대형 MoE**에서만 가치.
-3. 소형 모델(gpt-oss-20b·Gemma 26B)을 H100에 올리는 것은 **자원 낭비**이므로, VRAM을 꽉 채우는 100B급 MoE가 "알맞다".
+3. 소형 모델(gpt-oss-20b)을 H100에 올리는 것은 **자원 낭비**이므로, VRAM을 잘 채우는 모델이 "알맞다".
 
 > ThinkFlow의 실제 사양(H100 개수·VRAM·목표 지연/동시성)을 알려주면 위 표에서 정확한 1개를 확정해 드립니다.
 
@@ -1387,6 +1401,7 @@ BGE 2종 공존을 감안한 VRAM 예산(80GB 기준, 대략치):
 |---|---|---|---|---|---|---|---|
 | **gpt-oss-120b** (1순위) | 117B(5.1B) | ~63GB MXFP4 | ~7–10GB | CPU로 이전 | ~73GB(GPU) | **낮음**(동일 vendor·동일 OpenAI API) | util↑0.92, BGE→CPU 권장 |
 | **Qwen3-Next-80B-A3B-Instruct(FP8)** (안전대안) | 80B(3B) | ~49.5GB | ~15GB | ~4GB(GPU유지) | ~68GB | 중(프롬프트 재튜닝) | KV·VRAM 여유 큼, 3B활성=빠름 |
+| **Gemma 4 31B (Dense)** (품질·멀티모달) | 31B(31B) | ~62GB bf16 / ~17.5GB Q4 | ~6–8GB | GPU유지 가능 | ~70GB(bf16) / ~26GB(Q4) | 중(프롬프트 재튜닝) | **벤치 최상위·네이티브 멀티모달**, 단 Dense=처리량 불리 |
 | GLM-4.5-Air | 106B | ~60GB | ~8GB | CPU | ~68GB | 중 | 코딩·에이전트 강함 |
 
 #### 2.1 권장안
@@ -1394,6 +1409,7 @@ BGE 2종 공존을 감안한 VRAM 예산(80GB 기준, 대략치):
   - **BGE를 CPU로 이전**(48코어·227GB RAM이면 RAG 임베딩/리랭크 throughput 충분) → GPU 전량을 LLM에 할당.
   - `--gpu-memory-utilization 0.92` + KV 여유를 32k에서 실측 확인(아래 4장).
 - **안전대안: `Qwen3-Next-80B-A3B`** — VRAM 여유가 크고 3B 활성이라 지연/처리량이 좋음. 단 Qwen 계열이라 ThinkFlow 프롬프트 재튜닝 필요. BGE를 GPU에 유지하고 싶을 때 유리.
+- **품질·멀티모달 대안: `Gemma 4 31B (Dense)`** — 벤치 최상위(MMLU-Pro 85.2·AIME 89.2)이고 **네이티브 멀티모달(text/image/video)** 이라, 문서 RAG가 이미지/스캔/영상으로 확장되면 결정적 우위. bf16 ~62GB로 H100 단일 적재 가능(Q4면 17.5GB로 대량 여유). **트레이드오프**: (i) Dense라 매 토큰 31B 전량 활성 → gpt-oss-120b(5.1B 활성)보다 처리량/동시성 불리, (ii) Gemma 계열이라 챗 템플릿·프롬프트 재튜닝 필요. → **품질/멀티모달이 최우선이면 Gemma 31B, 무재튜닝·처리량이 우선이면 gpt-oss-120b.** (colibri 스트리밍 관점의 Gemma 부적합 판정은 `docs/62` 참조 — 여기선 VRAM 서빙이라 무관.)
 
 ### 3. 적용안: run_vllm.sh (drop-in, gpt-oss-120b)
 

@@ -38,3 +38,6 @@ __pycache__/
 
 # vendored 원본 소스의 git 메타데이터는 제거하지만, 혹시 남을 경우 대비
 external/**/.git/
+
+# Word 임시 잠금 파일
+~$*
